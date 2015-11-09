@@ -1,0 +1,134 @@
+<html>
+<head>
+<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="js/jquery-1.11.0.min.map"></script>
+</head>
+<body>
+<script>
+var jsBinData = {
+	foo : "barrrr"
+};
+window.addEventListener("message", function(evt){
+	if(evt.data.type == 'askfordata'){
+		evt.source.postMessage({type: "givingdata" , data :jsBinData}, "*");
+	}
+/*
+then this in jsbin:
+var data;
+window.addEventListener("message", function(evt){
+	if(evt.data.type == "givingdata"){
+		data = evt.data.data;
+		console.log(data);
+	}
+});
+top.postMessage({type : 'askfordata' , msg : 'thingysss'},"*");
+in one line:
+var data;window.addEventListener("message", function(evt){if(evt.data.type == "givingdata"){data = evt.data.data;}});top.postMessage({type : 'askfordata' , msg : 'thingysss'},"*");
+
+*/
+}, false);
+
+$(document).ready(function(){
+  $("#testclick").click(function(){
+    console.log("clicked");
+
+    var htmlstring = "<html>\n<head>\n<script src='js/locallib.js'><\/script>\n</head>\n<body>\n</body>\n</html>";
+    var csstring = "";
+    var jsstring = "";
+    var dataobj = {html : htmlstring, css: csstring, js: jsstring};
+
+    $.ajax({
+      url : "/api/save",//?js="+jsstring+"&html="+htmlstring+"&css="+csstring,
+      data : JSON.stringify(dataobj),
+      method: "POST",
+      contentType : 'application/json',
+        success : function(data, status){
+          console.log("success ");
+          console.log(data);
+          var jsbin_id = data.url;
+          console.log(jsbin_id);
+          addJsBin(jsbin_id);
+        },
+
+        error : function(jqXHR, status, message){
+          console.log("error ");
+          console.log(status);
+          console.log(message);
+        }
+    });   
+
+
+  });
+
+});
+
+
+function addJsBin(jsbin_id){
+  var jsbin_url = "http://localhost/jsbin/"+jsbin_id+"/latest/edit?html,js,share";
+  var newbin = $('<a class="jsbin jsbin-embed jsbin-embed-dyn" id="thisid" href="'+jsbin_url+'">JS Bin....</a>');
+  $("#bins").append(newbin);
+}
+
+</script>
+
+<!--<a class="jsbin jsbin-mix-embed" rel="#myrel" id="thisid" href="http://localhost/jsbin/lac/latest/embed?html,js,output">JS Bin....</a>-->
+<div class="header">
+  <span id="testclick">
+    click me
+  </span>
+</div>
+<a class="jsbin jsbin-embed" id="thisid" href="http://localhost/jsbin/lac/latest/edit?html,js,share">JS Bin....</a>
+
+<div id="bins">
+</div>
+
+<script src="http://localhost/jsbin/js/embed.js"></script>
+<!--
+
+	 curl --data "html=<html>hi</html>&javascript=&css=" http://localhost/jsbapi/api/save
+{
+  "html": "<html>hi</html>",
+  "settings": "{ processors: {} }",
+  "length": 7,
+  "url": "jop",
+  "revision": 1,
+  "streamingKey": "41ae2c47b6bf52027b24d15943128752",
+  "id": 12,
+  "summary": "hi"
+  }
+
+     curl -X POST -H "Content-Type: application/json" -d  '{ "html": "<html>hi</html>", "settings": "{ processors: {} }", "length": 7, "url": "jop", "revision": 1, "streamingKey": "41ae2c47b6bf52027b24d15943128752", "id": 12, "summary": "hi"}' http://localhost:3100/api/save  
+
+          curl -X POST -H "Content-Type: application/json" -d  '{ "html": "<html>hi</html>"}' http://localhost:3100/api/save  
+
+
+127.0.0.1 - - [Mon, 10 Nov 2014 03:49:15 GMT] "POST /api/save HTTP/1.1" 200 200 "-" "curl/7.30.0"
+
+  "url": {
+    "host": "localhost:3100",
+    "prefix": "/",
+    "ssl": false,
+    "static": false,
+    "runner": false
+  },
+
+  nginx config for api
+          location /api {
+            proxy_pass http://localhost:3100;
+        }
+# this word "api" in location needs to match the word api in the jsbin path. I'd like to fix this, need to learn how to configure this in nginx
+
+
+
+added this in embed.js
+  // this part added by donundeen, to support dynamic insertion of jsbins
+  doc.addEventListener("DOMNodeInserted", function(evt, item){
+    if(evt.target.className.indexOf("jsbin-embed") > 0 && evt.target.className.indexOf("jsbin-embed-dyn") > 0){
+      embed(evt.target);
+    }
+  })
+
+
+-->
+</body>
+</html>
