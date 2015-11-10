@@ -1,3 +1,16 @@
+TODOs:
+- make sure jsbin contents are saved at the right times, so no work is ever lost
+- do some UI work so it's nice to look at:
+-- adjustable size widget divs (or size 1,2,3,4 with Masonry?)
+- figure out how to show/hide different panels from the parent window
+- access the parent window url from within the code
+- 'insert code' functionality
+-- needs to be as convenient as possible.
+- implement a URL structure that makes sense
+- widget configuration UI
+
+
+
 paths and ports and things
 
 Mongo runs on Port 3001
@@ -70,4 +83,3 @@ line 238, 239:
 
 line 188
   var realthis = this; // added by donundeen 
-  
