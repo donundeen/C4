@@ -35,8 +35,21 @@ if (Meteor.isClient) {
         Widgets.insert(newWidget);
       });
       return false;
+    },
+
+    'click .test' : function(){
+      console.log("testing");
+      var editors = document.getElementById('jsbin_goq').contentWindow.editors;
+      console.log(editors);
+
+      var snippet = "hey there you!";
+
+      addJsCodeAtCursor(snippet, editors);
+
     }
   });
+
+
 
 
   // In the client code, below everything else
