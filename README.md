@@ -59,3 +59,15 @@ $.ajax({
     console.log(status);
   }
 });
+
+
+
+Mod to /usr/local/lib/node_modules/jsbin/lib/handlers/bin.js
+
+line 238, 239:
+//        this.getBinPreview(req, res); // commented out by donundeen
+        realthis.getBinPreview(req, res); // added by donundeen
+
+line 188
+  var realthis = this; // added by donundeen 
+  
