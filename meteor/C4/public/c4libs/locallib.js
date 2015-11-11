@@ -8,13 +8,21 @@ function getJSONfromWidget(widgnetName){
 }
 
 function getHTMLfromWidget(widgetName){
+    console.log("getting html form "+ widgetName);
 
+    var result = getOutputFromWidget(widgetName);
+
+    console.log(result);
+
+    return result.html;
 }
 
 function getOutputFromWidget(widgetName){
-    var reqUrl = 'http://localhost/jsbin/'+widgetName+'/latest.html'
+    var reqUrl = 'http://localhost/api/'+widgetName+'/latest'
 
-    var finalresult;
+    console.log("2 getting html from " + reqUrl);
+
+    var finalresult = "{}";
     $.ajax({
         url: reqUrl,
         dataType: 'html',
@@ -31,5 +39,5 @@ function getOutputFromWidget(widgetName){
         }
     });
 
-    return finalresult;
+    return JSON.parse(finalresult);
 }

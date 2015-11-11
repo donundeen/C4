@@ -1,20 +1,24 @@
 ASK YOURSELF: MVP : what's the MINIMUM I need to do to be able to show this to my friendliest code friends?
 
 TODOs:
+- MVP: Execute JSBIN Server-side, so we can get the output post-execution. 
 - MVP : implement a URL structure that makes sense, and allows communication btw widgets
 -- MVP: and support having different pages with different widgets on them
 -- MVP: this will require making sure code runs on the server, but still understand the "Parent Page URL" concept.
 - MVP: be able to send JSON or HTML outputs from any widget
+-- need to look at OUTPUT panel, determine if it's html or json
+-- or have HTML, and also a JSON section in comments.
 - 'insert code' functionality
 -- MVP: for getting data from other widgets
 -- needs to be as convenient as possible.
-- make sure jsbin contents are saved at the right times, so no work is ever lost
+- user/group/public access levels on widgets
 - do some UI work so it's nice to look at:
 -- adjustable size widget divs (or size 1,2,3,4 with Masonry?)
 - figure out how to show/hide different panels from the parent window
 -- default: load in output-only mode
 - access the parent window url from within the code
 - widget configuration UI
+- make sure jsbin contents are saved at the right times, so no work is ever lost
 
 
 
