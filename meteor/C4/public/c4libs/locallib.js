@@ -14,11 +14,11 @@ function getHTMLfromWidget(widgetName){
 
     console.log(result);
 
-    return result.html;
+    return result;
 }
 
 function getOutputFromWidget(widgetName){
-    var reqUrl = 'http://localhost/api/'+widgetName+'/latest'
+    var reqUrl = 'http://localhost/headless/'+widgetName+'/html'
 
     console.log("2 getting html from " + reqUrl);
 
@@ -38,6 +38,6 @@ function getOutputFromWidget(widgetName){
             console.log(status);
         }
     });
+    return finalresult;
 
-    return JSON.parse(finalresult);
 }

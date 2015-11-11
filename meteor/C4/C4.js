@@ -17,7 +17,7 @@ if (Meteor.isClient) {
     'click .addwidget' : function(){
       //add jsbin widget
       console.log("clicked");
-      var htmlstring = "<html>\n<head>\n<script src='http://localhost/c4libs/locallib.js'><\/script>\n</head>\n<body>\n</body>\n</html>";
+      var htmlstring = "<html>\n<head>\n<script src='http://localhost/c4libs/locallib.js'><\/script>\n<script src='http://code.jquery.com/jquery-1.10.2.min.js'>\n</script></head>\n<body>\n</body>\n</html>";
       var csstring = "";
       var jsstring = "";
       var dataobj = {html : htmlstring, css: csstring, js: jsstring};
