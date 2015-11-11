@@ -96,6 +96,13 @@ return;
         htmlstring = htmlstring.replace(/<!--[^>]+Created using [^>]+Source[^>]+edit[^>]-->/i,"");
         htmlstring = htmlstring.replace(/<a id="edit-with-js-bin" href="[^"]+" style="top: -60px;">Edit in JS Bin <img src="http:[^"]+"><\/a>/i,"");
 //        htmlstring = htmlstring.replace(/<a id="edit-with-js-bin" href="[^"]+" style="top: -60px;">Edit in JS Bin <img src="http:[^"]+"><\/a>/i,"");
+        htmlstring = htmlstring.replace(/<link rel="stylesheet" href="http:\/\/localhost\/jbstatic\/css\/edit.css">/,"");
+        htmlstring = htmlstring.replace(/<style id="jsbin-css">[\s]+<\/style>/,"");
+        // at this point, we just want the contents of the body
+
+        if(format == "html"){
+          //  htmlstring = htmlstring.replace("")
+        }
 
         console.log(htmlstring);
        res.writeHead(200, {'Content-Type': 'text/html', 

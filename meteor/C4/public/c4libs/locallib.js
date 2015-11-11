@@ -16,7 +16,7 @@ function getHTMLfromWidget(widgetName){
 
     return result;
 }
-
+ 
 function getOutputFromWidget(widgetName){
     var reqUrl = 'http://localhost/headless/'+widgetName+'/html'
 
