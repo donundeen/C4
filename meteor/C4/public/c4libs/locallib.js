@@ -1,5 +1,17 @@
 var c4_widget_cache = {};
 
+
+
+function pageId(){
+    // get parent url, figure out the "page id"
+//    console.log(window.parent.parent.parent.location.href);
+    var search= window.parent.parent.location.search;
+    var pageid = /.*pageid=([^\&]+)/.exec(search)[1];
+    return pageid;
+
+}
+
+
 function purgeWidgetCache(widgetName){
     if(!widgetName){
         c4_widget_cache = {};
@@ -13,14 +25,19 @@ function widgetData(widgetName){
     var result = getOutputFromWidget(widgetName);
     var newdiv = $("<div>");
     $(newdiv).append(result);
-    var newObj = JSON.parse($(".c4_data", newdiv).text());
-    return newObj;
-
+    var datastring = $(".c4_data", newdiv).text().trim();
+    try{
+        var newObj = JSON.parse(datastring);
+        return newObj;
+    }catch(e){
+        console.log("error parsing data");
+        console.log(datastring);
+        console.log(e);
+        return {};
+    }
 }
 
 function widgetHtml(widgetName){
-    console.log("getting html from "+ widgetName);
-
     var result = getOutputFromWidget(widgetName);
     var newdiv = $("<div>");
     $(newdiv).append(result);
@@ -33,19 +50,14 @@ function getOutputFromWidget(widgetName){
     if(c4_widget_cache[widgetName]){
         return c4_widget_cache[widgetName];
     }
-
-    var reqUrl = 'http://localhost/headless/'+widgetName+'/html'
-
-    console.log("2 getting html from " + reqUrl);
-
+    var reqUrl = 'http://localhost/headless/'+widgetName+'/'+pageId();
+    console.log("calling " + reqUrl);
     var finalresult = "{}";
     $.ajax({
         url: reqUrl,
         dataType: 'html',
         async: false,
         success : function(result){
-            console.log("success");
-            console.log(result);
             finalresult = result;
         },
         error: function (xhr, status, error) {
@@ -57,5 +69,4 @@ function getOutputFromWidget(widgetName){
 
     c4_widget_cache[widgetName] = finalresult;
     return finalresult;
-
 }

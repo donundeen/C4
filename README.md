@@ -1,11 +1,17 @@
 ASK YOURSELF: MVP : what's the MINIMUM I need to do to be able to show this to my friendliest code friends?
+- it has to have the basics of inter-communication, 
+- it needs to have different pages for different art objects
+
 
 TODOs:
+- MVP: a bit of UI wrapper around each bin.
+-- for "insert code" functionality, and any other features we want to have act on an individual bin.
 - 'insert code' functionality
 -- MVP: for getting data from other widgets
 - MVP : implement a URL structure that makes sense, and allows communication btw widgets
 -- MVP: and support having different pages with different widgets on them
 -- MVP: this will require making sure code runs on the server, but still understand the "Parent Page URL" concept.
+
 - DONE: MVP: be able to send JSON or HTML outputs from any widget
 -- need to look at OUTPUT panel, determine if it's html or json
 -- or have HTML, and also a JSON section in comments.

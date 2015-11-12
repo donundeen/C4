@@ -57,15 +57,16 @@ function parseRequest(req, res){
   console.log(req.url);
 
   var split = req.url.split("/");
-  var format = split.pop();
-  var jsbin_id = split.pop();
+  console.log(split);
+  split.shift();
+  split.shift();
+  console.log(split);
+  var jsbin_id = split.shift();
+  console.log(split);
+  var pageid= split.join("/");
 
-  var parsed = urlparser.parse(req.url, true)
-  var query = urlparser.parse(req.url, true).query;
-
-  if (format && jsbin_id){
-    console.log(parsed);
-    runJSBin(jsbin_id, format, req, res);
+  if (pageid && jsbin_id){
+    runJSBin(jsbin_id, pageid, req, res);
   }else{
    res.writeHead(200, {'Content-Type': 'text/html', 
                         'Access-Control-Allow-Origin' : '*'});
@@ -79,7 +80,7 @@ function parseRequest(req, res){
 
 
 
-function runJSBin(jsbin_id, format, req, res){
+function runJSBin(jsbin_id, pageid, req, res){
 
 /*
    res.writeHead(200, {'Content-Type': 'text/html', 
@@ -87,7 +88,8 @@ function runJSBin(jsbin_id, format, req, res){
    res.end("<html><body><pre>going ok " + jsbin_id+ ", " + format+ "</pre></body></html>");
 return;
 */
-    var reqUrl = 'http://localhost/jsbin/'+jsbin_id+'/latest';
+    var reqUrl = 'http://localhost/jsbin/'+jsbin_id+'/latest?pageid='+pageid;
+    console.log("calling url " + reqUrl);
 
     var browser = Browser.create();
     browser.on("done", function(document){
@@ -101,13 +103,6 @@ return;
         htmlstring = htmlstring.replace(/<link rel="stylesheet" href="http:\/\/localhost\/jbstatic\/css\/edit.css">/,"");
         htmlstring = htmlstring.replace(/<style id="jsbin-css">[\s]+<\/style>/,"");
         // at this point, we just want the contents of the body
-
-        if(format == "html"){
-          //  htmlstring = htmlstring.replace("")
-        }else if (format == "json"){
-
-
-        }
 
         console.log(htmlstring);
        res.writeHead(200, {'Content-Type': 'text/html', 
