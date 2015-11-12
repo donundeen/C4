@@ -17,7 +17,34 @@ if (Meteor.isClient) {
     'click .addwidget' : function(){
       //add jsbin widget
       console.log("clicked");
-      var htmlstring = "<html>\n<head>\n<script src='http://localhost/c4libs/locallib.js'><\/script>\n<script src='http://code.jquery.com/jquery-1.10.2.min.js'>\n</script></head>\n<body>\n</body>\n</html>";
+
+      /*
+<html>\n\
+<head>\n\
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>\n\
+<script src='http://localhost/c4libs/locallib.js'></script>\n\
+   <script type="javascript" class="c4_data">{"data:" "data placed here gets passed along"}</script>\n\
+</head>\n\
+<body>\n\
+  <div class="c4_html">\n\
+  html placed here gets passed along\n\
+  </div>\n\
+</body>\n\
+</html>\n\
+      */
+
+      var htmlstring = '<html>\n '+ 
+'<head>\n '+
+'<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>\n '+
+'<script src="http://localhost/c4libs/locallib.js"></script>\n '+
+'   <script type="javascript" class="c4_data">{"data:" "data placed here gets passed along"}</script>\n '+
+'</head>\n '+
+'<body>\n '+
+'  <div class="c4_html">\n '+
+'  html placed here gets passed along\n '+
+'  </div>\n '+
+'</body>\n '+
+'</html>\n';
       var csstring = "";
       var jsstring = "";
       var dataobj = {html : htmlstring, css: csstring, js: jsstring};

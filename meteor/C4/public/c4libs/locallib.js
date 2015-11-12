@@ -1,23 +1,39 @@
-function dothisnow(myvar){
-    console.log("this is it");
-    return "goo";
+var c4_widget_cache = {};
+
+function purgeWidgetCache(widgetName){
+    if(!widgetName){
+        c4_widget_cache = {};
+    }
+    else{
+        delete c4_widget_cache[widgetName];
+    }
 }
 
-function getJSONfromWidget(widgnetName){
+function widgetData(widgetName){
+    var result = getOutputFromWidget(widgetName);
+    var newdiv = $("<div>");
+    $(newdiv).append(result);
+    var newObj = JSON.parse($(".c4_data", newdiv).text());
+    return newObj;
 
 }
 
-function getHTMLfromWidget(widgetName){
-    console.log("getting html form "+ widgetName);
+function widgetHtml(widgetName){
+    console.log("getting html from "+ widgetName);
 
     var result = getOutputFromWidget(widgetName);
-
-    console.log(result);
-
-    return result;
+    var newdiv = $("<div>");
+    $(newdiv).append(result);
+    var c4_html = $(".c4_html", newdiv);
+    return c4_html;
 }
  
 function getOutputFromWidget(widgetName){
+
+    if(c4_widget_cache[widgetName]){
+        return c4_widget_cache[widgetName];
+    }
+
     var reqUrl = 'http://localhost/headless/'+widgetName+'/html'
 
     console.log("2 getting html from " + reqUrl);
@@ -38,6 +54,8 @@ function getOutputFromWidget(widgetName){
             console.log(status);
         }
     });
+
+    c4_widget_cache[widgetName] = finalresult;
     return finalresult;
 
 }

@@ -93,6 +93,8 @@ return;
     browser.on("done", function(document){
         console.log("done");
         var htmlstring = browser.document.documentElement.outerHTML;
+        console.log("got htmlstring");
+        console.log(htmlstring);
         htmlstring = htmlstring.replace(/<!--[^>]+Created using [^>]+Source[^>]+edit[^>]-->/i,"");
         htmlstring = htmlstring.replace(/<a id="edit-with-js-bin" href="[^"]+" style="top: -60px;">Edit in JS Bin <img src="http:[^"]+"><\/a>/i,"");
 //        htmlstring = htmlstring.replace(/<a id="edit-with-js-bin" href="[^"]+" style="top: -60px;">Edit in JS Bin <img src="http:[^"]+"><\/a>/i,"");
@@ -102,6 +104,9 @@ return;
 
         if(format == "html"){
           //  htmlstring = htmlstring.replace("")
+        }else if (format == "json"){
+
+
         }
 
         console.log(htmlstring);
