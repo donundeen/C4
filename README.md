@@ -8,16 +8,9 @@ TODOs:
 -- for "insert code" functionality, and any other features we want to have act on an individual bin.
 - 'insert code' functionality
 -- MVP: for getting data from other widgets
-- MVP : implement a URL structure that makes sense, and allows communication btw widgets
--- MVP: and support having different pages with different widgets on them
--- MVP: this will require making sure code runs on the server, but still understand the "Parent Page URL" concept.
+- MVP: support having different pages with different widgets on them
+- MVP: Concept of "Page Type" that has the same widgets, though the "Page ID" is different.
 
-- DONE: MVP: be able to send JSON or HTML outputs from any widget
--- need to look at OUTPUT panel, determine if it's html or json
--- or have HTML, and also a JSON section in comments.
--- needs to be as convenient as possible.
--- DONE: there is a <Script class="c4_data"> for holding JSON, and a <div class="c4_html"> tag for holding html content
-- MVP: Execute JSBIN Server-side, so we can get the output post-execution. DONE
 - user/group/public access levels on widgets
 - do some UI work so it's nice to look at:
 -- adjustable size widget divs (or size 1,2,3,4 with Masonry?)
@@ -26,6 +19,15 @@ TODOs:
 - access the parent window url from within the code
 - widget configuration UI
 - make sure jsbin contents are saved at the right times, so no work is ever lost
+
+- MVP : implement a URL structure that makes sense, and allows communication btw widgets - DONE
+-- MVP: this will require making sure code runs on the server, but still understand the "Parent Page URL" concept. - DONE
+- DONE: MVP: be able to send JSON or HTML outputs from any widget
+-- need to look at OUTPUT panel, determine if it's html or json
+-- or have HTML, and also a JSON section in comments.
+-- needs to be as convenient as possible.
+-- DONE: there is a <Script class="c4_data"> for holding JSON, and a <div class="c4_html"> tag for holding html content
+- MVP: Execute JSBIN Server-side, so we can get the output post-execution. DONE
 
 
 
