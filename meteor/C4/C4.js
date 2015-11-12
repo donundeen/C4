@@ -5,6 +5,14 @@ if (Meteor.isClient) {
   console.log("starting meteor");
 
 
+  Template.registerHelper("pageid", function(){
+    var pathname = window.location.pathname;
+    var split = pathname.split("/");
+    split.shift();
+    var pageid =  split.join("/");    
+    return pageid;
+  });
+
   Template.body.helpers({
     widgets: function () {
         // Otherwise, return all of the tasks
