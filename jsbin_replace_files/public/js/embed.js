@@ -33,12 +33,12 @@ if (window.jsbinified !== undefined) return;
 
   // this part added by donundeen, to support dynamic insertion of jsbins
   doc.addEventListener("DOMNodeInserted", function(evt, item){
+    console.log("node inserted");
     console.log(evt.target);
-    if(evt.target.className){
-      console.log(evt.target.className);
-      if(evt.target.className.indexOf("jsbin-embed") > 0 && evt.target.className.indexOf("jsbin-embed-dyn") > 0){
-        embed(evt.target);
-      }
+    var bins = $(evt.target).find("a.jsbin-embed-dyn");
+    if(bins.length > 0){
+        console.log(bins[0]);
+        embed(bins[0]);
     }
   })
 
@@ -203,15 +203,16 @@ function scoop(link) {
 }
 
 function embed(link) {
+  console.log(link);
   var iframe = document.createElement('iframe');
   var    resize = document.createElement('div');
   var url;
       if(!link.href){
-        console.log(link);
+//        console.log(link);
       }else{
-              url = link.href.replace(/edit/, 'embed');
-
+        url = link.href.replace(/edit/, 'embed');
       }
+      console.log("url is " + url);
   iframe.src = url;
   iframe._src = url; // support for google slide embed
   iframe.className = link.className; // inherit all the classes from the link
