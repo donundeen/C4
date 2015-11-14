@@ -6,11 +6,16 @@ ASK YOURSELF: MVP : what's the MINIMUM I need to do to be able to show this to m
 TODOs:
 - MVP: a bit of UI wrapper around each bin.
 -- for "insert code" functionality, and any other features we want to have act on an individual bin.
-- 'insert code' functionality
 -- MVP: for getting data from other widgets
 - MVP: support having different pages with different widgets on them
 - MVP: Concept of "Page Type" that has the same widgets, though the "Page ID" is different.
 
+
+- details for each widgets
+-- human-readable name
+-- description
+- lock/unlock All widgets at once.
+- 'insert code' functionality
 - user/group/public access levels on widgets
 - do some UI work so it's nice to look at:
 -- adjustable size widget divs (or size 1,2,3,4 with Masonry?)
@@ -19,6 +24,13 @@ TODOs:
 - access the parent window url from within the code
 - widget configuration UI
 - make sure jsbin contents are saved at the right times, so no work is ever lost
+- some widgets can be easily copied to new pages
+-- a basic widget (that outlines the c4-specific features)
+-- promoted widgets (that do important stuff)
+-- "my favorite widgets"
+-- example widgets
+- widgets can be 25%, 50%, 75%, 100% of page width
+
 
 - MVP : implement a URL structure that makes sense, and allows communication btw widgets - DONE
 -- MVP: this will require making sure code runs on the server, but still understand the "Parent Page URL" concept. - DONE
