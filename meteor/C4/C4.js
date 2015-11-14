@@ -105,7 +105,6 @@ if (Meteor.isClient) {
       jsbin.panels.show("html");
       jsbin.panels.show("javascript");
 //      editors.panels.show("css");
-
     },
     "click .unlock": function () {
       console.log("unlocked" + this._id);
