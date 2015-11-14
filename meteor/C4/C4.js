@@ -104,6 +104,8 @@ if (Meteor.isClient) {
       console.log(jsbin);
       jsbin.panels.show("html");
       jsbin.panels.show("javascript");
+      $(".lock").hide();
+      $(".unlock").show();
 //      editors.panels.show("css");
     },
     "click .unlock": function () {
@@ -116,6 +118,8 @@ if (Meteor.isClient) {
       jsbin.panels.hide("javascript");
       jsbin.panels.hide("css");
       jsbin.panels.hide("console");
+      $(".lock").show();
+      $(".unlock").hide();
     }
   });  
 
