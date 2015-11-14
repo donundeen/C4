@@ -97,8 +97,19 @@ if (Meteor.isClient) {
   Template.widget.events({
     "click .delete": function () {
       Widgets.remove(this._id);
+
     },
 
+
+    "click .test": function () {
+      Widgets.remove(this._id);
+      console.log("testing widget thing");
+      var editors = document.getElementById('jsbin_'+this._id).contentWindow.editors;
+      var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
+      console.log(editors);
+      console.log(jsbin);
+
+    },
     /*
     panel ids: html, css, javascript, console, live
     */
@@ -106,8 +117,6 @@ if (Meteor.isClient) {
       console.log("locked" + this._id);
       var editors = document.getElementById('jsbin_'+this._id).contentWindow.editors;
       var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
-      console.log(editors);
-      console.log(jsbin);
       jsbin.panels.show("html");
       jsbin.panels.show("javascript");
       $(".lock").hide();
@@ -118,8 +127,6 @@ if (Meteor.isClient) {
       console.log("unlocked" + this._id);
       var editors = document.getElementById('jsbin_'+this._id).contentWindow.editors;
       var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
-      console.log(editors);
-      console.log(jsbin);
       jsbin.panels.hide("html");
       jsbin.panels.hide("javascript");
       jsbin.panels.hide("css");

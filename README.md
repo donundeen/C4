@@ -6,6 +6,7 @@ ASK YOURSELF: MVP : what's the MINIMUM I need to do to be able to show this to m
 TODOs:
 - MVP: a bit of UI wrapper around each bin.
 -- for "insert code" functionality, and any other features we want to have act on an individual bin.
+-- read this for using bootstrap and Meteor, might be a good way to go: http://www.manuel-schoebel.com/blog/meteorjs-and-twitter-bootstrap---the-right-way
 -- MVP: for getting data from other widgets
 
 
