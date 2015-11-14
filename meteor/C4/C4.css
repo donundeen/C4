@@ -1,1 +1,49 @@
 /* CSS declarations go here */
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+    background: #333;
+}
+
+.header{
+    height: 100px;
+}
+
+
+.headericon {
+    font-size: 3em;
+}
+
+.widgeticon{
+    font-size: 1.5em;
+}
+.widgets .container {
+    margin-top: 100px;
+}
+
+.widgetHeader .container-item{
+    float: left;
+}
+
+.container-item { 
+    position: relative;
+    background: #886;
+    border: 2px solid;
+    border-radius: 25px;
+    padding: 10px;
+    margin: 5px;
+}
+
+.header  .container-item{
+    float:left;
+    height: 100px;
+    vertical-align: middle;
+}
+
+img {
+    border-radius: 20px;
+}

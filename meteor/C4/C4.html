@@ -3,27 +3,48 @@
 </head>
 
 <body>
-  <h1>C4</h1>
-  <button class='addwidget'>Add widget</button>
-  <button class='test'>test</button>
-  main div
-
-
-
-  {{#each widgets}}
-    {{> widget}}
-  {{/each}}
-
+  <div class="main container">
+    <div class="header container">
+      <div class="container-item">
+        <h1>C4</h1>
+      </div>
+      <div class="container-item" align="center">
+        <h2>Page for {{pageid}}</h2>
+      </div>       
+      <div class="container-item" align="center">
+        <li class="headericon addwidget ion-plus-circled" data-pack="ios" data-tags="add, include, new, +" alt="add widget" style="display: inline-block;"></li><br>add
+      </div>
+      <div class="container-item" align="center">       
+        <li class="headericon test ion-pizza" data-pack="default" data-tags="" alt="random testing button" style="display: inline-block;"></li><BR>test
+      </div>
+    </div><BR>
+    <div class="widgets container">
+      {{#each widgets}}
+        {{> widget}}
+      {{/each}}
+    </div>
+  </div>
 </body>
 
 <template name="widget">
-    <div class="widgetContainer" id="widgetContainer_{{url}}">
-    <hr>
-    {{url}}/{{pageid}}
-<a class="jsbin jsbin-embed jsbin-embed-dyn" id="jsbin_{{url}}" href="http://localhost/jsbin/{{url}}/latest/edit?html,js,output&pageid={{pageid}}">JS Bin....{{url}}</a>
-<li class="ion-ios-trash-outline delete" id="delete_{{url}}" data-pack="ios" data-tags="delete, remove, dispose, waste, basket, dump, kill" style="display: inline-block;"></li>
-
-<script src="http://localhost/jsbin/js/embed.js"></script>
-
-</div>
+  <div class="widgetContainer container-item" id="widgetContainer_{{url}}">
+    <div class="widgetHeader">
+      <div class="container-item">
+      Widget: {{url}}/{{pageid}}
+      </div>
+      <div class="container-item widgetmenu">
+        <li class="widgeticon ion-ios-trash-outline delete" id="delete_{{url}}" data-pack="ios" data-tags="delete, remove, dispose, waste, basket, dump, kill" style="display: inline-block;"></li>
+      </div>
+      <div class="container-item widgetmenu unlock">
+        <li class="widgeticon ion-unlocked edit" id="unlock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
+      </div>
+      <div class="container-item widgetmenu lock">
+        <li class="widgeticon ion-locked display" id="lock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
+      </div>
+    </div>
+    <div class="widgetBody">
+      <a class="jsbin jsbin-embed jsbin-embed-dyn" id="jsbin_{{url}}" href="http://localhost/jsbin/{{url}}/latest/edit?html,js,output&pageid={{pageid}}">JS Bin....{{url}}</a>
+      <script src="http://localhost/jsbin/js/embed.js"></script>
+    </div>
+  </div>
 </template>
