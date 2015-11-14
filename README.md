@@ -9,6 +9,8 @@ TODOs:
 -- MVP: for getting data from other widgets
 
 
+
+- packaging all the code so it's easy to install and run, and to deliver to an app server.
 - "Undo" widget deletes 
 - details for each widgets
 -- human-readable name
