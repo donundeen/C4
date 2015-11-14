@@ -8,7 +8,8 @@ TODOs:
 -- for "insert code" functionality, and any other features we want to have act on an individual bin.
 -- read this for using bootstrap and Meteor, might be a good way to go: http://www.manuel-schoebel.com/blog/meteorjs-and-twitter-bootstrap---the-right-way
 -- MVP: for getting data from other widgets
-
+- MVP: need a proxy for calling external webservices
+-- GET for starters
 
 
 - packaging all the code so it's easy to install and run, and to deliver to an app server.
