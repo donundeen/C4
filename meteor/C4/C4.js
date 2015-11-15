@@ -51,7 +51,7 @@ if (Meteor.isClient) {
 '<head>\n '+
 '<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>\n '+
 '<script src="http://localhost/c4libs/locallib.js"></script>\n '+
-'   <script type="javascript" class="c4_data">{"data" : "data placed here gets passed along"}</script>\n '+
+'   <script type="application/json" class="c4_data">{"data" : "data placed here gets passed along"}</script>\n '+
 '</head>\n '+
 '<body>\n '+
 '  <div class="c4_html">\n '+
