@@ -6,10 +6,50 @@ function pageId(){
     // get parent url, figure out the "page id"
 //    console.log(window.parent.parent.parent.location.href);
     var search= window.parent.parent.location.search;
-    var pageid = /.*pageid=([^\&]+)/.exec(search)[1];
+    var pageid;
+    try{
+        pageid = /.*pageid=([^\&]+)/.exec(search)[1];
+    }catch(e){
+        var pathname = window.location.pathname;
+        var split = pathname.split("/");
+        console.log(split);
+        split.shift();
+        var next = split.shift();
+        if(next == "headless"){
+            split.shift();
+        }
+        var pageurl =  split.join("/");    
+
+        var pagetype = split.shift();
+        var pageid = split.shift();
+    }
     return pageid;
+}
+
+function pageType(){
+    // get parent url, figure out the "page id"
+//    console.log(window.parent.parent.parent.location.href);
+    var search= window.parent.parent.location.search;
+    var pagetype;
+    try{
+        pagetype = /.*pagetype=([^\&]+)/.exec(search)[1];
+    }catch(e){
+        var pathname = window.location.pathname;
+        var split = pathname.split("/");
+        split.shift();
+        var next = split.shift();
+        if(next == "headless"){
+            split.shift();
+        }
+        var pageurl =  split.join("/");    
+
+        var pagetype = split.shift();
+        var pageid = split.shift();
+    }
+    return pagetype;
 
 }
+
 
 
 function purgeWidgetCache(widgetName){
@@ -44,13 +84,14 @@ function widgetHtml(widgetName){
     var c4_html = $(".c4_html", newdiv);
     return c4_html;
 }
- 
+
+
 function getOutputFromWidget(widgetName){
 
     if(c4_widget_cache[widgetName]){
         return c4_widget_cache[widgetName];
     }
-    var reqUrl = 'http://localhost/headless/'+widgetName+'/'+pageId();
+    var reqUrl = 'http://localhost/headless/'+widgetName+'/'+pageType()+"/"+pageId();
     console.log("calling " + reqUrl);
     var finalresult = "{}";
     $.ajax({
@@ -58,6 +99,8 @@ function getOutputFromWidget(widgetName){
         dataType: 'html',
         async: false,
         success : function(result){
+            console.log("got result");
+            console.log(result);
             finalresult = result;
         },
         error: function (xhr, status, error) {
@@ -68,5 +111,26 @@ function getOutputFromWidget(widgetName){
     });
 
     c4_widget_cache[widgetName] = finalresult;
+    return finalresult;
+}
+
+
+function webserviceData(url){
+    var finalresult  = {};
+    var theurl = "http://localhost/web_proxy/"+url;
+    console.log("calling webservice url " + theurl);
+    $.ajax({
+        url: theurl,
+        dataType: 'json',
+        async: false,
+        success : function(result){
+            finalresult = result;
+        },
+        error: function (xhr, status, error) {
+            console.log("got error");
+            console.error(error);
+            console.log(status);
+        }
+    });
     return finalresult;
 }

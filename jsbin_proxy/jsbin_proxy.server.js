@@ -92,7 +92,9 @@ return;
     console.log("calling url " + reqUrl);
 
     var browser = Browser.create();
-    browser.on("done", function(document){
+//    browser.on("done", function(document){
+      browser.on("console", function(level, message){
+        if(message == "c4_done"){
         console.log("done");
         var htmlstring = browser.document.documentElement.outerHTML;
         console.log("got htmlstring");
@@ -108,7 +110,7 @@ return;
        res.writeHead(200, {'Content-Type': 'text/html', 
                             'Access-Control-Allow-Origin' : '*'});
        res.end(htmlstring);
-
+     }
 
     });
 
