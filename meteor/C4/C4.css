@@ -27,6 +27,8 @@ body {
 
 .widgetHeader .container-item{
     float: left;
+    padding: 2px;
+    border: 0;
 }
 
 .container-item { 
@@ -42,6 +44,15 @@ body {
     float:left;
     height: 100px;
     vertical-align: middle;
+}
+
+.dropdown {
+    background: #886;   
+}
+.dropdown button {
+    background: #886;   
+    border: 0;
+    padding: 2px;
 }
 
 img {

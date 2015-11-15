@@ -20,7 +20,7 @@
     </div><BR>
     <div class="widgets container">
       {{#each widgets}}
-        {{> widget}}
+        {{> widget }}
       {{/each}}
     </div>
   </div>
@@ -43,6 +43,20 @@
       </div>
       <div class="container-item widgetmenu test" align="center">       
         <li class="widgeticon test ion-pizza" data-pack="default" data-tags="" alt="random testing button" style="display: inline-block;"></li>
+      </div>
+      <div class="container-item widgetmenu" align="center">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Pull from
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            {{#each otherwidgets}}
+              <li><a href="#" class="add_code {{url}}" target="{{url}}" type="data">{{url}} data</a></li>
+              <li><a href="#" class="add_code {{url}}" target="{{url}}" type="html">{{url}} html</a></li>
+            {{/each}}
+          </ul>
+        </div>
       </div>
 
     </div>
