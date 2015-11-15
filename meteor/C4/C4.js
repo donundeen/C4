@@ -13,6 +13,9 @@ if (Meteor.isClient) {
 
     var pagetype = split.shift();
     var pageid = split.shift();
+    pageid = pageid.replace(/:script/, "");
+
+    console.log("pageinfo pageid " + pageid);
     return {pageurl : pageurl,
             pagetype : pagetype,
             pageid : pageid};
