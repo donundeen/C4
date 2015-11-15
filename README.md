@@ -5,11 +5,12 @@ ASK YOURSELF: MVP : what's the MINIMUM I need to do to be able to show this to m
 
 TODOs:
 - MVP: a bit of UI wrapper around each bin.
--- for "insert code" functionality, and any other features we want to have act on an individual bin.
--- read this for using bootstrap and Meteor, might be a good way to go: http://www.manuel-schoebel.com/blog/meteorjs-and-twitter-bootstrap---the-right-way
--- MVP: for getting data from other widgets
+--any other features we want to have act on an individual bin.
+-- MVP: "Save bin" icon, and remove it from JSBIN UI
 - MVP: need a proxy for calling external webservices
 -- GET for starters
+-- then include as a "insert code snippet" bit
+- MVP need an image proxy as well.
 
 
 - packaging all the code so it's easy to install and run, and to deliver to an app server.
@@ -34,7 +35,11 @@ TODOs:
 -- example widgets
 - widgets can be 25%, 50%, 75%, 100% of page width
 
+-- read this for using bootstrap and Meteor, might be a good way to go: http://www.manuel-schoebel.com/blog/meteorjs-and-twitter-bootstrap---the-right-way
 
+
+-- DONE for "insert code" functionality, 
+-- MVP: "insert code" for getting data from other widgets
 - DONE: MVP: support having different pages with different widgets on them 
 - DONE: MVP: Concept of "Page Type" that has the same widgets, though the "Page ID" is different.
 - DONE: nMVP : implement a URL structure that makes sense, and allows communication btw widgets - DONE
