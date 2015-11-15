@@ -124,7 +124,7 @@ if (Meteor.isClient) {
         type = "Html";
         comments = " This is a jQuery object";
       }
-      var funcString = "var c4_"+evt.target.type+"_"+evt.target.target+" = widget"+type+"('"+evt.target.target+"'); //" + comments;
+      var funcString = "var c4_"+evt.target.target+"_"+evt.target.type+" = widget"+type+"('"+evt.target.target+"'); //" + comments;
       console.log(evt.target.widgetid  + "adding string "+ funcString);
 
       var editors = document.getElementById('jsbin_'+template.data.url).contentWindow.editors;
