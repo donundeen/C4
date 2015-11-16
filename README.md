@@ -5,17 +5,19 @@ ASK YOURSELF: MVP : what's the MINIMUM I need to do to be able to show this to m
 
 TODOs:
 - DONE: MVP: dammit, looks like getting the synchronous stuff working across the board (for easier style of programming, and ease of inter-widget communication) isn't going to work, because zombie doesn't support it.
--- re-write to use ASYNC for all calls
--- requires a console message of "c4_done" at the end of every widget run to tell zombie that we're done running
--- widgetData and widgetHtml methods need a callback function
+-- DONE: re-write to use ASYNC for all calls
+-- DONE: requires a console message of "c4_done" at the end of every widget run to tell zombie that we're done running
+-- DONE: widgetData and widgetHtml methods need a callback function
 -- make a function that wraps up ALL the requests into ONE method, with ONE callback, with "insert code" snippet.
-- MVP: need a proxy for calling external webservices
+- DONE: MVP: need a proxy for calling external webservices
 -- then include as a "insert code snippet" bit
 - MVP: a bit of UI wrapper around each bin.
---any other features we want to have act on an individual bin.
+-- any other features we want to have act on an individual bin.
 -- MVP: "Save bin" icon, and remove it from JSBIN UI
 - MVP need an image proxy as well.
-
+- MVP: "Save as Template" - useful for debugging and sharing code
+- MVP: "Widget Name"
+- MVP: "Add Template"
 
 - packaging all the code so it's easy to install and run, and to deliver to an app server.
 - "Undo" widget deletes 
