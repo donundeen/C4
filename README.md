@@ -34,7 +34,7 @@ TODOs:
 - some widgets can be easily copied to new pages
 -- a basic widget (that outlines the c4-specific features)
 -- promoted widgets (that do important stuff)
--- "my favorite widgets"
+-- "my favorite widgets"  
 -- example widgets
 - widgets can be 25%, 50%, 75%, 100% of page width
 
@@ -42,7 +42,7 @@ TODOs:
 
 
 - DONE: MVP: "Add Template"
-- DONE: MVP: "Save as Template" - useful for debugging and sharing code
+- DONE: MVP: "Save as Template" - useful for debugging and sharing code 
 -- DONE: MVP: "Save bin" icon, and remove it from JSBIN UI
 - DONE: MVP: need a proxy for calling external webservices
 -- GET support DONE
