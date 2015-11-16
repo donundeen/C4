@@ -13,11 +13,8 @@ TODOs:
 -- then include as a "insert code snippet" bit
 - MVP: a bit of UI wrapper around each bin.
 -- any other features we want to have act on an individual bin.
--- MVP: "Save bin" icon, and remove it from JSBIN UI
 - MVP need an image proxy as well.
-- MVP: "Save as Template" - useful for debugging and sharing code
 - MVP: "Widget Name"
-- MVP: "Add Template"
 
 - packaging all the code so it's easy to install and run, and to deliver to an app server.
 - "Undo" widget deletes 
@@ -43,6 +40,10 @@ TODOs:
 
 -- read this for using bootstrap and Meteor, might be a good way to go: http://www.manuel-schoebel.com/blog/meteorjs-and-twitter-bootstrap---the-right-way
 
+
+- DONE: MVP: "Add Template"
+- DONE: MVP: "Save as Template" - useful for debugging and sharing code
+-- DONE: MVP: "Save bin" icon, and remove it from JSBIN UI
 - DONE: MVP: need a proxy for calling external webservices
 -- GET support DONE
 -- DONE for "insert code" functionality, 
