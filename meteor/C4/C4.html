@@ -17,6 +17,17 @@
       <div class="container-item" align="center">       
         <li class="headericon test ion-pizza" data-pack="default" data-tags="" alt="random testing button" style="display: inline-block;"></li><BR>test
       </div>
+      <div class="container-item" align="center">       
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <li class="headericon new_from_template ion-paper-airplane" data-pack="default" data-tags="" alt="random testing button" style="display: inline-block;"></li>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            {{#each widgetTemplates}}
+              <li><a href="#" class="copy_from_template {{url}}" target="{{url}}" type="data">{{url}}</a></li>
+            {{/each}}
+          </ul>
+
+      </div>
     </div><BR>
     <div class="widgets container">
       {{#each widgets}}
@@ -44,6 +55,13 @@
       <div class="container-item widgetmenu test" align="center">       
         <li class="widgeticon test ion-pizza" data-pack="default" data-tags="" alt="random testing button" style="display: inline-block;"></li>
       </div>
+      <div class="container-item widgetmenu save_template" align="center">       
+        <li class="widgeticon save_template ion-paper-airplane       {{#if isTemplate}}
+isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable template" style="display: inline-block;"></li>
+      </div>
+      <div class="container-item widgetmenu save" align="center">       
+        <li class="widgeticon save ion-ios-upload " data-pack="default" data-tags="" alt="save widget" style="display: inline-block;"></li>
+      </div>
       <div class="container-item widgetmenu" align="center">
         <div class="dropdown">
           <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -58,7 +76,6 @@
           </ul>
         </div>
       </div>
-
     </div>
     <div class="widgetBody">
       <a class="jsbin jsbin-embed jsbin-embed-dyn" id="jsbin_{{url}}" href="http://localhost/jsbin/{{url}}/latest/edit?output&pagetype={{pagetype}}&pageid={{pageid}}">JS Bin....{{url}}</a>

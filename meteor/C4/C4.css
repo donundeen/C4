@@ -54,6 +54,15 @@ body {
     border: 0;
     padding: 2px;
 }
+.container-item button {
+    background: #886;   
+    border: 0;
+    padding: 2px;
+}
+
+.widgeticon.isWidget {
+    color: green;
+}
 
 img {
     border-radius: 20px;

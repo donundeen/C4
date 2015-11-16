@@ -14,8 +14,6 @@ if (Meteor.isClient) {
     var pagetype = split.shift();
     var pageid = split.shift();
     pageid = pageid.replace(/:script/, "");
-
-    console.log("pageinfo pageid " + pageid);
     return {pageurl : pageurl,
             pagetype : pagetype,
             pageid : pageid};
@@ -38,11 +36,50 @@ if (Meteor.isClient) {
     widgets: function () {
         // Otherwise, return all of the tasks
         return Widgets.find({pagetype : pageinfo().pagetype}, {sort: {createdAt: -1}}); 
+    },
+    widgetTemplates: function () {
+      // Otherwise, return all of the tasks
+      console.log(Widgets.find({isTemplate : true}, {sort: {createdAt: -1}}));
+      return Widgets.find({isTemplate : true}, {sort: {createdAt: -1}}); 
     }
+
   });
 
 
   Template.body.events({
+
+    'click .copy_from_template' : function(){
+      console.log("copy from template "+ this.url);
+
+      var template = Widgets.findOne({url : this.url});
+      console.log(template);
+      
+        var dataobj = {html : template.html, css: template.css, javascript: template.javascript};
+        var url = "/api/save";//?js="+jsstring+"&html="+htmlstring+"&css="+csstring,
+        var options = {data: dataobj};
+        
+        HTTP.post(url, options, function(error, results){
+          console.log("data submitted");
+          console.log(results);
+          console.log(error);
+          console.log(results.data.url);
+          newWidget = {_id: results.data.url,
+                      isTemplate : false,
+                      html : results.data.html,
+                      javascript : results.data.javascript,
+                      css: results.data.css,
+                      pagetype : pageinfo().pagetype,
+                      pageurl : pageinfo().pageurl,
+                      pageid : pageinfo().pageid,
+                      url: results.data.url,
+                      createdAt: new Date(),
+                      rand: Math.random() };
+          Widgets.insert(newWidget);
+        });
+
+      return false;
+    },
+
     'click .addwidget' : function(){
       //add jsbin widget
       console.log("clicked");
@@ -82,6 +119,10 @@ if (Meteor.isClient) {
         console.log(error);
         console.log(results.data.url);
         newWidget = {_id: results.data.url,
+                    isTemplate : false,
+                    html : results.data.html,
+                    javascript : results.data.javascript,
+                    css: results.data.css,
                     pagetype : pageinfo().pagetype,
                     pageurl : pageinfo().pageurl,
                     pageid : pageinfo().pageid,
@@ -101,7 +142,7 @@ if (Meteor.isClient) {
       var snippet = "hey there you!";
 
       addJsCodeAtCursor(snippet, editors);
-
+      return false;
     }
   });
 
@@ -109,10 +150,62 @@ if (Meteor.isClient) {
 
 
   // In the client code, below everything else
+  Template.widget.onRendered(function(){
+    var thisid = this.data._id;
+    var element = document.getElementById('jsbin_'+this.data._id);
+    document.addEventListener("DOMNodeInserted", function(evt, item){
+      if($(evt.target)[0].tagName == "IFRAME"){
+        $((evt.target)).load(function(){
+          var menu = document.getElementById('jsbin_'+thisid).contentWindow.document.getElementById("control");
+          var bin = document.getElementById('jsbin_'+thisid).contentWindow.document.getElementById("bin");
+          var newbintop = 0;
+          this.maxed = true;
+          if(this.maxed){
+            $(menu).hide();
+            this.oldbintop = $(bin).css("top");
+            $(bin).css("top", newbintop);
+          }else{
+            $(menu).show();
+            $(bin).css("top", this.oldbintop);
+          }
+        });
+      }
+    });
+ }); 
+
   Template.widget.events({
     "click .delete": function () {
-      Widgets.remove(this._id);
+      if(this.isTemplate){
+        this.url = this.url + "_template"
+        Widgets.update(this._id, this);
+      }else{
+        Widgets.remove(this._id);
+      }
+      return false;
+    },
 
+    "click .save": function () {
+      var editors = document.getElementById('jsbin_'+this._id).contentWindow.editors;
+      var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
+      var revision = jsbin.state.revision;
+ 
+      this.html = editors.html.getCode();
+      this.javascript = editors.javascript.getCode();
+      this.css = editors.css.getCode();
+      jsbin.saveDisabled = false;
+      jsbin.panels.save();
+      jsbin.panels.savecontent();
+      Widgets.update(this._id, this);
+
+      // also trigger the jsbin save
+      var dataobj = {html : this.html, css: this.css, javascript: this.javascript};
+      var url = "/api/"+this.url+"/save";//?js="+jsstring+"&html="+htmlstring+"&css="+csstring,
+      var options = {data: dataobj};
+      HTTP.post(url, options, function(error, results){
+      });
+
+
+      return false;
     },
 
     "click .add_code" : function(evt, template){
@@ -149,13 +242,25 @@ if (Meteor.isClient) {
     },
 
     "click .test": function () {
-      Widgets.remove(this._id);
       console.log("testing widget thing");
       var editors = document.getElementById('jsbin_'+this._id).contentWindow.editors;
       var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
+      var menu = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("control");
+      var bin = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("bin");
       console.log(editors);
       console.log(jsbin);
 
+      var newbintop = 0;
+      this.maxed = !this.maxed;
+      if(this.maxed){
+        $(menu).hide();
+        this.oldbintop = $(bin).css("top");
+        $(bin).css("top", newbintop);
+      }else{
+        $(menu).show();
+        $(bin).css("top", this.oldbintop);
+      }
+      return false;
     },
     /*
     panel ids: html, css, javascript, console, live
@@ -169,6 +274,26 @@ if (Meteor.isClient) {
       $(".lock").hide();
       $(".unlock").show();
 //      editors.panels.show("css");
+      var menu = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("control");
+      var bin = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("bin");
+      console.log(editors);
+      console.log(jsbin);
+
+      var newbintop = 0;
+      this.maxed = false;
+      if(this.maxed){
+        $(menu).hide();
+        this.oldbintop = $(bin).css("top");
+        $(bin).css("top", newbintop);
+      }else{
+        $(menu).show();
+        $(bin).css("top", this.oldbintop);
+      }
+
+
+
+      return false;
+
     },
     "click .unlock": function () {
       console.log("unlocked" + this._id);
@@ -180,7 +305,38 @@ if (Meteor.isClient) {
       jsbin.panels.hide("console");
       $(".lock").show();
       $(".unlock").hide();
+
+      var menu = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("control");
+      var bin = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("bin");
+      console.log(editors);
+      console.log(jsbin);
+
+      var newbintop = 0;
+      this.maxed = true;
+      if(this.maxed){
+        $(menu).hide();
+        this.oldbintop = $(bin).css("top");
+        $(bin).css("top", newbintop);
+      }else{
+        $(menu).show();
+        $(bin).css("top", this.oldbintop);
+      }
+
+
+      return false;
+    },
+    "click .save_template": function () {
+      console.log("saving as a template " + this._id);
+      this.isTemplate = !this.isTemplate;
+      console.log(this.isTemplate);
+      Widgets.update(this._id, this);
+
+      var editors = document.getElementById('jsbin_'+this._id).contentWindow.editors;
+      var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
+      return false;
     }
+
+
   });  
 
   Template.widget.helpers({
