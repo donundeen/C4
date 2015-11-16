@@ -45,4 +45,12 @@ addJsCodeAtCursor = function(snippet, editors){
     editors.javascript.editor.setCursor({ line: state.line + state.add, ch: state.character });
 }
 
+addJsRequireCode = function(widgetName, type, editors){
+    var code = editors.javascript.getCode();
+    var codeString = widgetName + " : '"+type+"'";
+    var matches = /c4_requires[\s\S]*(\{[\s\S]+\})[\s\S]*end_c4_requires/.matches(code);
+    console.log(matches);
+
+
+}
 

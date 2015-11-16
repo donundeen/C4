@@ -68,6 +68,10 @@ function purgeWidgetCache(widgetName, callback){
     }
 }
 
+function c4_done(){
+    console.log("c4_done");
+}
+
 function widgetData(widgetName, callback){
     getOutputFromWidget(widgetName, function(result){
         if(!result){
@@ -149,4 +153,9 @@ function webserviceData(url, callback){
         }
     });
     console.log("called webserive url");
+}
+
+function requireWidgetData(requiresList, callback){
+    
+    
 }

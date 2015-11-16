@@ -4,7 +4,7 @@ ASK YOURSELF: MVP : what's the MINIMUM I need to do to be able to show this to m
 
 
 TODOs:
-- MVP: dammit, looks like getting the synchronous stuff working across the board (for easier style of programming, and ease of inter-widget communication) isn't going to work, because zombie doesn't support it.
+- DONE: MVP: dammit, looks like getting the synchronous stuff working across the board (for easier style of programming, and ease of inter-widget communication) isn't going to work, because zombie doesn't support it.
 -- re-write to use ASYNC for all calls
 -- requires a console message of "c4_done" at the end of every widget run to tell zombie that we're done running
 -- widgetData and widgetHtml methods need a callback function

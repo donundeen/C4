@@ -60,8 +60,20 @@ if (Meteor.isClient) {
 '</body>\n '+
 '</html>\n';
       var csstring = "";
-      var jsstring = "";
-      var dataobj = {html : htmlstring, css: csstring, js: jsstring};
+      var jsstring = "function doTheThings(data){\n"+
+                    "// everything you want to do should happen inside this function\n " +
+                    "// the data var will be populated with whatever you've requested from other widgets\n" +
+                    "// and this function will be call when all those widgets have complete \n" +
+                    "   c4_done(); // this message is required at the end of all the processing, so the system knows this widget is done \n "+ 
+                    "} \n" +
+                    "requireWidgetData( \n"+
+                      "// all requests to other widgets go here (automatically if you use the 'pull from' interface): \n"+
+                      "// c4_requires \n"+
+                      "{} \n"+
+                      "// end_c4_requires \n"+
+                      "// end other widget requests \n"+
+                      ", doTheThings)";
+      var dataobj = {html : htmlstring, css: csstring, javascript: jsstring};
       var url = "/api/save";//?js="+jsstring+"&html="+htmlstring+"&css="+csstring,
       var options = {data: dataobj};
       HTTP.post(url, options, function(error, results){
