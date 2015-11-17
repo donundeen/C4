@@ -25,6 +25,7 @@ body {
     margin-top: 100px;
 }
 
+
 .widgetHeader .container-item{
     float: left;
     padding: 2px;
@@ -68,6 +69,14 @@ body {
     background-color: #ff8888;
     float: right;
 }
+
+.widgetContainer {
+}
+
+.menuspacer{ 
+    width:25px;
+}
+
 
 img {
     border-radius: 20px;
