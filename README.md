@@ -4,15 +4,15 @@ ASK YOURSELF: MVP : what's the MINIMUM I need to do to be able to show this to m
 
 
 TODOs:
-- MVP: widgets run on page load
--- MVP: make a function that wraps up ALL the requests into ONE method, with ONE callback, with "insert code" snippet.
+- MVP: make a function that wraps up ALL the requests into ONE method, with ONE callback,
+-- MVP:  with "insert code" snippet.
 - DONE: MVP: need a proxy for calling external webservices
--- then include as a "insert code snippet" bit
+-- MVP: then include as a "insert code snippet" bit
+- MVP: widgets run on page load
 - MVP need an image proxy as well.
 - MVP: Help Text
 -- MVP: "How to use this app" - bare minimum
-- MVP: hide edit options on widget lock.
-- a default CSS style for widgets, to match the page.
+- MVP: Make some useful templates
 
 - packaging all the code so it's easy to install and run, and to deliver to an app server.
 - "Undo" widget deletes 
@@ -39,6 +39,7 @@ TODOs:
 -- read this for using bootstrap and Meteor, might be a good way to go: http://www.manuel-schoebel.com/blog/meteorjs-and-twitter-bootstrap---the-right-way
 
 
+- DONE MVP: hide edit options on widget lock.
 - DONE: MVP: tooltips on icons.
 - DONE: MVP: "Widget Name"
 - DONE: MVP: a bit of UI wrapper around each bin.

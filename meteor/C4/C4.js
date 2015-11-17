@@ -255,6 +255,23 @@ if (Meteor.isClient) {
     },
 
     "click .add_code" : function(evt, template){
+
+      // TODO: this needs to be modified to look for the code :
+      /*
+requireWidgetData( 
+// all requests to other widgets go here (automatically if you use the 'pull from' interface): 
+// c4_requires 
+{} ,
+// end_c4_requires 
+// end other widget requests 
+ doTheThings);
+ 
+ and insert bit
+ evt.target.target : evt.target.type
+
+and the re
+      */
+
       console.log("add code");
       console.log(this);
       console.log(template.data);
@@ -268,11 +285,11 @@ if (Meteor.isClient) {
       var type;
       var comments = "";
       if(evt.target.type == "data"){
-        type = "Data";
+        type = "data";
         comments = " This is a JSON object";
       }
       if(evt.target.type == "html"){
-        type = "Html";
+        type = "html";
         comments = " This is a jQuery object";
       }
       var funcString = "var c4_"+evt.target.target+"_"+evt.target.type+" = widget"+type+"('"+evt.target.target+"'); //" + comments;
@@ -281,6 +298,7 @@ if (Meteor.isClient) {
       var editors = document.getElementById('jsbin_'+template.data.url).contentWindow.editors;
 
       console.log(template.data.url  + "adding string "+ funcString);
+
 
       addJsCodeAtTop(funcString, editors);
 
