@@ -152,9 +152,8 @@ if (Meteor.isClient) {
 
 
   Template.body.onRendered(function(){
-
+    $(".tooltip-right").tooltip({placement: "right"});
     $("[title]").tooltip({placement: "auto"});
-
   });
 
   // In the client code, below everything else

@@ -11,7 +11,8 @@ TODOs:
 - MVP need an image proxy as well.
 - MVP: Help Text
 -- MVP: "How to use this app" - bare minimum
--- MVP: tooltips on icons.
+- MVP: hide edit options on widget lock.
+- a default CSS style for widgets, to match the page.
 
 - packaging all the code so it's easy to install and run, and to deliver to an app server.
 - "Undo" widget deletes 
@@ -37,6 +38,8 @@ TODOs:
 
 -- read this for using bootstrap and Meteor, might be a good way to go: http://www.manuel-schoebel.com/blog/meteorjs-and-twitter-bootstrap---the-right-way
 
+
+- DONE: MVP: tooltips on icons.
 - DONE: MVP: "Widget Name"
 - DONE: MVP: a bit of UI wrapper around each bin.
 - DONE: MVP: dammit, looks like getting the synchronous stuff working across the board (for easier style of programming, and ease of inter-widget communication) isn't going to work, because zombie doesn't support it.
