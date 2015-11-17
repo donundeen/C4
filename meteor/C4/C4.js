@@ -48,6 +48,31 @@ if (Meteor.isClient) {
 
   Template.body.events({
 
+
+    "click .lockall": function () {
+      console.log("locked" + this._id);
+      console.log("locking");
+
+      $(".lock").trigger("click");
+
+      $(".lockall").hide();
+      $(".unlockall").show();
+
+      return false;
+
+    },
+    "click .unlockall": function () {
+      console.log("unlocking");
+      $(".unlock").trigger("click");
+      $(".lockall").show();
+      $(".unlockall").hide();
+
+      return false;
+    },
+
+ 
+
+
     'click .copy_from_template' : function(){
       console.log("copy from template "+ this.url);
 
@@ -160,21 +185,35 @@ if (Meteor.isClient) {
   Template.widget.onRendered(function(){
 
     $("[title]").tooltip({placement: "auto"});
+    console.log("onRendered " + this.data._id);
 
     var thisid = this.data._id;
     var element = document.getElementById('jsbin_'+this.data._id);
+    var thiselement = document.getElementById('widgetContainer_'+thisid);
+
+    $(".editmodeonly", thiselement).hide();
+    console.log("2 onRendered " + thisid);
+
     document.addEventListener("DOMNodeInserted", function(evt, item){
       if($(evt.target)[0].tagName == "IFRAME"){
+        console.log("rendered iFrame "+ thisid);
         $((evt.target)).load(function(){
+          var thiselement = document.getElementById('widgetContainer_'+thisid);
+          console.log("rendered iframe, content loaded" + thisid);
+          console.log(thiselement);
           var menu = document.getElementById('jsbin_'+thisid).contentWindow.document.getElementById("control");
           var bin = document.getElementById('jsbin_'+thisid).contentWindow.document.getElementById("bin");
           var newbintop = 0;
           this.maxed = true;
           if(this.maxed){
             $(menu).hide();
+            console.log("hiding");
+            $(".editmodeonly", thiselement).hide();
             this.oldbintop = $(bin).css("top");
             $(bin).css("top", newbintop);
           }else{
+            console.log("showing");
+            $(".editmodeonly", thiselement).hide();            
             $(menu).show();
             $(bin).css("top", this.oldbintop);
           }
@@ -253,6 +292,7 @@ if (Meteor.isClient) {
 
     "click .test": function () {
       console.log("testing widget thing");
+      var thiselement = document.getElementById('widgetContainer_'+this._id);
       var editors = document.getElementById('jsbin_'+this._id).contentWindow.editors;
       var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
       var menu = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("control");
@@ -260,14 +300,18 @@ if (Meteor.isClient) {
       console.log(editors);
       console.log(jsbin);
 
+      console.log(thiselement);
+
       var newbintop = 0;
       this.maxed = !this.maxed;
       if(this.maxed){
         $(menu).hide();
+        $(".editmodeonly", thiselement).hide();
         this.oldbintop = $(bin).css("top");
         $(bin).css("top", newbintop);
       }else{
         $(menu).show();
+        $(".editmodeonly", thiselement).show();
         $(bin).css("top", this.oldbintop);
       }
       return false;
@@ -277,6 +321,8 @@ if (Meteor.isClient) {
     */
     "click .lock": function () {
       console.log("locked" + this._id);
+      var thiselement = document.getElementById('widgetContainer_'+this._id);
+
       var editors = document.getElementById('jsbin_'+this._id).contentWindow.editors;
       var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
       jsbin.panels.show("html");
@@ -293,10 +339,12 @@ if (Meteor.isClient) {
       this.maxed = false;
       if(this.maxed){
         $(menu).hide();
+        $(".editmodeonly", thiselement).hide();
         this.oldbintop = $(bin).css("top");
         $(bin).css("top", newbintop);
       }else{
         $(menu).show();
+        $(".editmodeonly", thiselement).show();
         $(bin).css("top", this.oldbintop);
       }
 
@@ -306,6 +354,8 @@ if (Meteor.isClient) {
 
     },
     "click .unlock": function () {
+      var thiselement = document.getElementById('widgetContainer_'+this._id);
+
       console.log("unlocked" + this._id);
       var editors = document.getElementById('jsbin_'+this._id).contentWindow.editors;
       var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
@@ -325,16 +375,20 @@ if (Meteor.isClient) {
       this.maxed = true;
       if(this.maxed){
         $(menu).hide();
+        $(".editmodeonly", thiselement).hide();
         this.oldbintop = $(bin).css("top");
         $(bin).css("top", newbintop);
       }else{
         $(menu).show();
+        $(".editmodeonly", thiselement).show();
         $(bin).css("top", this.oldbintop);
       }
 
 
       return false;
     },
+
+
     "click .save_template": function () {
       console.log("saving as a template " + this._id);
       this.isTemplate = !this.isTemplate;

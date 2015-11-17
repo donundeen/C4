@@ -64,6 +64,11 @@ body {
     color: green;
 }
 
+.deletewidget {
+    background-color: #ff8888;
+    float: right;
+}
+
 img {
     border-radius: 20px;
 }

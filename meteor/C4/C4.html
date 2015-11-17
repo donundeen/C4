@@ -28,6 +28,13 @@
             {{/each}}
           </ul>
       </div>
+      <div class="container-item widgetmenu unlockall" title="click to lock all widgets" style="display:none">
+        <li class="headericon ion-unlocked edit" id="unlock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
+      </div>
+      <div class="container-item widgetmenu lockall" title="click to unlock all widgets">
+        <li class="headericon ion-locked display" id="lock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
+      </div>
+
     </div><BR>
     <div class="widgets container">
       {{#each widgets}}
@@ -43,26 +50,23 @@
       <div class="container-item">
       <B>{{> editableText collection="widgets" field="name"}}</b> {{url}}/{{pageurl}}
       </div>
-      <div class="container-item widgetmenu" title="delete this widget">
-        <li class="widgeticon ion-ios-trash-outline delete" id="delete_{{url}}" data-pack="ios" data-tags="delete, remove, dispose, waste, basket, dump, kill" style="display: inline-block;"></li>
-      </div>
-      <div class="container-item widgetmenu unlock" title="click to unlock" style="display:none">
+      <div class="container-item widgetmenu unlock" title="click to lock widget" style="display:none">
         <li class="widgeticon ion-unlocked edit" id="unlock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
       </div>
-      <div class="container-item widgetmenu lock" title="click to lock widget">
+      <div class="container-item widgetmenu lock" title="click to unlock widget">
         <li class="widgeticon ion-locked display" id="lock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
       </div>
       <div class="container-item widgetmenu test" align="center" title="random testing button. click with caution">       
         <li class="widgeticon test ion-pizza" data-pack="default" data-tags="" alt="random testing button" style="display: inline-block;"></li>
       </div>
-      <div class="container-item widgetmenu save_template" align="center" title="save this widget as a reusable template (will show up in the header drop down with the same icon).">       
+      <div class="container-item widgetmenu save_template editmodeonly" align="center" title="save this widget as a reusable template (will show up in the header drop down with the same icon).">       
         <li class="widgeticon save_template ion-paper-airplane       {{#if isTemplate}}
 isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable template" style="display: inline-block;"></li>
       </div>
-      <div class="container-item widgetmenu save" align="center" title="save this widget">       
+      <div class="container-item widgetmenu save editmodeonly" align="center" title="save this widget">       
         <li class="widgeticon save ion-ios-upload " data-pack="default" data-tags="" alt="save widget" style="display: inline-block;"></li>
       </div>
-      <div class="container-item widgetmenu" align="center" title="pull data from another widget on this page (dropdown).">
+      <div class="container-item widgetmenu editmodeonly" align="center" title="pull data from another widget on this page (dropdown).">
         <div class="dropdown">
           <button class="btn btn-default dropdown-toggle tooltipped" alt="alt tooltip" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-tooltip="pull data from widget">
             Pull from
@@ -77,6 +81,10 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
           </ul>
         </div>
       </div>
+      <div class="container-item widgetmenu editmodeonly deletewidget" title="delete this widget">
+        <li class="widgeticon ion-ios-trash-outline delete" id="delete_{{url}}" data-pack="ios" data-tags="delete, remove, dispose, waste, basket, dump, kill" style="display: inline-block;"></li>
+      </div>
+
     </div>
     <div class="widgetBody">
       <a class="jsbin jsbin-embed jsbin-embed-dyn" id="jsbin_{{url}}" href="http://localhost/jsbin/{{url}}/latest/edit?output&pagetype={{pagetype}}&pageid={{pageid}}">JS Bin....{{url}}</a>
