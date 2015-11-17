@@ -21,9 +21,8 @@ body {
 .widgeticon{
     font-size: 1.5em;
 }
-.widgets .container {
-    margin-top: 100px;
-}
+
+
 
 
 .widgetHeader .container-item{
@@ -71,6 +70,8 @@ body {
 }
 
 .widgetContainer {
+float: left;
+
 }
 
 .menuspacer{ 
@@ -82,6 +83,12 @@ body {
     font-size: .8em;
 
 }
+
+.widgets .container {
+    margin-top: 100px;
+    float: left;
+}
+
 
 img {
     border-radius: 20px;

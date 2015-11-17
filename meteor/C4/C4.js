@@ -192,6 +192,7 @@ if (Meteor.isClient) {
     var thiselement = document.getElementById('widgetContainer_'+thisid);
 
     $(".editmodeonly", thiselement).hide();
+    $(thiselement).css("width","");
 
     document.addEventListener("DOMNodeInserted", function(evt, item){
       if($(evt.target)[0].tagName == "IFRAME"){
@@ -338,10 +339,13 @@ if (Meteor.isClient) {
         $(".editmodeonly", thiselement).hide();
         this.oldbintop = $(bin).css("top");
         $(bin).css("top", newbintop);
+        $(thiselement).css("width","");
+
       }else{
         $(menu).show();
         $(".editmodeonly", thiselement).show();
         $(bin).css("top", this.oldbintop);
+        $(thiselement).css("width","100%");
       }
 
 
@@ -374,10 +378,12 @@ if (Meteor.isClient) {
         $(".editmodeonly", thiselement).hide();
         this.oldbintop = $(bin).css("top");
         $(bin).css("top", newbintop);
+        $(thiselement).css("width","");
       }else{
         $(menu).show();
         $(".editmodeonly", thiselement).show();
         $(bin).css("top", this.oldbintop);
+        $(thiselement).css("width","100%");
       }
 
 
