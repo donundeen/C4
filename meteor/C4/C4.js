@@ -68,6 +68,8 @@ if (Meteor.isClient) {
                       html : results.data.html,
                       javascript : results.data.javascript,
                       css: results.data.css,
+                      description: "(copied from " + results.data.name +") " + results.data.description,
+                      name : "copy of " + result.data.name,
                       pagetype : pageinfo().pagetype,
                       pageurl : pageinfo().pageurl,
                       pageid : pageinfo().pageid,
@@ -120,6 +122,8 @@ if (Meteor.isClient) {
         console.log(results.data.url);
         newWidget = {_id: results.data.url,
                     isTemplate : false,
+                    name: results.data.url,
+                    description : "",
                     html : results.data.html,
                     javascript : results.data.javascript,
                     css: results.data.css,
@@ -147,10 +151,17 @@ if (Meteor.isClient) {
   });
 
 
+  Template.body.onRendered(function(){
 
+    $("[title]").tooltip();
+
+  });
 
   // In the client code, below everything else
   Template.widget.onRendered(function(){
+
+    $("[title]").tooltip();
+
     var thisid = this.data._id;
     var element = document.getElementById('jsbin_'+this.data._id);
     document.addEventListener("DOMNodeInserted", function(evt, item){

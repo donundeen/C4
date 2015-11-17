@@ -3,6 +3,7 @@
 </head>
 
 <body>
+
   <div class="main container">
     <div class="header container">
       <div class="container-item">
@@ -11,19 +12,19 @@
       <div class="container-item" align="center">
         <h2>Page for {{pageurl}}</h2>
       </div>       
-      <div class="container-item" align="center">
-        <li class="headericon addwidget ion-plus-circled" data-pack="ios" data-tags="add, include, new, +" alt="add widget" style="display: inline-block;"></li><br>add
+      <div class="container-item tooltipped" align="center" alt="add widget">
+        <li class="headericon addwidget ion-plus-circled" data-pack="ios" data-tags="add, include, new, +" title="add widget" style="display: inline-block;"></li><br>add
       </div>
       <div class="container-item" align="center">       
-        <li class="headericon test ion-pizza" data-pack="default" data-tags="" alt="random testing button" style="display: inline-block;"></li><BR>test
+        <li class="headericon test ion-pizza" data-pack="default" data-tags="" title="random testing button, click with caution" style="display: inline-block;"></li><BR>test
       </div>
-      <div class="container-item" align="center">       
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-        <li class="headericon new_from_template ion-paper-airplane" data-pack="default" data-tags="" alt="random testing button" style="display: inline-block;"></li>
+      <div class="container-item" align="center" title="create new widget copied from another widget">       
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="true">
+        <li class="headericon new_from_template ion-paper-airplane" data-pack="default" data-tags="" alt="copy from widget" style="display: inline-block;"></li>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             {{#each widgetTemplates}}
-              <li><a href="#" class="copy_from_template {{url}}" target="{{url}}" type="data">{{url}}</a></li>
+              <li><a href="#" class="copy_from_template {{url}}" target="{{url}}" type="data">{{url}} {{name}}</a></li>
             {{/each}}
           </ul>
 
@@ -41,37 +42,38 @@
   <div class="widgetContainer container-item" id="widgetContainer_{{url}}">
     <div class="widgetHeader">
       <div class="container-item">
-      Widget: {{url}}/{{pageurl}} : {{pageid}}
+      <B>{{> editableText collection="widgets" field="name"}}</b> {{url}}/{{pageurl}}
       </div>
-      <div class="container-item widgetmenu">
+      <div class="container-item widgetmenu" title="delete this widget">
         <li class="widgeticon ion-ios-trash-outline delete" id="delete_{{url}}" data-pack="ios" data-tags="delete, remove, dispose, waste, basket, dump, kill" style="display: inline-block;"></li>
       </div>
-      <div class="container-item widgetmenu unlock" style="display:none">
+      <div class="container-item widgetmenu unlock" title="click to unlock" style="display:none">
         <li class="widgeticon ion-unlocked edit" id="unlock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
       </div>
-      <div class="container-item widgetmenu lock">
+      <div class="container-item widgetmenu lock" title="click to lock widget">
         <li class="widgeticon ion-locked display" id="lock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
       </div>
-      <div class="container-item widgetmenu test" align="center">       
+      <div class="container-item widgetmenu test" align="center" title="random testing button. click with caution">       
         <li class="widgeticon test ion-pizza" data-pack="default" data-tags="" alt="random testing button" style="display: inline-block;"></li>
       </div>
-      <div class="container-item widgetmenu save_template" align="center">       
+      <div class="container-item widgetmenu save_template" align="center" title="save this widget as a reusable template (will show up in the header drop down with the same icon).">       
         <li class="widgeticon save_template ion-paper-airplane       {{#if isTemplate}}
 isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable template" style="display: inline-block;"></li>
       </div>
-      <div class="container-item widgetmenu save" align="center">       
+      <div class="container-item widgetmenu save" align="center" title="save this widget">       
         <li class="widgeticon save ion-ios-upload " data-pack="default" data-tags="" alt="save widget" style="display: inline-block;"></li>
       </div>
-      <div class="container-item widgetmenu" align="center">
+      <div class="container-item widgetmenu" align="center" title="pull data from another widget on this page (dropdown).">
         <div class="dropdown">
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          <button class="btn btn-default dropdown-toggle tooltipped" alt="alt tooltip" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-tooltip="pull data from widget">
             Pull from
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             {{#each otherwidgets}}
-              <li><a href="#" class="add_code {{url}}" target="{{url}}" type="data">{{url}} data</a></li>
-              <li><a href="#" class="add_code {{url}}" target="{{url}}" type="html">{{url}} html</a></li>
+              <li><hr></li>
+              <li><a href="#" class="add_code {{url}}" target="{{url}}" type="data">{{url}}:{{name}} (data)</a></li>
+              <li><a href="#" class="add_code {{url}}" target="{{url}}" type="html">{{url}}:{{name}} (html)</a></li>
             {{/each}}
           </ul>
         </div>
