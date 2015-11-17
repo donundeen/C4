@@ -153,14 +153,14 @@ if (Meteor.isClient) {
 
   Template.body.onRendered(function(){
 
-    $("[title]").tooltip();
+    $("[title]").tooltip({placement: "auto"});
 
   });
 
   // In the client code, below everything else
   Template.widget.onRendered(function(){
 
-    $("[title]").tooltip();
+    $("[title]").tooltip({placement: "auto"});
 
     var thisid = this.data._id;
     var element = document.getElementById('jsbin_'+this.data._id);
