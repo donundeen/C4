@@ -12,9 +12,11 @@
       <div class="container-item" align="center">
         <h2>Page for {{pageurl}}</h2>
       </div>       
+      <!--
       <div class="container-item tooltipped" align="center" alt="add widget">
         <li class="headericon addwidget ion-plus-circled" data-pack="ios" data-tags="add, include, new, +" title="add widget" style="display: inline-block;"></li><br>add
       </div>
+    -->
       <div class="container-item" align="center">       
         <li class="headericon test ion-pizza" data-pack="default" data-tags="" title="random testing button, click with caution" style="display: inline-block;"></li><BR>test
       </div>
@@ -24,7 +26,7 @@
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             {{#each widgetTemplates}}
-              <li><a href="#" class="copy_from_template {{url}}" target="{{url}}" type="data">{{url}} {{name}}</a></li>
+              <li><!--<i class="icon ion-close-circled deletetemplate"  title="remove this as a template"></i>--><a href="#" class="copy_from_template {{url}}" target="{{url}}" type="data"><i class="widgetIdText">{{url}}</i> {{name}}</a></li>
             {{/each}}
           </ul>
       </div>
@@ -75,8 +77,8 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             {{#each otherwidgets}}
               <li><hr></li>
-              <li><a href="#" class="add_code {{url}}" target="{{url}}" type="data">{{url}}:{{name}} (data)</a></li>
-              <li><a href="#" class="add_code {{url}}" target="{{url}}" type="html">{{url}}:{{name}} (html)</a></li>
+              <li><a href="#" class="add_code {{url}}" target="{{url}}" type="data"><i class="widgetIDText">{{url}}</i>:{{name}} (data)</a></li>
+              <li><a href="#" class="add_code {{url}}" target="{{url}}" type="html"><i class="widgetIDText">{{url}}</i>:{{name}} (html)</a></li>
             {{/each}}
           </ul>
         </div>

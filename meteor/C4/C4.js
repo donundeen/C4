@@ -4,6 +4,7 @@ Widgets = new Mongo.Collection("widgets");
 if (Meteor.isClient) {
   console.log("starting meteor");
 
+ // Widgets.remove("jow");
 
   var pageinfo = function(){
     var pathname = window.location.pathname;
@@ -77,34 +78,35 @@ if (Meteor.isClient) {
       console.log("copy from template "+ this.url);
 
       var template = Widgets.findOne({url : this.url});
-      console.log(template);
+      var dataobj = {html : template.html, css: template.css, javascript: template.javascript};
+      var url = "/api/save";//?js="+jsstring+"&html="+htmlstring+"&css="+csstring,
+      var options = {data: dataobj};
       
-        var dataobj = {html : template.html, css: template.css, javascript: template.javascript};
-        var url = "/api/save";//?js="+jsstring+"&html="+htmlstring+"&css="+csstring,
-        var options = {data: dataobj};
-        
-        HTTP.post(url, options, function(error, results){
-          console.log("data submitted");
-          console.log(results);
-          console.log(error);
-          console.log(results.data.url);
-          newWidget = {_id: results.data.url,
-                      isTemplate : false,
-                      html : results.data.html,
-                      javascript : results.data.javascript,
-                      css: results.data.css,
-                      description: "(copied from " + results.data.name +") " + results.data.description,
-                      name : "copy of " + result.data.name,
-                      pagetype : pageinfo().pagetype,
-                      pageurl : pageinfo().pageurl,
-                      pageid : pageinfo().pageid,
-                      url: results.data.url,
-                      createdAt: new Date(),
-                      rand: Math.random() };
-          Widgets.insert(newWidget);
-        });
+      HTTP.post(url, options, function(error, results){
+        console.log("data submitted");
+        newWidget = {_id: results.data.url,
+                    isTemplate : false,
+                    html : results.data.html,
+                    javascript : results.data.javascript,
+                    css: results.data.css,
+                    description: "(copied from " + template.name +") " + template.description,
+                    name : "copy of " + template.name,
+                    pagetype : pageinfo().pagetype,
+                    pageurl : pageinfo().pageurl,
+                    pageid : pageinfo().pageid,
+                    url: results.data.url,
+                    createdAt: new Date(),
+                    rand: Math.random() };
+        Widgets.insert(newWidget);
+      });
 
       return false;
+    },
+
+    'click .deletetemplate' : function(){
+      var template = Widgets.findOne({url : this.url});
+      template.isTemplate = false;
+      Widgets.update(template._id, template);
     },
 
     'click .addwidget' : function(){
@@ -185,22 +187,16 @@ if (Meteor.isClient) {
   Template.widget.onRendered(function(){
 
     $("[title]").tooltip({placement: "auto"});
-    console.log("onRendered " + this.data._id);
-
     var thisid = this.data._id;
     var element = document.getElementById('jsbin_'+this.data._id);
     var thiselement = document.getElementById('widgetContainer_'+thisid);
 
     $(".editmodeonly", thiselement).hide();
-    console.log("2 onRendered " + thisid);
 
     document.addEventListener("DOMNodeInserted", function(evt, item){
       if($(evt.target)[0].tagName == "IFRAME"){
-        console.log("rendered iFrame "+ thisid);
         $((evt.target)).load(function(){
           var thiselement = document.getElementById('widgetContainer_'+thisid);
-          console.log("rendered iframe, content loaded" + thisid);
-          console.log(thiselement);
           var menu = document.getElementById('jsbin_'+thisid).contentWindow.document.getElementById("control");
           var bin = document.getElementById('jsbin_'+thisid).contentWindow.document.getElementById("bin");
           var newbintop = 0;
@@ -225,7 +221,7 @@ if (Meteor.isClient) {
   Template.widget.events({
     "click .delete": function () {
       if(this.isTemplate){
-        this.url = this.url + "_template"
+        this.pagetype = "template";
         Widgets.update(this._id, this);
       }else{
         Widgets.remove(this._id);
