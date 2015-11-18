@@ -7,38 +7,29 @@ TODOs:
 - MVP: "lock" code that someone else is editing. concurrent editing would be cool, though..
 - DONE: MVP: need a proxy for calling external webservices
 -- MVP: then include as a "insert code snippet" bit
-- MVP: widgets run on page load
 - MVP need an image proxy as well.
 - MVP: Help Text
 -- MVP: "How to use this app" - bare minimum
 - MVP: Make some useful templates
 -- a few culutural APIs
+- MVP: Widget Description
+- MVP: auto-save feature
+-- requires detecting changes in jsbin editor panels
 
 - packaging all the code so it's easy to install and run, and to deliver to an app server.
 - "Undo" widget deletes 
-- details for each widgets
--- human-readable name
--- description
-- lock/unlock All widgets at once.
 - 'insert code' functionality
 - user/group/public access levels on widgets
-- do some UI work so it's nice to look at:
--- adjustable size widget divs (or size 1,2,3,4 with Masonry?)
-- figure out how to show/hide different panels from the parent window
--- default: load in output-only mode
-- access the parent window url from within the code
-- widget configuration UI
-- make sure jsbin contents are saved at the right times, so no work is ever lost
-- some widgets can be easily copied to new pages
--- a basic widget (that outlines the c4-specific features)
--- promoted widgets (that do important stuff)
--- "my favorite widgets"  
+- widget configuration UI, for styling.
+- promoted widgets (that do important stuff)
+- "my favorite widgets"  
 -- example widgets
-- widgets can be 25%, 50%, 75%, 100% of page width
 
 -- read this for using bootstrap and Meteor, might be a good way to go: http://www.manuel-schoebel.com/blog/meteorjs-and-twitter-bootstrap---the-right-way
 
 
+- MVP: widgets run on page load
+-- this seems to be the case already?
 - DONE: MVP: make a function that wraps up ALL the requests into ONE method, with ONE callback,
 -- DONE: MVP:  with "insert code" snippet.
 - DONE MVP: hide edit options on widget lock.
