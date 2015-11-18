@@ -5,8 +5,6 @@ ASK YOURSELF: MVP : what's the MINIMUM I need to do to be able to show this to m
 
 TODOs:
 - MVP: "lock" code that someone else is editing. concurrent editing would be cool, though..
-- MVP: make a function that wraps up ALL the requests into ONE method, with ONE callback,
--- MVP:  with "insert code" snippet.
 - DONE: MVP: need a proxy for calling external webservices
 -- MVP: then include as a "insert code snippet" bit
 - MVP: widgets run on page load
@@ -14,6 +12,7 @@ TODOs:
 - MVP: Help Text
 -- MVP: "How to use this app" - bare minimum
 - MVP: Make some useful templates
+-- a few culutural APIs
 
 - packaging all the code so it's easy to install and run, and to deliver to an app server.
 - "Undo" widget deletes 
@@ -40,6 +39,8 @@ TODOs:
 -- read this for using bootstrap and Meteor, might be a good way to go: http://www.manuel-schoebel.com/blog/meteorjs-and-twitter-bootstrap---the-right-way
 
 
+- DONE: MVP: make a function that wraps up ALL the requests into ONE method, with ONE callback,
+-- DONE: MVP:  with "insert code" snippet.
 - DONE MVP: hide edit options on widget lock.
 - DONE: MVP: tooltips on icons.
 - DONE: MVP: "Widget Name"
