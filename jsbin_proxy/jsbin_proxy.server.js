@@ -126,7 +126,7 @@ return;
         
       }
       if(message == "c4_done"){
-        console.log("done");
+        console.log("Zzzzzzzzzzzzzzzzzzzzzzzombie done");
         var htmlstring = browser.document.documentElement.outerHTML;
         console.log("got htmlstring");
         console.log(htmlstring);

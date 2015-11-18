@@ -4,6 +4,7 @@ ASK YOURSELF: MVP : what's the MINIMUM I need to do to be able to show this to m
 
 
 TODOs:
+- MVP: "lock" code that someone else is editing. concurrent editing would be cool, though..
 - MVP: make a function that wraps up ALL the requests into ONE method, with ONE callback,
 -- MVP:  with "insert code" snippet.
 - DONE: MVP: need a proxy for calling external webservices

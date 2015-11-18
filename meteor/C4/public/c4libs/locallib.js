@@ -156,6 +156,42 @@ function webserviceData(url, callback){
 }
 
 function requireWidgetData(requiresList, callback){
-    
-    
+    console.log("in requireWidgetData");
+    var length = requiresList.length;
+    var funcscomplete = 0;
+    var resultsSet = {};
+    if(length == 0){
+        callback(resultsSet);
+    }
+    $.each(requiresList, function(index, item){
+        console.log(item);
+        if(item.type == "data"){
+            widgetData(item.from, function(response){
+                if(!resultsSet[item.from]){
+                    resultsSet[item.from] = {};
+                }
+                resultsSet[item.from].data = response;
+            });
+            if(funcscomplete++ == length){
+                callback(resultsSet);
+            }            
+        }else if (item.type == "html"){
+            widgetHtml(item.from, function(response){
+                if(!resultsSet[item.from]){
+                    resultsSet[item.from] = {};
+                }
+                resultsSet[item.from].html = response;
+            });
+            if(funcscomplete++ == length){
+                callback(resultsSet);
+            }            
+        }else{
+            resultsSet[item.from] = {};
+            if(funcscomplete++ == length){
+                callback(resultsSet);
+            }            
+        }
+    });    
 }
+
+

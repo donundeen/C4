@@ -256,27 +256,8 @@ if (Meteor.isClient) {
 
     "click .add_code" : function(evt, template){
 
-      // TODO: this needs to be modified to look for the code :
-      /*
-requireWidgetData( 
-// all requests to other widgets go here (automatically if you use the 'pull from' interface): 
-// c4_requires 
-{} ,
-// end_c4_requires 
-// end other widget requests 
- doTheThings);
- 
- and insert bit
- evt.target.target : evt.target.type
-
-and the re
-      */
-
-      console.log("add code");
-      console.log(this);
-      console.log(template.data);
-      console.log(evt.target.target);
-      console.log(evt.target.type);
+      var pullfrom = evt.currentTarget.dataset.pullfrom;
+      var pulltype = evt.currentTarget.dataset.pulltype;
 
       if(this.url == template.data.url){
         return false;
@@ -284,26 +265,53 @@ and the re
 
       var type;
       var comments = "";
-      if(evt.target.type == "data"){
+      if(pulltype == "data"){
         type = "data";
-        comments = " This is a JSON object";
+        comments = " This will hold a JSON object";
       }
-      if(evt.target.type == "html"){
+      if(pulltype == "html"){
         type = "html";
-        comments = " This is a jQuery object";
+        comments = " This will hold a jQuery object";
       }
-      var funcString = "var c4_"+evt.target.target+"_"+evt.target.type+" = widget"+type+"('"+evt.target.target+"'); //" + comments;
-      console.log(evt.target.widgetid  + "adding string "+ funcString);
-
+      var codeString = "{from: '"+pullfrom+"', type : '"+pulltype+"'}";
+      var codeStringRe = "\\{from: '"+pullfrom+"', type : '"+pulltype+"'\\}";
       var editors = document.getElementById('jsbin_'+template.data.url).contentWindow.editors;
+      var code = editors.javascript.getCode();
+      var line = editors.javascript.editor.getCursor().line;
+      var charpos = editors.javascript.editor.getCursor().ch;
+      // make sure it's not already in there:
+      var codeRe = new RegExp("\/\/ *c4_requires[\\s\\S]*\\[[\\s\\S]*"+codeStringRe+"[\\s\\S]*\\] *,[\\s\\S]*\/\/ *end_c4_requires");
+      console.log(codeRe);
+      var codeMatch = code.match(codeRe);
+      if(!codeMatch){
+        console.log(" no match, replacing");
+        // match to empty array
+        var match = /(\/\/ *c4_requires[\s\S]*\[)\s*(\] *,[\s\S]*\/\/ *end_c4_requires)/;
+        var results = code.match(match);
+        console.log(results);
+        newcode = code.replace(match, "$1\n"+codeString+" // "+comments+"\n$2")
 
-      console.log(template.data.url  + "adding string "+ funcString);
+        if(newcode == code){
+          // match to non-empty array
+          var match = /(\/\/ *c4_requires[\s\S]*\[)([^\]]*\] *,[\s\S]*\/\/ *end_c4_requires)/;
+          var results = code.match(match);
+          console.log(results);
 
+          newcode = code.replace(match, "$1\n"+codeString+", // " + comments + "$2");
+        }
+        code = newcode;
+        var state = { line: editors.javascript.editor.currentLine(),
+            character: editors.javascript.editor.getCursor().ch,
+            add: 0
+          };
 
-      addJsCodeAtTop(funcString, editors);
-
+        editors.javascript.setCode(code);
+        editors.javascript.editor.setCursor({ line: state.line + state.add, ch: state.character });
+      }
       return false;
     },
+
+
 
     "click .test": function () {
       console.log("testing widget thing");

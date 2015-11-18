@@ -77,8 +77,8 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             {{#each otherwidgets}}
               <li><hr></li>
-              <li><a href="#" class="add_code {{url}}" target="{{url}}" type="data"><i class="widgetIDText">{{url}}</i>:{{name}} (data)</a></li>
-              <li><a href="#" class="add_code {{url}}" target="{{url}}" type="html"><i class="widgetIDText">{{url}}</i>:{{name}} (html)</a></li>
+              <li><a href="#" class="add_code {{url}}" data-pullfrom="{{url}}" data-pulltype="data"><i class="widgetIDText" data-pullfrom="{{url}}" data-pulltype="data">{{url}}</i>:{{name}} (data)</a></li>
+              <li><a href="#" class="add_code {{url}}" data-pullfrom="{{url}}" data-pulltype="html"><i class="widgetIDText" data-pullfrom="{{url}}" data-pulltype="html">{{url}}</i>:{{name}} (html)</a></li>
             {{/each}}
           </ul>
         </div>
