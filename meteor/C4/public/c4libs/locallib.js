@@ -157,6 +157,7 @@ function webserviceData(url, callback){
 
 function requireWidgetData(requiresList, callback){
     console.log("in requireWidgetData");
+
     var length = requiresList.length;
     var funcscomplete = 0;
     var resultsSet = {};
@@ -171,18 +172,21 @@ function requireWidgetData(requiresList, callback){
                     resultsSet[item.from] = {};
                 }
                 resultsSet[item.from].data = response;
+                if(++funcscomplete == length){
+                    callback(resultsSet);
+                }            
             });
-            if(funcscomplete++ == length){
-                callback(resultsSet);
-            }            
         }else if (item.type == "html"){
             widgetHtml(item.from, function(response){
                 if(!resultsSet[item.from]){
                     resultsSet[item.from] = {};
                 }
                 resultsSet[item.from].html = response;
+                if(++funcscomplete == length){
+                    callback(resultsSet);
+                }
             });
-            if(funcscomplete++ == length){
+            if(++funcscomplete == length){
                 callback(resultsSet);
             }            
         }else{
