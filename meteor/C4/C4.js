@@ -204,6 +204,20 @@ if (Meteor.isClient) {
       if($(evt.target)[0].tagName == "IFRAME"){
         $((evt.target)).load(function(){
           var thiselement = document.getElementById('widgetContainer_'+thisid);
+
+          var editors = document.getElementById('jsbin_'+thisid).contentWindow.editors;
+          var jsbin = document.getElementById('jsbin_'+thisid).contentWindow.jsbin;
+
+          jsbin.panels.saveOnExit = true;
+
+          console.log(editors);
+          console.log(jsbin);
+          var el = $(editors.live.el)[0];
+/*
+          setTimeout(function(){
+            $("#runwithalerts", el).trigger("click");
+          }, 1000); 
+*/
           var menu = document.getElementById('jsbin_'+thisid).contentWindow.document.getElementById("control");
           var bin = document.getElementById('jsbin_'+thisid).contentWindow.document.getElementById("bin");
           var newbintop = 0;

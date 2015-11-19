@@ -50,7 +50,7 @@
   <div class="widgetContainer container-item" id="widgetContainer_{{url}}">
     <div class="widgetHeader">
       <div class="container-item">
-      <B class="widgetName">{{> editableText collection="widgets" field="name"}}</b> {{url}}/{{pageurl}}
+      <B class="widgetName">{{> editableText collection="widgets" field="name"}}</b><span class="editmodeonly"> {{url}}/{{pageurl}}</span>
       </div>
       <div class="container-item widgetmenu unlock" title="click to lock widget" style="display:none">
         <li class="widgeticon ion-unlocked edit" id="unlock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
@@ -58,7 +58,7 @@
       <div class="container-item widgetmenu lock" title="click to unlock widget">
         <li class="widgeticon ion-locked display" id="lock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
       </div>
-      <div class="container-item widgetmenu test" align="center" title="random testing button. click with caution">       
+      <div class="container-item widgetmenu test editmodeonly" align="center" title="random testing button. click with caution">       
         <li class="widgeticon test ion-pizza" data-pack="default" data-tags="" alt="random testing button" style="display: inline-block;"></li>
       </div>
       <div class="container-item widgetmenu save_template editmodeonly" align="center" title="save this widget as a reusable template (will show up in the header drop down with the same icon).">       
