@@ -11,6 +11,13 @@ if (Meteor.isClient) {
   console.log("starting meteor");
 
  // Widgets.remove("jow");
+  UI.registerHelper('shortIt', function(stringToShorten, maxCharsAmount){
+    if(stringToShorten.length > maxCharsAmount){
+      return stringToShorten.substring(0, maxCharsAmount) + '...';
+    }
+    return stringToShorten;
+  });
+
 
   var pageinfo = function(){
     var pagetype = "";
@@ -195,6 +202,13 @@ if (Meteor.isClient) {
     $("[title]").tooltip({placement: "auto"});
   });
 
+
+
+
+
+
+
+
   // In the client code, below everything else
   Template.widget.onRendered(function(){
 
@@ -205,6 +219,15 @@ if (Meteor.isClient) {
 
     $(".editmodeonly", thiselement).hide();
     $(thiselement).css("width","");
+    $(".widgetDescription").mouseover(function(evt, target){
+      $(".widgetDescriptionShort", thiselement).hide();
+      $(".widgetDescriptionEdit", thiselement).show();
+    });
+    $(".widgetDescription").mouseout(function(evt, target){
+      $(".widgetDescriptionShort", thiselement).show();
+      $(".widgetDescriptionEdit", thiselement).hide();
+    });
+    $(".widgetDescriptionEdit", thiselement).hide();
 
     document.addEventListener("DOMNodeInserted", function(evt, item){
       if($(evt.target)[0].tagName == "IFRAME"){
@@ -214,8 +237,9 @@ if (Meteor.isClient) {
           var editors = document.getElementById('jsbin_'+thisid).contentWindow.editors;
           var jsbin = document.getElementById('jsbin_'+thisid).contentWindow.jsbin;
 
-          jsbin.panels.saveOnExit = true;
-
+          if(jsbin.panels){
+            jsbin.panels.saveOnExit = true;
+          }
           var el = $(editors.live.el)[0];
 /*
           setTimeout(function(){
@@ -228,7 +252,6 @@ if (Meteor.isClient) {
           this.maxed = true;
           if(this.maxed){
             $(menu).hide();
-            console.log("hiding");
             $(".editmodeonly", thiselement).hide();
             this.oldbintop = $(bin).css("top");
             $(bin).css("top", newbintop);
@@ -425,6 +448,7 @@ if (Meteor.isClient) {
       this.maxed = true;
       if(this.maxed){
         $(menu).hide();
+        console.log($(".editmodeonly"));
         $(".editmodeonly", thiselement).hide();
         this.oldbintop = $(bin).css("top");
         $(bin).css("top", newbintop);

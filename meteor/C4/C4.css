@@ -80,7 +80,11 @@ li:hover {
 }
 
 .widgetName:hover{
-    color: purple;   
+    color: purple
+}
+
+.widgetDescription:hover{
+    color: purple
 }
 
 .menuspacer{ 

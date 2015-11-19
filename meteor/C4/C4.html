@@ -50,7 +50,7 @@
   <div class="widgetContainer container-item" id="widgetContainer_{{url}}">
     <div class="widgetHeader">
       <div class="container-item">
-      <B class="widgetName">{{> editableText collection="widgets" field="name"}}</b><span class="editmodeonly"> {{url}}/{{pageurl}}</span>
+      <B class="widgetName">{{> editableText collection="widgets" field="name"}}</b><span class="editmodeonly widgetIdText"> uid: {{url}}/{{pageurl}}</span>
       </div>
       <div class="container-item widgetmenu unlock" title="click to lock widget" style="display:none">
         <li class="widgeticon ion-unlocked edit" id="unlock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
@@ -83,6 +83,13 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
         </div>
       </div>
       <div class="container-item widgetmenu editmodeonly menuspacer">&nbsp;</div> 
+      <div class="container-item editmodeonly" >
+        <div class="widgetDescription">
+        <i class="widgetDescriptionShort">{{shortIt description 15}}</i>
+      <i class="widgetDescriptionEdit">{{> editableText collection="widgets" field="description" wysiwyg="true"}}</i>
+    </div>
+      </div>
+
       <div class="container-item widgetmenu editmodeonly deletewidget" title="delete this widget">
         <li class="widgeticon ion-ios-trash-outline delete" id="delete_{{url}}" data-pack="ios" data-tags="delete, remove, dispose, waste, basket, dump, kill" style="display: inline-block;"></li>
       </div>

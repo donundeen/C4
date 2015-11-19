@@ -4,13 +4,9 @@ ASK YOURSELF: MVP : what's the MINIMUM I need to do to be able to show this to m
 
 
 TODOs:
-- MVP: auto-save feature
--- requires detecting changes in jsbin editor panels
--- or, save on close?
 - MVP: saving and exporting/importing data
 -- https://themeteorchef.com/recipes/exporting-data-from-your-meteor-application/
 -- http://justmeteor.com/blog/backup-and-restore-your-mongodb-database/
-- MVP: "lock" code that someone else is editing. concurrent editing would be cool, though..
 - DONE: MVP: need a proxy for calling external webservices
 -- MVP: then include as a "insert code snippet" bit
 - MVP need an image proxy as well.
@@ -30,11 +26,17 @@ TODOs:
 - promoted widgets (that do important stuff)
 - "my favorite widgets"  
 -- example widgets
+- re-ordering widgets: 
 
 -- read this for using bootstrap and Meteor, might be a good way to go: http://www.manuel-schoebel.com/blog/meteorjs-and-twitter-bootstrap---the-right-way
 
 
-- re-ordering widgets: 
+
+- "lock" code that someone else is editing. concurrent editing would be cool, though..
+-- we'll save this for post-MVP, and ask people to be careful
+- DONE: MVP: auto-save feature
+-- requires detecting changes in jsbin editor panels
+-- or, save on close?
 - DONE MVP: make the system work even if the pageid, or the pagetype, isn't set (use empty string)
 -- this will make it possible to create a "home page"  which will be hella useful.
 - DONE icon :hover changes
