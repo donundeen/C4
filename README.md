@@ -3,13 +3,11 @@ ASK YOURSELF: MVP : what's the MINIMUM I need to do to be able to show this to m
 - it needs to have different pages for different art objects
 
 Meteor CheatSheet: http://www.webtempest.com/meteor-js-cheatsheet
+-- read this for using bootstrap and Meteor, might be a good way to go: http://www.manuel-schoebel.com/blog/meteorjs-and-twitter-bootstrap---the-right-way
 
 
 
 TODOs:
-- MVP: saving and exporting/importing data
--- https://themeteorchef.com/recipes/exporting-data-from-your-meteor-application/
--- http://justmeteor.com/blog/backup-and-restore-your-mongodb-database/
 - DONE: MVP: need a proxy for calling external webservices
 -- MVP: then include as a "insert code snippet" bit
 - MVP need an image proxy as well.
@@ -17,9 +15,11 @@ TODOs:
 -- MVP: "How to use this app" - bare minimum
 - MVP: Make some useful templates
 -- a few culutural APIs
-- MVP: Widget Description
 
 
+- saving and exporting/importing widgets as mongo data
+-- https://themeteorchef.com/recipes/exporting-data-from-your-meteor-application/
+-- http://justmeteor.com/blog/backup-and-restore-your-mongodb-database/
 - functionality for persisting data for a widget on a pageid level. eg, to make a "this object comments" widget, or something like that.
 - packaging all the code so it's easy to install and run, and to deliver to an app server.
 - "Undo" widget deletes 
@@ -30,13 +30,12 @@ TODOs:
 - "my favorite widgets"  
 -- example widgets
 - re-ordering widgets: 
-
--- read this for using bootstrap and Meteor, might be a good way to go: http://www.manuel-schoebel.com/blog/meteorjs-and-twitter-bootstrap---the-right-way
-
-
-
 - "lock" code that someone else is editing. concurrent editing would be cool, though..
 -- we'll save this for post-MVP, and ask people to be careful
+
+
+
+- DONE: MVP: Widget Description
 - DONE: MVP: auto-save feature
 -- requires detecting changes in jsbin editor panels
 -- or, save on close?
