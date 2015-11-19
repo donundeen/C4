@@ -2,6 +2,9 @@ ASK YOURSELF: MVP : what's the MINIMUM I need to do to be able to show this to m
 - it has to have the basics of inter-communication, 
 - it needs to have different pages for different art objects
 
+Meteor CheatSheet: http://www.webtempest.com/meteor-js-cheatsheet
+
+
 
 TODOs:
 - MVP: saving and exporting/importing data
