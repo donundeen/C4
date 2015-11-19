@@ -4,6 +4,12 @@ ASK YOURSELF: MVP : what's the MINIMUM I need to do to be able to show this to m
 
 
 TODOs:
+- MVP: auto-save feature
+-- requires detecting changes in jsbin editor panels
+-- or, save on close?
+- MVP: saving and exporting/importing data
+-- https://themeteorchef.com/recipes/exporting-data-from-your-meteor-application/
+-- http://justmeteor.com/blog/backup-and-restore-your-mongodb-database/
 - MVP: "lock" code that someone else is editing. concurrent editing would be cool, though..
 - DONE: MVP: need a proxy for calling external webservices
 -- MVP: then include as a "insert code snippet" bit
@@ -13,9 +19,9 @@ TODOs:
 - MVP: Make some useful templates
 -- a few culutural APIs
 - MVP: Widget Description
-- MVP: auto-save feature
--- requires detecting changes in jsbin editor panels
 
+
+- functionality for persisting data for a widget on a pageid level. eg, to make a "this object comments" widget, or something like that.
 - packaging all the code so it's easy to install and run, and to deliver to an app server.
 - "Undo" widget deletes 
 - 'insert code' functionality
@@ -28,6 +34,10 @@ TODOs:
 -- read this for using bootstrap and Meteor, might be a good way to go: http://www.manuel-schoebel.com/blog/meteorjs-and-twitter-bootstrap---the-right-way
 
 
+- re-ordering widgets: 
+- DONE MVP: make the system work even if the pageid, or the pagetype, isn't set (use empty string)
+-- this will make it possible to create a "home page"  which will be hella useful.
+- DONE icon :hover changes
 - MVP: widgets run on page load
 -- this seems to be the case already?
 - DONE: MVP: make a function that wraps up ALL the requests into ONE method, with ONE callback,

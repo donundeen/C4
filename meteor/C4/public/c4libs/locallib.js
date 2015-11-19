@@ -6,10 +6,14 @@ function pageId(){
     // get parent url, figure out the "page id"
 //    console.log(window.parent.parent.parent.location.href);
     var search= window.parent.parent.location.search;
-    var pageid;
+    var pageid = "";
     try{
         console.log("searching " + search);
-        pageid = /.*pageid=([^\&]+)/.exec(search)[1];
+        var results = /.*pageid=([^\&]+)/.exec(search);
+        if(results){
+            pageid = results[1];
+        }
+
         console.log(" got pageid " + pageid);
         pageid = pageid.replace(/\:script/, "");
 
@@ -26,7 +30,9 @@ function pageId(){
         var pageurl =  split.join("/");    
 
         var pagetype = split.shift();
-        var pageid = split.shift();
+        if(split.length > 0){
+            pageid = split.shift();
+        }
         pageid = pageid.replace(/\:script/, "");
 
         console.log("locallib returning pageid " + pageid);
@@ -39,9 +45,12 @@ function pageType(){
     // get parent url, figure out the "page id"
 //    console.log(window.parent.parent.parent.location.href);
     var search= window.parent.parent.location.search;
-    var pagetype;
+    var pagetype = "";
     try{
-        pagetype = /.*pagetype=([^\&]+)/.exec(search)[1];
+        var results = /.*pagetype=([^\&]+)/.exec(search);
+        if(results){ 
+            pagetype = results[1];
+        }
     }catch(e){
         var pathname = window.location.pathname;
         var split = pathname.split("/");
@@ -51,8 +60,9 @@ function pageType(){
             split.shift();
         }
         var pageurl =  split.join("/");    
-        var pagetype = split.shift();
-        var pageid = split.shift();
+        if(split.length > 0){
+            pagetype = split.shift();
+        }
     }
     return pagetype;
 }

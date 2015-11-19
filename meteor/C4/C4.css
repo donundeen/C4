@@ -74,6 +74,15 @@ float: left;
 
 }
 
+
+li:hover {
+    color: purple;
+}
+
+.widgetName:hover{
+    color: purple;   
+}
+
 .menuspacer{ 
     width: 25px;
 }

@@ -7,13 +7,19 @@ if (Meteor.isClient) {
  // Widgets.remove("jow");
 
   var pageinfo = function(){
+    var pagetype = "";
+    var pageid = "";
     var pathname = window.location.pathname;
     var split = pathname.split("/");
     split.shift();
     var pageurl =  split.join("/");    
 
-    var pagetype = split.shift();
-    var pageid = split.shift();
+    if(split.length > 0){
+      pagetype = split.shift();
+    }
+    if(split.length > 0){
+      pageid = split.shift();
+    }
     pageid = pageid.replace(/:script/, "");
     return {pageurl : pageurl,
             pagetype : pagetype,
