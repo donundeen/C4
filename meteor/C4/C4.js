@@ -2,6 +2,12 @@
 Widgets = new Mongo.Collection("widgets");
 
 if (Meteor.isClient) {
+
+  Meteor.startup(function(){
+   $(window).bind('beforeunload', function() {
+    $(".save").trigger("click");
+    });
+  });
   console.log("starting meteor");
 
  // Widgets.remove("jow");
@@ -210,8 +216,6 @@ if (Meteor.isClient) {
 
           jsbin.panels.saveOnExit = true;
 
-          console.log(editors);
-          console.log(jsbin);
           var el = $(editors.live.el)[0];
 /*
           setTimeout(function(){
