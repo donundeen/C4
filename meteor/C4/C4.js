@@ -458,6 +458,7 @@ if (Meteor.isClient) {
         $(".editmodeonly", thiselement).show();
         $(bin).css("top", this.oldbintop);
         $(thiselement).css("width","100%");
+        $(thiselement).css("height","100%");
       }
 
 

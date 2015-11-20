@@ -17,6 +17,8 @@ TODOs:
 -- a few culutural APIs
 
 
+
+- need lots of styling help, so it's veru comfortable to use.
 - saving and exporting/importing widgets as mongo data
 -- https://themeteorchef.com/recipes/exporting-data-from-your-meteor-application/
 -- http://justmeteor.com/blog/backup-and-restore-your-mongodb-database/
