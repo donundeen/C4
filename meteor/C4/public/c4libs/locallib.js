@@ -41,6 +41,10 @@ function pageId(){
     return pageid;
 }
 
+function pageid(){
+    return pageId();
+}
+
 function pageType(){
     // get parent url, figure out the "page id"
 //    console.log(window.parent.parent.parent.location.href);
@@ -67,7 +71,9 @@ function pageType(){
     return pagetype;
 }
 
-
+function pagetype(){
+    return pageType();
+}
 
 function purgeWidgetCache(widgetName, callback){
     if(!widgetName){
@@ -199,6 +205,17 @@ function requireWidgetData(requiresList, callback){
             if(++funcscomplete == length){
                 callback(resultsSet);
             }            
+        }else if(item.type == "webservice"){
+            var url = item.url;
+            var id = item.id;
+            var format = item.format;
+            webserviceData(url, function(response){
+                resultsSet[id] = {};
+                resultsSet[id].data = response;
+                if(++funcscomplete == length){
+                    callback(resultsSet);
+                }            
+            });
         }else{
             resultsSet[item.from] = {};
             if(funcscomplete++ == length){
