@@ -98,7 +98,7 @@ return;
       console.log("jsbin browser done");
     });
 
-    browser.on("!!!!!!!evaluated", function(code, result, filename){
+    browser.on("evaluated", function(code, result, filename){
       console.log("evaluated");
       console.log(filename);
       console.log(code);
