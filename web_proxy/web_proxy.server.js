@@ -8,6 +8,8 @@ var request = require("request");
 
 var mysecrets = {port: 3006};
 
+var resultCache = {};
+
 var port = mysecrets.port;
 if(process && process.env && process.env.NODE_ENV == "production"){
   port = mysecrets.prod_port;
@@ -51,6 +53,12 @@ function parseRequest(req, res){
   var url = path.replace(/\/web_proxy\//,"");
   //  imgproxy(query.imgname, query.width, query.height, query, res);
 
+  if(resultCache[url]){
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(resultCache[url]));
+    return;
+  }
+
   request(url, function(error, response, body){
     if (!error && response.statusCode == 200) {   
       // console.log("|"+retdata+"|");
@@ -61,6 +69,7 @@ function parseRequest(req, res){
         console.log("no results");
         retdata = {};
       }else{
+        resultCache[url] = retdata;
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(retdata));
       }
