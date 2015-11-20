@@ -5,6 +5,9 @@ a proxy and cache for jsbin output.
 This bit of code  needs to
 - run jsbins server-side
 - cache the outs
+
+https://github.com/assaf/zombie
+
 */
 
 
@@ -105,16 +108,18 @@ return;
       console.log(result);
 
     });
+    browser.on("loaded", function(doc){
+      console.log("loaded");
+    });
+    browser.on("request", function(request){
+      console.log("request");
+      console.log(request);
+    });
+
+
 
     browser.on("loading", function(doc){
       console.log("!!!!!!!loading");
-    });
-    browser.on("!!!!!!!loaded", function(doc){
-      console.log("loaded");
-    });
-    browser.on("!!!!!!!request", function(request){
-      console.log("request");
-      console.log(request);
     });
 
     browser.on("console", function(level, message){
@@ -141,6 +146,8 @@ return;
         res.writeHead(200, {'Content-Type': 'text/html', 
                             'Access-Control-Allow-Origin' : '*'});
         res.end(htmlstring);
+        browser.tabs.closeAll();
+        delete browser;
       }
 
     });
@@ -149,7 +156,19 @@ return;
       console.log(" browser visit error");
       console.log(reqUrl);            
       console.log(error);
+      res.writeHead(200, {'Content-Type': 'text/html', 
+                          'Access-Control-Allow-Origin' : '*'});
+      res.end("<html><body>Browser visit error</body></html>");
+      browser.tabs.closeAll();
+      delete browser;
+
+
     });
+
+
+    browser.open(reqUrl);
+
+    /*
 
     browser.visit(reqUrl, function(error, browser, status){
         if(error){
@@ -158,9 +177,15 @@ return;
             console.log(error);
             console.log(browser);
             console.log(status);
+            res.writeHead(200, {'Content-Type': 'text/html', 
+                                'Access-Control-Allow-Origin' : '*'});
+            res.end("<html><body>Browser visit error</body></html>");
+            browser.tabs.closeAll();
+            delete browser;
+
         }
     });
-
+*/
 
 
     console.log("done");
