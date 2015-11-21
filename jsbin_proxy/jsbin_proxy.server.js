@@ -110,16 +110,26 @@ return;
     });
     browser.on("loaded", function(doc){
       console.log("loaded");
+      console.log(doc);
+      doc.addEventListener('DOMContentLoaded', function(){console.log("^^^^^^^^^^^^^^^^^^^^^^^^^DOMContentLoaded")}, false);
     });
     browser.on("request", function(request){
       console.log("request");
       console.log(request);
     });
 
+    browser.on("xhr", function(event, url){
+      console.log("xhr");
+      console.log(event);
+      console.log(url);
+    });
+
 
 
     browser.on("loading", function(doc){
       console.log("!!!!!!!loading");
+      doc.addEventListener('DOMContentLoaded', function(){console.log("2^^^^^^^^^^^^^^^^^^^^^^^^^DOMContentLoaded")}, false);
+
     });
 
     browser.on("console", function(level, message){
@@ -127,14 +137,14 @@ return;
       if(message.match(/SyntaxError/)){
         console.log(new Error().stack);
         var htmlstring = browser.document.documentElement.outerHTML;
-        console.log(htmlstring);
+//        console.log(htmlstring);
         
       }
       if(message == "c4_done"){
         console.log("Zzzzzzzzzzzzzzzzzzzzzzzombie done");
         var htmlstring = browser.document.documentElement.outerHTML;
         console.log("got htmlstring");
-        console.log(htmlstring);
+//        console.log(htmlstring);
         htmlstring = htmlstring.replace(/<!--[^>]+Created using [^>]+Source[^>]+edit[^>]-->/i,"");
         htmlstring = htmlstring.replace(/<a id="edit-with-js-bin" href="[^"]+" style="top: -60px;">Edit in JS Bin <img src="http:[^"]+"><\/a>/i,"");
 //        htmlstring = htmlstring.replace(/<a id="edit-with-js-bin" href="[^"]+" style="top: -60px;">Edit in JS Bin <img src="http:[^"]+"><\/a>/i,"");
@@ -165,12 +175,17 @@ return;
 
     });
 
-
+/*
     browser.open(reqUrl);
+*/
 
-    /*
 
     browser.visit(reqUrl, function(error, browser, status){
+        console.log("viseted");
+            console.log(reqUrl);            
+            console.log(error);
+            console.log(browser);
+            console.log(status);
         if(error){
             console.log(" browser visit error");
             console.log(reqUrl);            
@@ -185,8 +200,6 @@ return;
 
         }
     });
-*/
-
 
     console.log("done");
 }
