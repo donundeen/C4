@@ -46,8 +46,11 @@
   </div>
 </body>
 
+
+
+
 <template name="widget">
-  <div class="widgetContainer container-item" id="widgetContainer_{{url}}">
+  <div class="widgetContainer container-item" id="widgetContainer_{{url}}" style="{{widgetStyle}}">
     <div class="widgetHeader">
       <div class="container-item">
       <B class="widgetName">{{> editableText collection="widgets" field="name"}}</b><span class="editmodeonly widgetIdText"> uid: {{url}}/{{pageurl}}</span>
@@ -70,32 +73,55 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
       </div>
       <div class="container-item widgetmenu editmodeonly" align="center" title="pull data from another widget on this page (dropdown).">
         <div class="dropdown">
-          <button class="btn btn-default dropdown-toggle tooltipped" alt="alt tooltip" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-tooltip="pull data from widget">
+          <button class="btn btn-default dropdown-toggle tooltipped" alt="alt tooltip" type="button" id="dropdownMenu1_{{url}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-tooltip="pull data from widget">
             Pull from
             <span class="caret"></span>
           </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1_{{url}}">
             {{#each otherwidgets}}
               <li><a href="#" class="add_code {{url}}" data-pullfrom="{{url}}" data-pulltype="data"><i class="widgetIDText" data-pullfrom="{{url}}" data-pulltype="data">{{url}}</i>: {{name}} (data)</a></li>
               <li><a href="#" class="add_code {{url}}" data-pullfrom="{{url}}" data-pulltype="html"><i class="widgetIDText" data-pullfrom="{{url}}" data-pulltype="html">{{url}}</i>: {{name}} (html)</a></li>
+<li role="separator" class="divider"></li>              
             {{/each}}
           </ul>
         </div>
       </div>
-      <div class="container-item widgetmenu editmodeonly menuspacer">&nbsp;</div> 
+
       <div class="container-item editmodeonly" >
         <div class="widgetDescription">
-        <i class="widgetDescriptionShort">{{shortIt description 15}}</i>
-      <i class="widgetDescriptionEdit">{{> editableText collection="widgets" field="description" wysiwyg="true"}}</i>
-    </div>
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#widgetDescEdit_{{url}}" aria-expanded="false" aria-controls="widgetDescEdit_{{url}}" title="Click to see/edit full description"><i>{{shortIt description 15}}</i></button>
+          <div class="collapse" id="widgetDescEdit_{{url}}">
+            <div class="well">
+              <i class="widgetDescriptionEdit">{{> editableText collection="widgets" textarea=true acceptEmpty=true field="description"}}</i>
+            </div>
+          </div>
+        </div>
       </div>
-<div class="container-item editmodeonly"><a href="/headless/{{url}}/{{pagetype}}/{{pageid}}" target="_blank">{{url}}/{{pagetype}}/{{pageid}}</a></div>
+
+
+      <div class="container-item editmodeonly" >
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#widgetStyleEdit_{{url}}" aria-expanded="false" aria-controls="widgetStyleEdit_{{url}}" title="CSS Style for this Widget's Display Mode">
+            <li class="widgeticon ion-social-css3"  data-pack="ios" style="display: inline-block;"></li>
+        </button>
+        <div class="collapse" id="widgetStyleEdit_{{url}}">
+          <div class="well">
+            {{> editableText title="." textarea=true acceptEmpty=true collection="widgets" field="widgetStyle" placeholder="enter valid css for 'style' attribute"}}
+          </div>
+        </div>
+      </div>
+      <div class="container-item editmodeonly"><a href="/headless/{{url}}/{{pagetype}}/{{pageid}}" target="_blank">{{url}}/{{pagetype}}/{{pageid}}</a></div>
+
+      <div class="container-item widgetmenu editmodeonly menuspacer">&nbsp;</div> 
+
+
       <div class="container-item widgetmenu editmodeonly deletewidget" title="delete this widget">
         <li class="widgeticon ion-ios-trash-outline delete" id="delete_{{url}}" data-pack="ios" data-tags="delete, remove, dispose, waste, basket, dump, kill" style="display: inline-block;"></li>
       </div>
     </div>
+<!-- end of menu header -->
+
     <div class="widgetBody">
-      <a class="jsbin jsbin-embed jsbin-embed-dyn" id="jsbin_{{url}}" href="http://localhost/jsbin/{{url}}/latest/edit?output&pagetype={{pagetype}}&pageid={{pageid}}">JS Bin....{{url}}</a>
+      <a class="jsbin jsbin-embed jsbin-embed-dyn" id="jsbin_{{url}}" href="http://localhost/jsbin/{{url}}/latest/edit?output&pagetype={{pagetype}}&pageid={{pageid}}">JS Bin....{{url}}: {{widgetStyle}}</a>
       <script src="http://localhost/jsbin/js/embed.js"></script>
     </div>
   </div>

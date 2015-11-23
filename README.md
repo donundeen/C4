@@ -8,6 +8,7 @@ Meteor CheatSheet: http://www.webtempest.com/meteor-js-cheatsheet
 
 
 TODOs:
+- CSS for the widget: especially width, height in display mode
 - DONE: MVP: need a proxy for calling external webservices
 -- MVP: then include as a "insert code snippet" bit
 - MVP need an image proxy as well.
