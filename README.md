@@ -11,8 +11,8 @@ Semantic UI: http://semantic-ui.com/
 
 
 TODOs:
+- MVP: set width and height for widget separate from the rest of teh CSS, and pass along to embed code.
 - MVP: Headless need to be able to return just the ".c4_html" html or ".c4_data" json, so it can function like an API.
-- CSS for the widget: especially width, height in display mode
 - DONE: MVP: need a proxy for calling external webservices
 -- MVP: then include as a "insert code snippet" bit
 - MVP need an image proxy as well.
@@ -22,7 +22,8 @@ TODOs:
 -- a few culutural APIs
 
 
-
+- in general, need to really ace the way the widget looks in both edit and display modes, and in switching between those modes.
+- need a consistent approach to UI for menu. 
 - need lots of styling help, so it's veru comfortable to use.
 - saving and exporting/importing widgets as mongo data
 -- https://themeteorchef.com/recipes/exporting-data-from-your-meteor-application/
