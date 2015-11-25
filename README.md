@@ -5,9 +5,13 @@ ASK YOURSELF: MVP : what's the MINIMUM I need to do to be able to show this to m
 Meteor CheatSheet: http://www.webtempest.com/meteor-js-cheatsheet
 -- read this for using bootstrap and Meteor, might be a good way to go: http://www.manuel-schoebel.com/blog/meteorjs-and-twitter-bootstrap---the-right-way
 
+UI Ideas:
+Semantic UI: http://semantic-ui.com/
+  
 
 
 TODOs:
+- MVP: Headless need to be able to return just the ".c4_html" html or ".c4_data" json, so it can function like an API.
 - CSS for the widget: especially width, height in display mode
 - DONE: MVP: need a proxy for calling external webservices
 -- MVP: then include as a "insert code snippet" bit

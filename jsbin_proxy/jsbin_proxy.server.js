@@ -69,7 +69,10 @@ function parseRequest(req, res){
   var pagetype = split.shift();
   var pageid= split.join("/");
 
-  if (pageid && jsbin_id){
+  console.log(pagetype);
+  console.log(pageid);
+
+  if ((pageid == "" || pageid) && jsbin_id){
     runJSBin(jsbin_id, pagetype, pageid, req, res);
   }else{
    res.writeHead(200, {'Content-Type': 'text/html', 
