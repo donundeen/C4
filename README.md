@@ -11,8 +11,9 @@ Semantic UI: http://semantic-ui.com/
 
 
 TODOs:
-- MVP: set width and height for widget separate from the rest of teh CSS, and pass along to embed code.
+- MVP: A decent menu system for UI.
 - MVP: Headless need to be able to return just the ".c4_html" html or ".c4_data" json, so it can function like an API.
+- MVP: set width and height for widget separate from the rest of the CSS, and pass along to embed code.
 - DONE: MVP: need a proxy for calling external webservices
 -- MVP: then include as a "insert code snippet" bit
 - MVP need an image proxy as well.
@@ -43,6 +44,7 @@ TODOs:
 
 
 
+- DONE: MVP: hide all menu in display mode
 - DONE: MVP: Widget Description
 - DONE: MVP: auto-save feature
 -- requires detecting changes in jsbin editor panels

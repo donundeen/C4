@@ -214,14 +214,14 @@ if (Meteor.isClient) {
   // In the client code, below everything else
   Template.widget.onRendered(function(){
 
-
     (function(realthis){
       $("[title]").tooltip({placement: "auto"});
       var thisid = realthis.data._id;
       var element = document.getElementById('jsbin_'+thisid);
       var thiselement = document.getElementById('widgetContainer_'+thisid);
       console.log(thiselement);
-
+      $(".widgetDisplayHeader", thiselement).hide();  
+   //   $(thiselement).data("mode", "display");
 /*
       $(".editmodeonly", thiselement).hide();
       $(thiselement).css("width","");
@@ -235,6 +235,8 @@ if (Meteor.isClient) {
       });
       $(".widgetDescriptionEdit", thiselement).hide();
 */
+
+      // this part here happens when the JSBIN stuff is loaded.
       document.addEventListener("DOMNodeInserted", function(evt, item){
         if($(evt.target)[0].tagName == "IFRAME"){
           $((evt.target)).load(function(){
@@ -399,9 +401,15 @@ if (Meteor.isClient) {
     /*
     panel ids: html, css, javascript, console, live
     */
+
+    // this sets it to EDIT mode
     "click .lock": function () {
-      console.log("locked" + this._id);
+
+
+
+      console.log("locked " + this._id);
       var thiselement = document.getElementById('widgetContainer_'+this._id);
+      $(thiselement).data("mode", "edit");
 
       var editors = document.getElementById('jsbin_'+this._id).contentWindow.editors;
       var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
@@ -436,10 +444,15 @@ if (Meteor.isClient) {
       return false;
 
     },
+
+    // this sets it to DISPLAY mode
     "click .unlock": function () {
+
+
       var thiselement = document.getElementById('widgetContainer_'+this._id);
 
-      console.log("unlocked" + this._id);
+      $(thiselement).data("mode", "display");
+
       var editors = document.getElementById('jsbin_'+this._id).contentWindow.editors;
       var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
       jsbin.panels.hide("html");
@@ -451,9 +464,10 @@ if (Meteor.isClient) {
 
       var menu = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("control");
       var bin = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("bin");
+      /*
       console.log(editors);
       console.log(jsbin);
-
+      */
       var newbintop = 0;
       this.maxed = true;
       if(this.maxed){
@@ -467,6 +481,7 @@ if (Meteor.isClient) {
       }else{
         $(menu).show();
         $(".editmodeonly", thiselement).show();
+        $(".displaymodeonly", thiselement).hide();        
         $(bin).css("top", this.oldbintop);
         $(thiselement).css("width","100%");
         $(thiselement).css("height","100%");
@@ -478,14 +493,31 @@ if (Meteor.isClient) {
 
 
     "click .save_template": function () {
-      console.log("saving as a template " + this._id);
       this.isTemplate = !this.isTemplate;
-      console.log(this.isTemplate);
       Widgets.update(this._id, this);
-
       var editors = document.getElementById('jsbin_'+this._id).contentWindow.editors;
       var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
       return false;
+    },
+
+
+    "mouseenter .widgetMouseOverTarget" : function(){
+        var thiselement = document.getElementById('widgetContainer_'+this._id);
+        var mode = $(thiselement).data("mode");
+        if(!mode || mode == "display"){
+    //      $(".widgetMouseOverTarget", thiselement ).css("background", "red");
+          $(".widgetDisplayHeader", thiselement).show();
+          $(".widgetMouseOverTarget", thiselement ).css("z-index", 5);
+          $(".widgetDisplayHeader", thiselement ).css("z-index", 10);
+        }
+    },
+
+    "mouseleave .widgetDisplayHeader" : function(){
+      var thiselement = document.getElementById('widgetContainer_'+this._id);
+      $(".widgetMouseOverTarget", thiselement ).css("background", "transparent");
+      $(".widgetDisplayHeader", thiselement).hide();      
+      $(".widgetMouseOverTarget", thiselement ).css("z-index", 10);
+      $(".widgetDisplayHeader", thiselement ).css("z-index", 5);
     }
 
 
