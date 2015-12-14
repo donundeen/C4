@@ -6,6 +6,7 @@
   <div class="widgetContainer container-item" id="widgetContainer_{{url}}" style="{{widgetStyle}}">
 
     <!-- widget header, the menu -->
+    <!-- display-mode header -->
     <div class="widgetMouseOverTarget displaymodeonly">
     </div>
     <div class="widgetDisplayHeader container-item displaymodeonly">
@@ -17,9 +18,114 @@
         <li class="widgeticon ion-locked display" id="lock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
       </div>      
     </div>
+    <!-- end display-mode header -->
 
+    <!-- edit-mode header-->
     <div class="widgetEditHeader editmodeonly">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header"><a class="navbar-brand" href="#">{{name}}</a></div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-{{_id}}">    
+      <ul class="nav navbar-nav">
+        <li><a href="#myModal" data-toggle="modal" data-target="#info_modal_{{_id}}">Info</a></li>
+        <li class="dropdown">
+          <a href="#" data-toggle="dropdown" class="dropdown-toggle">Actions <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li class="dropdown_widgeticon save ion-ios-upload " data-pack="default" data-tags="" alt="save widget" style="display: inline-block;"> Save</li>
+
+            {{#if isTemplate}}
+            <li class="dropdown_widgeticon save_template ion-paper-airplane {{#if isTemplate}}
+isWidget{{/if}}" data-pack="default" data-tags="" alt="remove from reusable template list" style="display: inline-block;" title="remove this widget from reusable template list."> Remove From Templates</li>
+            {{else}}
+            <li class="dropdown_widgeticon save_template ion-paper-airplane {{#if isTemplate}}
+isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable template" style="display: inline-block;" title="save this widget as a reusable template (will show up in the header drop down with the same icon)."> Save as Template</li>
+            {{/if}}
+            <li class="divider"></li>
+            <li class="dropdown_widgeticon ion-ios-trash-outline delete" id="delete_{{url}}" data-pack="ios" data-tags="delete, remove, dispose, waste, basket, dump, kill" style="display: inline-block;"> Delete Widget</li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#" data-toggle="dropdown" class="dropdown-toggle">Code Snippets<b class="caret"></b></a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1_{{url}}">
+            <li>Pull Data from:</li>
+            {{#each otherwidgets}}
+              <li><a href="#" class="add_code {{url}}" data-pullfrom="{{url}}" data-pulltype="data"><i class="widgetIDText" data-pullfrom="{{url}}" data-pulltype="data">{{url}}</i>: {{name}} (data)</a></li>
+              <li><a href="#" class="add_code {{url}}" data-pullfrom="{{url}}" data-pulltype="html"><i class="widgetIDText" data-pullfrom="{{url}}" data-pulltype="html">{{url}}</i>: {{name}} (html)</a></li>
+<li role="separator" class="divider"></li>              
+            {{/each}}
+          </ul>
+        </li>
+        <li><a href="#myConfigModal" data-toggle="modal" data-target="#config_modal_{{_id}}">Settings</a></li>
+
+
+
+      </ul> 
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">
+          <div class="widgetmenu unlock editmodeonly" title="click to lock widget" style="display:none">
+            <li class="widgeticon ion-unlocked edit" id="unlock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
+          </div>
+        </a></li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+<div class="modal fade" id="info_modal_{{_id}}">
+  <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">Widget Info</h4>
+        </div>
+        <div class="modal-body">
+          <B>Widget Name:</b> {{> editableText collection="widgets" field="name"}}
+          <BR>
+          <B>Description:</b> {{> editableText collection="widgets" textarea=true acceptEmpty=true field="description"}}
+          <HR>
+          <b style="font-size: 1.1em;">API Links:</b>
+          <BR>
+          <B>Standalone:</b><a href="/headless/{{url}}/{{pagetype}}/{{pageid}}" target="_blank">/headless/{{url}}/{{pagetype}}/{{pageid}}</a>
+          <br>
+          <b>JSON Output:</b><a href="/headless/{{url}}/{{pagetype}}/{{pageid}}.json" target="_blank">/headless/{{url}}/{{pagetype}}/{{pageid}}.json</a>
+          <br>
+          <b>HTML Output:</b><a href="/headless/{{url}}/{{pagetype}}/{{pageid}}.json" target="_blank">/headless/{{url}}/{{pagetype}}/{{pageid}}.html</a>
+        </div>
+        <div class="modal-footer">
+          <a href="#" data-dismiss="modal" class="btn">Close</a>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="config_modal_{{_id}}">
+  <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">Widget Style Config</h4>
+        </div>
+        <div class="modal-body">
+          <B>Display Mode Width:</b> {{> editableText collection="widgets" field="displayWidth" placeholder="enter valid css for width"}}
+          <BR>
+          <B>Display Mode Height:</b> {{> editableText collection="widgets" field="displayHeight" placeholder="enter valid css for height"}}
+          <HR>
+          <B>Raw CSS (for stye attribute):</b> {{> editableText textarea=true acceptEmpty=true collection="widgets" field="widgetStyle" placeholder="enter valid css for 'style' attribute"}}
+        </div>
+        <div class="modal-footer">
+          <a href="#" data-dismiss="modal" class="btn">Close</a>
+        </div>
+      </div>
+    </div>
+</div>
+      <!--
+
       <div class="container-item">
+
       <B class="widgetName editmodeonly">{{> editableText collection="widgets" field="name"}}</b><span class="editmodeonly widgetIdText"> uid: {{url}}/{{pageurl}}</span>
       </div>
       <div class="container-item widgetmenu unlock editmodeonly" title="click to lock widget" style="display:none">
@@ -81,8 +187,12 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
       <div class="container-item widgetmenu editmodeonly deletewidget" title="delete this widget">
         <li class="widgeticon ion-ios-trash-outline delete" id="delete_{{url}}" data-pack="ios" data-tags="delete, remove, dispose, waste, basket, dump, kill" style="display: inline-block;"></li>
       </div>
+      -->
     </div>
-<!-- end of menu header -->
+    <!-- edit-mode header-->
+
+
+    <!-- end of menu header -->
 
     <div class="widgetBody" >
       <a class="jsbin jsbin-embed jsbin-embed-dyn" id="jsbin_{{url}}" href="http://localhost/jsbin/{{url}}/latest/edit?output&height=600px&pagetype={{pagetype}}&pageid={{pageid}}">JS Bin....{{url}}: {{widgetStyle}}</a>

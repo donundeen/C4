@@ -52,10 +52,20 @@ if (Meteor.isClient) {
   });
 
 
+  function setWidgetDefaults(doc){
+    if(typeof doc.displayWidth === "undefined" || !doc.displayWidth || doc.displayWidth.trim() == ""){
+      doc.displayWidth = "width";
+    }
+    if(typeof doc.displayHeight === "undefined" || !doc.displayHeight || doc.displayHeight.trim() == ""){
+      doc.displayHeight = "height";
+    }
+    return doc;
+  }
+
   Template.body.helpers({
     widgets: function () {
         // Otherwise, return all of the tasks
-        return Widgets.find({pagetype : pageinfo().pagetype}, {sort: {createdAt: -1}}); 
+        return Widgets.find({pagetype : pageinfo().pagetype}, {sort: {createdAt: -1}}).map(setWidgetDefaults); 
     },
     widgetTemplates: function () {
       // Otherwise, return all of the tasks
@@ -96,7 +106,7 @@ if (Meteor.isClient) {
     'click .copy_from_template' : function(){
       console.log("copy from template "+ this.url);
 
-      var template = Widgets.findOne({url : this.url});
+      var template = Widgets.findOne({url : this.url}).map(setWidgetDefaults);
       var dataobj = {html : template.html, css: template.css, javascript: template.javascript};
       var url = "/api/save";//?js="+jsstring+"&html="+htmlstring+"&css="+csstring,
       var options = {data: dataobj};
@@ -124,7 +134,7 @@ if (Meteor.isClient) {
     },
 
     'click .deletetemplate' : function(){
-      var template = Widgets.findOne({url : this.url});
+      var template = Widgets.findOne({url : this.url}).map(setWidgetDefaults);
       template.isTemplate = false;
       Widgets.update(template._id, template);
     },
@@ -526,7 +536,7 @@ if (Meteor.isClient) {
   Template.widget.helpers({
     otherwidgets: function () {
         // Otherwise, return all of the tasks
-        return Widgets.find({pagetype : pageinfo().pagetype, _id : {$ne : this._id}}, {sort: {createdAt: -1}}); 
+        return Widgets.find({pagetype : pageinfo().pagetype, _id : {$ne : this._id}}, {sort: {createdAt: -1}}).map(setWidgetDefaults); 
     }
   });
 

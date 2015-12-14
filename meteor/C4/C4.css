@@ -29,12 +29,44 @@ body {
 .widgeticon{
     font-size: 1.5em;
 }
+.dropdown_widgeticon{
+    font-size: 1.0em;
+}
 
 .widgetEditHeader .container-item{
     float: left;
     padding: 2px;
     border: 0;
+    background: #886;
 }
+
+.navbar {
+    background: #886;
+    border: none;
+    color: black;
+}
+.navbar-brand {
+    color: black;
+}
+.navbar-default {
+    color: black;
+}
+.navbar-default .navbar-brand {
+    color: black;
+}
+
+.navbar-default .navbar-nav {
+    color: black;
+}
+
+.navbar-default .navbar-nav > li > a{
+    color: black;
+}
+
+.navbar-default .navbar-nav > li > a:hover{
+    color: purple;
+}
+
 
 .widgetDisplayHeader {
     width: 100%;
@@ -44,6 +76,8 @@ body {
     left: -5px;
     float: left;
 }
+
+
 
 
 .widgetMouseOverTarget {
@@ -56,7 +90,10 @@ body {
 }
 
 
+.dropdown_widgeticon {
+    margin-left: 3px;
 
+}
 .header  .container-item{
     float:left;
     height: 100px;
@@ -87,7 +124,7 @@ body {
 }
 
 .widgetContainer {
-float: left;
+    float: left;
 
 }
 
