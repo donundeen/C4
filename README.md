@@ -41,6 +41,12 @@ TODOs:
 -- we'll save this for post-MVP, and ask people to be careful
 
 
+
+CRAZY IDEAS:
+- can we make the icons, the "Waiting" gifs, etc, funny random animated GIFS?
+-- eg: http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=waiting
+-- use these whenever we call the requireWidgetData function, before the callback
+
 - DONE: MVP: set width and height for widget separate from the rest of the CSS, and pass along to embed code.
 - DONE: MVP: A decent menu system for UI.
 -- DONE: using a simple bootstrap menu for now.

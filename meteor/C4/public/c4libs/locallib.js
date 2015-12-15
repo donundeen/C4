@@ -171,13 +171,48 @@ function webserviceData(url, callback){
     console.log("called webserive url");
 }
 
+
+var gifRemoved = false;
+function createWaitingGif(){
+    $.ajax({
+        url: "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=waiting",
+        dataType: "json",
+        success :  function(result){
+            if(!gifRemoved){
+                var gifurl = result.data.fixed_width_downsampled_url;
+                var gifwidth = result.data.fixed_width_downsampled_width;
+                var gifheight = result.data.fixed_width_downsampled_height;
+                var imgtag = $("<div class='waitinggif'><img class='waitinggif' src='"+gifurl+"'></div>");
+                $("body").prepend(imgtag);
+            }
+        },
+        error : function (xhr, status, error) {
+            console.log("Giphy  got error");
+            console.log(error);
+            console.log(status);
+            callback(false);            
+        }
+    });
+}
+
+
+
+function removeWaitingGif(){
+    gifRemoved = true;
+    console.log("removing");
+    $(".waitinggif").remove();
+}
+
 function requireWidgetData(requiresList, callback){
     console.log("in requireWidgetData");
+
+    createWaitingGif();
 
     var length = requiresList.length;
     var funcscomplete = 0;
     var resultsSet = {};
     if(length == 0){
+        removeWaitingGif();
         callback(resultsSet);
     }
     $.each(requiresList, function(index, item){
@@ -189,6 +224,7 @@ function requireWidgetData(requiresList, callback){
                 }
                 resultsSet[item.from].data = response;
                 if(++funcscomplete == length){
+                    removeWaitingGif();
                     callback(resultsSet);
                 }            
             });
@@ -199,10 +235,12 @@ function requireWidgetData(requiresList, callback){
                 }
                 resultsSet[item.from].html = response;
                 if(++funcscomplete == length){
+                    removeWaitingGif();
                     callback(resultsSet);
                 }
             });
             if(++funcscomplete == length){
+                removeWaitingGif();
                 callback(resultsSet);
             }            
         }else if(item.type == "webservice"){
@@ -213,12 +251,14 @@ function requireWidgetData(requiresList, callback){
                 resultsSet[id] = {};
                 resultsSet[id].data = response;
                 if(++funcscomplete == length){
+                    removeWaitingGif();                    
                     callback(resultsSet);
                 }            
             });
         }else{
             resultsSet[item.from] = {};
             if(funcscomplete++ == length){
+                removeWaitingGif();
                 callback(resultsSet);
             }            
         }
