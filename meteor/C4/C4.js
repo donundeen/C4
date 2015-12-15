@@ -18,6 +18,13 @@ if (Meteor.isClient) {
     return stringToShorten;
   });
 
+  UI.registerHelper('encodeURIComponent', function(string) {
+      return encodeURIComponent(string);
+  });
+
+  UI.registerHelper('absoluteUrl', function(){
+    return Meteor.absoluteUrl();
+  });
 
   var pageinfo = function(){
     var pagetype = "";
@@ -53,12 +60,35 @@ if (Meteor.isClient) {
 
 
   function setWidgetDefaults(doc){
-    if(typeof doc.displayWidth === "undefined" || !doc.displayWidth || doc.displayWidth.trim() == ""){
-      doc.displayWidth = "width";
+
+    console.log("mapping");
+    if(typeof doc.displayWidth === "undefined" || !doc.displayWidth || doc.displayWidth.trim() == "" || doc.displayWidth == "width" || doc.displayWidth == "default"){
+      doc.displayWidth = "default";
+      doc.displayUsableWidth = "";
+    }else{
+      doc.displayUsableWidth = doc.displayWidth;
     }
-    if(typeof doc.displayHeight === "undefined" || !doc.displayHeight || doc.displayHeight.trim() == ""){
-      doc.displayHeight = "height";
+    if(typeof doc.displayHeight === "undefined" || !doc.displayHeight || doc.displayHeight.trim() == "" || doc.displayHeight == "height"  || doc.displayHeight == "default"){
+      doc.displayHeight = "default";
+      doc.displayUsableHeight = "";
+    }else{
+      doc.displayUsableHeight = doc.displayHeight;
     }
+    if(typeof doc.widgetStyle === "undefined" || !doc.widgetStyle || doc.widgetStyle.trim() == "" || doc.widgetStyle == "css" || doc.widgetStyle == "default"){
+      doc.widgetStyle = "default";
+      doc.usableWidgetStyle = "";
+    }else{
+      doc.usableWidgetStyle = doc.widgetStyle;
+    }
+
+    if(doc.displayUsableHeight.match(/px/)){
+      var height = doc.displayUsableHeight.replace(/px/,"");
+      doc.jsbinHeight = height - 20;
+      doc.jsbinHeight += "px";
+    }else{
+      doc.jsbinHeight = "";
+    }
+
     return doc;
   }
 
@@ -69,10 +99,8 @@ if (Meteor.isClient) {
     },
     widgetTemplates: function () {
       // Otherwise, return all of the tasks
-      console.log(Widgets.find({isTemplate : true}, {sort: {createdAt: -1}}));
       return Widgets.find({isTemplate : true}, {sort: {createdAt: -1}}); 
     }
-
   });
 
 
@@ -118,8 +146,10 @@ if (Meteor.isClient) {
                     html : results.data.html,
                     javascript : results.data.javascript,
                     css: results.data.css,
+                    displayWidth: results.data.displayWidth,
+                    displayHeight: results.data.displayHeight,
                     description: "(copied from " + template.name +") " + template.description,
-                    widgetStyle : (results.data.widgetStyle ? results.data.widgetStyle : "css"),
+                    widgetStyle : results.data.widgetStyle,
                     name : "copy of " + template.name,
                     pagetype : pageinfo().pagetype,
                     pageurl : pageinfo().pageurl,
@@ -184,7 +214,9 @@ if (Meteor.isClient) {
                     html : results.data.html,
                     javascript : results.data.javascript,
                     css: results.data.css,
-                    widgetStyle : "css",
+                    displayWidth: results.data.displayWidth,
+                    displayHeight: results.data.displayHeight,
+                    widgetStyle : results.data.widgetStyle,
                     pagetype : pageinfo().pagetype,
                     pageurl : pageinfo().pageurl,
                     pageid : pageinfo().pageid,
@@ -229,22 +261,7 @@ if (Meteor.isClient) {
       var thisid = realthis.data._id;
       var element = document.getElementById('jsbin_'+thisid);
       var thiselement = document.getElementById('widgetContainer_'+thisid);
-      console.log(thiselement);
       $(".widgetDisplayHeader", thiselement).hide();  
-   //   $(thiselement).data("mode", "display");
-/*
-      $(".editmodeonly", thiselement).hide();
-      $(thiselement).css("width","");
-      $(".widgetDescription").mouseover(function(evt, target){
-        $(".widgetDescriptionShort", thiselement).hide();
-        $(".widgetDescriptionEdit", thiselement).show();
-      });
-      $(".widgetDescription").mouseout(function(evt, target){
-        $(".widgetDescriptionShort", thiselement).show();
-        $(".widgetDescriptionEdit", thiselement).hide();
-      });
-      $(".widgetDescriptionEdit", thiselement).hide();
-*/
 
       // this part here happens when the JSBIN stuff is loaded.
       document.addEventListener("DOMNodeInserted", function(evt, item){
@@ -259,26 +276,24 @@ if (Meteor.isClient) {
               jsbin.panels.saveOnExit = true;
             }
             var el = $(editors.live.el)[0];
-  /*
-            setTimeout(function(){
-              $("#runwithalerts", el).trigger("click");
-            }, 1000); 
-  */
+
             var menu = document.getElementById('jsbin_'+thisid).contentWindow.document.getElementById("control");
             var bin = document.getElementById('jsbin_'+thisid).contentWindow.document.getElementById("bin");
             var newbintop = 0;
             this.maxed = true;
-            if(this.maxed){
-              $(menu).hide();
-              $(".editmodeonly", thiselement).hide();
-              this.oldbintop = $(bin).css("top");
-              $(bin).css("top", newbintop);
-            }else{
-              console.log("showing");
-              $(".editmodeonly", thiselement).hide();            
-              $(menu).show();
-              $(bin).css("top", this.oldbintop);
-            }
+
+            // put it in DISPLAY MODE
+            $(menu).hide();
+            $(".editmodeonly", thiselement).hide();
+            this.oldbintop = $(bin).css("top");
+            $(bin).css("top", newbintop);
+            console.log(realthis);
+            console.log(thisid + " 1 width is " + realthis.data.displayUsableWidth);
+            console.log(thisid + " 2 width is " + realthis.data.displayWidth);
+            $(thiselement).attr("style", realthis.data.usableWidgetStyle);
+            $(thiselement).css("width", realthis.data.displayUsableWidth);
+            $(thiselement).css("height", realthis.data.displayUsableHeight);
+
           });
         }
       });
@@ -307,9 +322,6 @@ if (Meteor.isClient) {
       jsbin.saveDisabled = false;
       jsbin.panels.save();
       jsbin.panels.savecontent();
-      if(!this.widgetStyle || this.widgetStyle == ""){
-        this.widgetStyle = "css";
-      }
       Widgets.update(this._id, this);
 
       // also trigger the jsbin save
@@ -415,8 +427,6 @@ if (Meteor.isClient) {
     // this sets it to EDIT mode
     "click .lock": function () {
 
-
-
       console.log("locked " + this._id);
       var thiselement = document.getElementById('widgetContainer_'+this._id);
       $(thiselement).data("mode", "edit");
@@ -435,19 +445,13 @@ if (Meteor.isClient) {
 
       var newbintop = 0;
       this.maxed = false;
-      if(this.maxed){
-        $(menu).hide();
-        $(".editmodeonly", thiselement).hide();
-        this.oldbintop = $(bin).css("top");
-        $(bin).css("top", newbintop);
-        $(thiselement).css("width","");
 
-      }else{
+      // put it in EDIT MODE
         $(menu).show();
         $(".editmodeonly", thiselement).show();
         $(bin).css("top", this.oldbintop);
         $(thiselement).css("width","100%");
-      }
+        $(thiselement).css("height","100%");
 
 
 
@@ -455,9 +459,9 @@ if (Meteor.isClient) {
 
     },
 
+
     // this sets it to DISPLAY mode
     "click .unlock": function () {
-
 
       var thiselement = document.getElementById('widgetContainer_'+this._id);
 
@@ -479,23 +483,15 @@ if (Meteor.isClient) {
       console.log(jsbin);
       */
       var newbintop = 0;
-      this.maxed = true;
-      if(this.maxed){
-        $(menu).hide();
-        console.log($(".editmodeonly"));
-        $(".editmodeonly", thiselement).hide();
-        this.oldbintop = $(bin).css("top");
-        $(bin).css("top", newbintop);
-        $(thiselement).css("width","");
-        $(thiselement).attr("style", this.widgetStyle);
-      }else{
-        $(menu).show();
-        $(".editmodeonly", thiselement).show();
-        $(".displaymodeonly", thiselement).hide();        
-        $(bin).css("top", this.oldbintop);
-        $(thiselement).css("width","100%");
-        $(thiselement).css("height","100%");
-      }
+      // put it in DISPLAY MODE
+      $(menu).hide();
+      console.log($(".editmodeonly"));
+      $(".editmodeonly", thiselement).hide();
+      this.oldbintop = $(bin).css("top");
+      $(bin).css("top", newbintop);
+      $(thiselement).attr("style", this.usableWidgetStyle);
+      $(thiselement).css("width", this.displayUsableWidth);
+      $(thiselement).css("height", this.displayUsableHeight);
 
 
       return false;

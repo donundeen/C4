@@ -3,7 +3,7 @@
 
 
 <template name="widget">
-  <div class="widgetContainer container-item" id="widgetContainer_{{url}}" style="{{widgetStyle}}">
+  <div class="widgetContainer container-item"  style="{{usableWidgetStyle}}" id="widgetContainer_{{url}}">
 
     <!-- widget header, the menu -->
     <!-- display-mode header -->
@@ -15,7 +15,7 @@
       </div>
       <div class="widgetDescription">{{description}}</div>
       <div class="widgetmenu lock " title="click to unlock widget">
-        <li class="widgeticon ion-locked display" id="lock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
+        <li class="widgeticon ion-locked display" id="lock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"> - Unlock for Editing..</li>
       </div>      
     </div>
     <!-- end display-mode header -->
@@ -93,6 +93,8 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
           <b>JSON Output:</b><a href="/headless/{{url}}/{{pagetype}}/{{pageid}}.json" target="_blank">/headless/{{url}}/{{pagetype}}/{{pageid}}.json</a>
           <br>
           <b>HTML Output:</b><a href="/headless/{{url}}/{{pagetype}}/{{pageid}}.json" target="_blank">/headless/{{url}}/{{pagetype}}/{{pageid}}.html</a>
+          <BR>
+          <b>JSBIN Embed URL:</b> http://localhost/jsbin/{{url}}/latest/edit?output&height={{jsbinHeight}}&pagetype={{pagetype}}&pageid={{pageid}}
         </div>
         <div class="modal-footer">
           <a href="#" data-dismiss="modal" class="btn">Close</a>
@@ -110,9 +112,9 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
           <h4 class="modal-title">Widget Style Config</h4>
         </div>
         <div class="modal-body">
-          <B>Display Mode Width:</b> {{> editableText collection="widgets" field="displayWidth" placeholder="enter valid css for width"}}
+          <B>Display Mode Width:</b> {{> editableText collection="widgets" field="displayWidth"   acceptEmpty=true  placeholder="enter valid css for width"}}
           <BR>
-          <B>Display Mode Height:</b> {{> editableText collection="widgets" field="displayHeight" placeholder="enter valid css for height"}}
+          <B>Display Mode Height:</b> {{> editableText collection="widgets" field="displayHeight"  acceptEmpty=true  placeholder="enter valid css for height"}}
           <HR>
           <B>Raw CSS (for stye attribute):</b> {{> editableText textarea=true acceptEmpty=true collection="widgets" field="widgetStyle" placeholder="enter valid css for 'style' attribute"}}
         </div>
@@ -195,7 +197,11 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
     <!-- end of menu header -->
 
     <div class="widgetBody" >
-      <a class="jsbin jsbin-embed jsbin-embed-dyn" id="jsbin_{{url}}" href="http://localhost/jsbin/{{url}}/latest/edit?output&height=600px&pagetype={{pagetype}}&pageid={{pageid}}">JS Bin....{{url}}: {{widgetStyle}}</a>
+      <a class="jsbin jsbin-embed jsbin-embed-dyn" id="jsbin_{{url}}" href="http://localhost/jsbin/{{url}}/latest/edit?output&height={{jsbinHeight}}&pagetype={{pagetype}}&pageid={{pageid}}">JS Bin....{{url}}:</a>
+
+<!--
+      <a class="jsbin jsbin-embed jsbin-embed-dyn" id="jsbin_{{url}}" href="http://localhost/jsbin/{{url}}/latest/edit?output&height={{encodeURIComponent displayUsableHeight}}&pagetype={{pagetype}}&pageid={{pageid}}">JS Bin....{{url}}:</a>
+    -->
       <script src="http://localhost/jsbin/js/embed.js"></script>
     </div>
   </div>
