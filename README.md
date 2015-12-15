@@ -38,7 +38,8 @@ TODOs:
 - re-ordering widgets: 
 - "lock" code that someone else is editing. concurrent editing would be cool, though..
 -- we'll save this for post-MVP, and ask people to be careful
-
+- WYSIWYG HTML Editor, that works in JSBIN
+- Comments section for each widget.
 
 
 CRAZY IDEAS:
