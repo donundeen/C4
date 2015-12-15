@@ -134,7 +134,7 @@ if (Meteor.isClient) {
     'click .copy_from_template' : function(){
       console.log("copy from template "+ this.url);
 
-      var template = Widgets.findOne({url : this.url}).map(setWidgetDefaults);
+      var template = Widgets.findOne({url : this.url}); //.map(setWidgetDefaults);
       var dataobj = {html : template.html, css: template.css, javascript: template.javascript};
       var url = "/api/save";//?js="+jsstring+"&html="+htmlstring+"&css="+csstring,
       var options = {data: dataobj};
@@ -164,7 +164,7 @@ if (Meteor.isClient) {
     },
 
     'click .deletetemplate' : function(){
-      var template = Widgets.findOne({url : this.url}).map(setWidgetDefaults);
+      var template = Widgets.findOne({url : this.url}); //.map(setWidgetDefaults);
       template.isTemplate = false;
       Widgets.update(template._id, template);
     },

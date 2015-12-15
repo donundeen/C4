@@ -158,7 +158,8 @@ function webserviceData(url, callback){
         url: theurl,
         dataType: 'json',
         success : function(result){
-            console.log("got result");
+            console.log("got result for call to " + theurl);
+            console.log(result);
             callback(result);
         },
         error : function (xhr, status, error) {
@@ -190,7 +191,6 @@ function createWaitingGif(){
             console.log("Giphy  got error");
             console.log(error);
             console.log(status);
-            callback(false);            
         }
     });
 }
@@ -198,6 +198,7 @@ function createWaitingGif(){
 
 
 function removeWaitingGif(){
+
     gifRemoved = true;
     console.log("removing");
     $(".waitinggif").remove();
@@ -206,8 +207,9 @@ function removeWaitingGif(){
 function requireWidgetData(requiresList, callback){
     console.log("in requireWidgetData");
 
-    createWaitingGif();
-
+    if(!window.location.href.match(/headless=true/)){
+        createWaitingGif();
+    }
     var length = requiresList.length;
     var funcscomplete = 0;
     var resultsSet = {};

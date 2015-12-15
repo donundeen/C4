@@ -88,11 +88,11 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
           <HR>
           <b style="font-size: 1.1em;">API Links:</b>
           <BR>
-          <B>Standalone:</b><a href="/headless/{{url}}/{{pagetype}}/{{pageid}}" target="_blank">/headless/{{url}}/{{pagetype}}/{{pageid}}</a>
+          <B>Standalone:</b><a href="/headless/{{url}}/{{pagetype}}/{{pageid}}.page" target="_blank">/headless/{{url}}/{{pagetype}}/{{pageid}}.page</a>
           <br>
           <b>JSON Output:</b><a href="/headless/{{url}}/{{pagetype}}/{{pageid}}.json" target="_blank">/headless/{{url}}/{{pagetype}}/{{pageid}}.json</a>
           <br>
-          <b>HTML Output:</b><a href="/headless/{{url}}/{{pagetype}}/{{pageid}}.json" target="_blank">/headless/{{url}}/{{pagetype}}/{{pageid}}.html</a>
+          <b>HTML Output:</b><a href="/headless/{{url}}/{{pagetype}}/{{pageid}}.html" target="_blank">/headless/{{url}}/{{pagetype}}/{{pageid}}.html</a>
           <BR>
           <b>JSBIN Embed URL:</b> http://localhost/jsbin/{{url}}/latest/edit?output&height={{jsbinHeight}}&pagetype={{pagetype}}&pageid={{pageid}}
         </div>
@@ -112,9 +112,9 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
           <h4 class="modal-title">Widget Style Config</h4>
         </div>
         <div class="modal-body">
-          <B>Display Mode Width:</b> {{> editableText collection="widgets" field="displayWidth"   acceptEmpty=true  placeholder="enter valid css for width"}}
+          <B>Display Mode Width (include px or %):</b> {{> editableText collection="widgets" field="displayWidth"   acceptEmpty=true  placeholder="enter valid css for width"}}
           <BR>
-          <B>Display Mode Height:</b> {{> editableText collection="widgets" field="displayHeight"  acceptEmpty=true  placeholder="enter valid css for height"}}
+          <B>Display Mode Height (include px or %):</b> {{> editableText collection="widgets" field="displayHeight"  acceptEmpty=true  placeholder="enter valid css for height"}}
           <HR>
           <B>Raw CSS (for stye attribute):</b> {{> editableText textarea=true acceptEmpty=true collection="widgets" field="widgetStyle" placeholder="enter valid css for 'style' attribute"}}
         </div>

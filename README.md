@@ -11,13 +11,12 @@ Semantic UI: http://semantic-ui.com/
 
 
 TODOs:
-- MVP: Headless need to be able to return just the ".c4_html" html or ".c4_data" json, so it can function like an API.
 - DONE: MVP: need a proxy for calling external webservices
 -- MVP: then include as a "insert code snippet" bit
 - MVP need an image proxy as well.
 - MVP: Help Text
 -- MVP: "How to use this app" - bare minimum
-- MVP: Make some useful templates
+- MVP: Make some useful templates and examples
 -- a few culutural APIs
 
 
@@ -43,10 +42,14 @@ TODOs:
 
 
 CRAZY IDEAS:
-- can we make the icons, the "Waiting" gifs, etc, funny random animated GIFS?
+
+
+
+
+- DONE: MVP: Headless need to be able to return just the ".c4_html" html or ".c4_data" json, so it can function like an API.
+- DONE can we make the icons, the "Waiting" gifs, etc, funny random animated GIFS?
 -- eg: http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=waiting
 -- use these whenever we call the requireWidgetData function, before the callback
-
 - DONE: MVP: set width and height for widget separate from the rest of the CSS, and pass along to embed code.
 - DONE: MVP: A decent menu system for UI.
 -- DONE: using a simple bootstrap menu for now.

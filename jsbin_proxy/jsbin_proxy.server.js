@@ -10,11 +10,7 @@ https://github.com/assaf/zombie
 
 */
 
-
-var Browser = require('zombie');
-
-
-
+    
 var urlparser = require("url");
 
 var fs = require("fs");
@@ -50,6 +46,9 @@ function startServer(){
 
 
 function parseRequest(req, res){
+
+  var format = "page";
+
     var rand = Math.random() * 100;
     if(req.headers["access-control-request-headers"]){
         res.setHeader("Access-Control-Allow-Headers", req.headers["access-control-request-headers"]);        
@@ -59,7 +58,19 @@ function parseRequest(req, res){
   console.log("got request");
   console.log(req.url);
 
-  var split = req.url.split("/");
+  var url = req.url;
+
+
+  var split_p = url.split(".");
+  console.log(split_p);
+  var last = split_p[split_p.length - 1];
+  if(last == "html" || last == "page" || last == "json"){
+    format = split_p.pop();
+    console.log( "format is " + format);
+  }
+  url = split_p.join(".");
+
+  var split = url.split("/");
   console.log(split);
   split.shift();
   split.shift();
@@ -73,7 +84,7 @@ function parseRequest(req, res){
   console.log(pageid);
 
   if ((pageid == "" || pageid) && jsbin_id){
-    runJSBin(jsbin_id, pagetype, pageid, req, res);
+    runJSBin(jsbin_id, pagetype, pageid, req, res, format);
   }else{
    res.writeHead(200, {'Content-Type': 'text/html', 
                         'Access-Control-Allow-Origin' : '*'});
@@ -87,7 +98,7 @@ function parseRequest(req, res){
 
 
 
-function runJSBin(jsbin_id, pagetype, pageid, req, res){
+function runJSBin(jsbin_id, pagetype, pageid, req, res, format){
 
 /*
    res.writeHead(200, {'Content-Type': 'text/html', 
@@ -95,7 +106,11 @@ function runJSBin(jsbin_id, pagetype, pageid, req, res){
    res.end("<html><body><pre>going ok " + jsbin_id+ ", " + format+ "</pre></body></html>");
 return;
 */
-    var reqUrl = 'http://localhost/jsbin/'+jsbin_id+'/latest?pagetype='+pagetype+'&pageid='+pageid;
+
+
+    var Browser = require('zombie');
+
+    var reqUrl = 'http://localhost/jsbin/'+jsbin_id+'/latest?pagetype='+pagetype+'&pageid='+pageid+'&headless=true';
     console.log("zombie calling url " + reqUrl);
 
     var browser = Browser.create();
@@ -105,20 +120,21 @@ return;
     });
 
     browser.on("evaluated", function(code, result, filename){
-      console.log("evaluated");
+      console.log("code evaluated");
+      /*
       console.log(filename);
       console.log(code);
       console.log(result);
-
+*/
     });
     browser.on("loaded", function(doc){
       console.log("loaded");
-      console.log(doc);
-      doc.addEventListener('DOMContentLoaded', function(){console.log("^^^^^^^^^^^^^^^^^^^^^^^^^DOMContentLoaded")}, false);
+ //     console.log(doc);
+ //     doc.addEventListener('DOMContentLoaded', function(){console.log("^^^^^^^^^^^^^^^^^^^^^^^^^DOMContentLoaded")}, false);
     });
     browser.on("request", function(request){
-      console.log("request");
-      console.log(request);
+//      console.log("...........request");
+ //     console.log(request);
     });
 
     browser.on("xhr", function(event, url){
@@ -155,10 +171,33 @@ return;
         htmlstring = htmlstring.replace(/<style id="jsbin-css">[\s]+<\/style>/,"");
         // at this point, we just want the contents of the body
 
-        console.log(htmlstring);
-        res.writeHead(200, {'Content-Type': 'text/html', 
-                            'Access-Control-Allow-Origin' : '*'});
-        res.end(htmlstring);
+       // console.log(htmlstring);
+
+
+        if(format == "page"){
+
+          res.writeHead(200, {'Content-Type': 'text/html', 
+                              'Access-Control-Allow-Origin' : '*'});
+          res.end(htmlstring);
+        }else if (format == "json"){
+          var json_text= "{}";
+          var json_element = browser.document.getElementsByClassName("c4_data").item(0);
+          if(json_element){
+            json_text = json_element.textContent;
+          }
+          res.writeHead(200, {'Content-Type': 'application/json', 
+                              'Access-Control-Allow-Origin' : '*'});
+          res.end(json_text);
+        }else if (format == "html"){
+          var html_text = "";
+          var html_element = browser.document.getElementsByClassName("c4_html").item(0);
+          if(html_element){
+            html_text = html_element.outerHTML;
+          }
+          res.writeHead(200, {'Content-Type': 'text/html', 
+                              'Access-Control-Allow-Origin' : '*'});
+          res.end(html_text);
+        }
         browser.tabs.closeAll();
         delete browser;
       }
@@ -166,12 +205,15 @@ return;
     });
 
     browser.on("error", function(error){
-      console.log(" browser visit error");
+      console.log(" browser  on  error");
       console.log(reqUrl);            
       console.log(error);
+//      browser.dump();
+      var stack = new Error().stack;
+      console.log(stack);
       res.writeHead(200, {'Content-Type': 'text/html', 
                           'Access-Control-Allow-Origin' : '*'});
-      res.end("<html><body>Browser visit error</body></html>");
+      res.end("<html><body>Browser on visit error <BR>" + error + "  <BR> " + reqUrl + " <BR><pre>"+ stack + "</pre></body></html>");
       browser.tabs.closeAll();
       delete browser;
 
@@ -184,7 +226,7 @@ return;
 
 
     browser.visit(reqUrl, function(error, browser, status){
-        console.log("viseted");
+        console.log("visited");
             console.log(reqUrl);            
             console.log(error);
             console.log(browser);
@@ -195,9 +237,13 @@ return;
             console.log(error);
             console.log(browser);
             console.log(status);
+            var stack = new Error().stack;
+            console.log(stack);
+//            browser.dump();
+
             res.writeHead(200, {'Content-Type': 'text/html', 
                                 'Access-Control-Allow-Origin' : '*'});
-            res.end("<html><body>Browser visit error</body></html>");
+            res.end("<html><body>Browser visit error <BR>" + error + " <BR> " + reqUrl + "  <BR> " + status + "<BR><pre>"+ stack + "</pre></body></html>");
             browser.tabs.closeAll();
             delete browser;
 
