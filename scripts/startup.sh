@@ -5,5 +5,7 @@ cd ../web_proxy
 node web_proxy.server.js &
 cd ../jsbin_proxy
 node jsbin_proxy.server.js &
+cd ../giphy_proxy
+node giphy_proxy.server.js &
 cd ../meteor/C4
 meteor

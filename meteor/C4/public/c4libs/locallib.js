@@ -175,24 +175,8 @@ function webserviceData(url, callback){
 
 var gifRemoved = false;
 function createWaitingGif(){
-    $.ajax({
-        url: "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=waiting",
-        dataType: "json",
-        success :  function(result){
-            if(!gifRemoved){
-                var gifurl = result.data.fixed_width_downsampled_url;
-                var gifwidth = result.data.fixed_width_downsampled_width;
-                var gifheight = result.data.fixed_width_downsampled_height;
-                var imgtag = $("<div class='waitinggif'><img class='waitinggif' src='"+gifurl+"'></div>");
-                $("body").prepend(imgtag);
-            }
-        },
-        error : function (xhr, status, error) {
-            console.log("Giphy  got error");
-            console.log(error);
-            console.log(status);
-        }
-    });
+    var imgtag = $("<div class='waitinggif'><img class='waitinggif' src='/giphy_proxy/waiting'></div>");
+    $("body").prepend(imgtag);
 }
 
 
