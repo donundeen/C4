@@ -7,7 +7,18 @@
 
 body {
     background: #333;
+    font-family: 'Droid Sans', sans-serif;
 }
+
+.mainmenu {
+    font-family: 'Droid Serif', serif;
+
+}
+
+.navbar-brand {
+    color: inherit;
+}
+
 
 .container-item { 
     position: relative;
@@ -129,17 +140,18 @@ body {
 }
 
 
-li:hover {
+.clickable:hover {
     color: purple;
+    background: inherit;
 }
 
-.widgetName:hover{
-    color: purple
+.widgetName h3{
+    margin-top:0px;
 }
 
-.widgetDescription:hover{
-    color: purple
+.widgetDescription{
 }
+
 
 .menuspacer{ 
     width: 25px;

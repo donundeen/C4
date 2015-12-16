@@ -1,11 +1,12 @@
 <head>
   <title>C5</title>
+<link href='https://fonts.googleapis.com/css?family=Arvo:400,700|Droid+Sans:400,700|Droid+Serif:400,700' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
 
   <div class="main container">
-    <div class="header container">
+    <div class="header container mainmenu">
       <div class="container-item">
         <h1><a href="/">C5</a></h1>
       </div>
@@ -17,12 +18,16 @@
         <li class="headericon addwidget ion-plus-circled" data-pack="ios" data-tags="add, include, new, +" title="add widget" style="display: inline-block;"></li><br>add
       </div>
     -->
+    <!--
       <div class="container-item" align="center">       
         <li class="headericon test ion-pizza" data-pack="default" data-tags="" title="random testing button, click with caution" style="display: inline-block;"></li><BR>test
       </div>
+    -->
+
+    {{#if currentUser}}
       <div class="container-item tooltip-right" align="center" title="create new widget copied from another widget">       
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="true">
-        <li class="headericon new_from_template ion-paper-airplane" data-pack="default" data-tags="" alt="copy from widget" style="display: inline-block;"></li>
+          <button class="clickable btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="true">
+        <li class="clickable headericon new_from_template ion-paper-airplane" data-pack="default" data-tags="" alt="copy from widget" style="display: inline-block;"></li>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             {{#each widgetTemplates}}
@@ -31,18 +36,26 @@
           </ul>
       </div>
       <div class="container-item widgetmenu unlockall" title="click to lock all widgets" style="display:none">
-        <li class="headericon ion-unlocked edit" id="unlock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
+        <li class=" clickable headericon ion-unlocked edit" id="unlock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
       </div>
       <div class="container-item widgetmenu lockall" title="click to unlock all widgets">
-        <li class="headericon ion-locked display" id="lock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
+        <li class=" clickable headericon ion-locked display" id="lock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
+      </div>
+    {{/if}}
+      <div class="container-item widgetmenu login" title="Login for User Things">
+        <h4>{{> loginButtons}}</h4>
       </div>
 
-    </div><BR>
+    </div>
+    <br>
+
     <div class="widgets container">
       {{#each widgets}}
         {{> widget }}
       {{/each}}
     </div>
+
+
   </div>
 </body>
 

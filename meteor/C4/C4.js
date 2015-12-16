@@ -26,6 +26,11 @@ if (Meteor.isClient) {
     return Meteor.absoluteUrl();
   });
 
+
+  Accounts.ui.config({
+    passwordSignupFields: "USERNAME_AND_EMAIL"
+  });
+
   var pageinfo = function(){
     var pagetype = "";
     var pageid = "";
@@ -142,6 +147,8 @@ if (Meteor.isClient) {
       HTTP.post(url, options, function(error, results){
         console.log("data submitted");
         newWidget = {_id: results.data.url,
+                    createdBy : { username : Meteor.user().username,
+                      userid : Meteor.userId() },
                     isTemplate : false,
                     html : results.data.html,
                     javascript : results.data.javascript,
@@ -208,6 +215,8 @@ if (Meteor.isClient) {
         console.log(error);
         console.log(results.data.url);
         newWidget = {_id: results.data.url,
+                    createdBy : { username : Meteor.user().username,
+                                  userid : Meteor.userId() },          
                     isTemplate : false,
                     name: results.data.url,
                     description : "",
@@ -498,6 +507,44 @@ if (Meteor.isClient) {
     },
 
 
+    'click .copy' : function(){
+      console.log("copy from template "+ this.url);
+
+
+      var template = Widgets.findOne({url : this.url}); //.map(setWidgetDefaults);
+      console.log("got template");
+      console.log(template);
+      var dataobj = {html : template.html, css: template.css, javascript: template.javascript};
+      var url = "/api/save";//?js="+jsstring+"&html="+htmlstring+"&css="+csstring,
+      var options = {data: dataobj};
+      
+      HTTP.post(url, options, function(error, results){
+        console.log("data submitted");
+        newWidget = {_id: results.data.url,
+                    createdBy : { username : Meteor.user().username,
+                      userid : Meteor.userId() },
+                    isTemplate : false,
+                    html : results.data.html,
+                    javascript : results.data.javascript,
+                    css: results.data.css,
+                    displayWidth: results.data.displayWidth,
+                    displayHeight: results.data.displayHeight,
+                    description: "(copied from " + template.name +") " + template.description,
+                    widgetStyle : results.data.widgetStyle,
+                    name : "copy of " + template.name,
+                    pagetype : pageinfo().pagetype,
+                    pageurl : pageinfo().pageurl,
+                    pageid : pageinfo().pageid,
+                    url: results.data.url,
+                    createdAt: new Date(),
+                    rand: Math.random() };
+        Widgets.insert(newWidget);
+      });
+      console.log("copied");
+      return false;
+    },    
+
+
     "click .save_template": function () {
       this.isTemplate = !this.isTemplate;
       Widgets.update(this._id, this);
@@ -533,6 +580,11 @@ if (Meteor.isClient) {
     otherwidgets: function () {
         // Otherwise, return all of the tasks
         return Widgets.find({pagetype : pageinfo().pagetype, _id : {$ne : this._id}}, {sort: {createdAt: -1}}).map(setWidgetDefaults); 
+    },
+
+    isMyWidget : function (){
+      // is this a widget I created?
+      return this.createdBy.username = Meteor.user().username;
     }
   });
 

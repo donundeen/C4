@@ -20,33 +20,36 @@ TODOs:
 -- a few culutural APIs
 
 
+- user session data
+- user/group/public access levels on widgets
+- insert code: pageid, pagetype, pageurl
+- re-ordering widgets
+- Comments section for each widget.
+- "super-minimized widgets" : for widgets that you need to do stuff, but mostly just want hidden.
+- functionality for persisting data for a widget on a pageid level. eg, to make a "this object comments" widget, or something like that.
 - in general, need to really ace the way the widget looks in both edit and display modes, and in switching between those modes.
 - need a consistent approach to UI for menu. 
 - need lots of styling help, so it's veru comfortable to use.
 - saving and exporting/importing widgets as mongo data
 -- https://themeteorchef.com/recipes/exporting-data-from-your-meteor-application/
 -- http://justmeteor.com/blog/backup-and-restore-your-mongodb-database/
-- functionality for persisting data for a widget on a pageid level. eg, to make a "this object comments" widget, or something like that.
 - packaging all the code so it's easy to install and run, and to deliver to an app server.
 - "Undo" widget deletes 
-- 'insert code' functionality
-- user/group/public access levels on widgets
-- widget configuration UI, for styling.
 - promoted widgets (that do important stuff)
 - "my favorite widgets"  
 -- example widgets
-- re-ordering widgets: 
 - "lock" code that someone else is editing. concurrent editing would be cool, though..
 -- we'll save this for post-MVP, and ask people to be careful
 - WYSIWYG HTML Editor, that works in JSBIN
-- Comments section for each widget.
 
 
 CRAZY IDEAS:
+- more animated GIFS
+-- Animated gif to indicate "saved" widget
 
 
-
-
+- DONE: user login
+- DONE widget configuration UI, for styling.
 - DONE: MVP: Headless need to be able to return just the ".c4_html" html or ".c4_data" json, so it can function like an API.
 - DONE can we make the icons, the "Waiting" gifs, etc, funny random animated GIFS?
 -- eg: http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=waiting

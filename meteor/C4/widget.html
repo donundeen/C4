@@ -10,13 +10,27 @@
     <div class="widgetMouseOverTarget displaymodeonly">
     </div>
     <div class="widgetDisplayHeader container-item displaymodeonly">
-      <div >
-      <B class="widgetName">{{name}}</b>
+      <div class="widgetName">
+      <h3>{{name}}</h3>
       </div>
-      <div class="widgetDescription">{{description}}</div>
-      <div class="widgetmenu lock " title="click to unlock widget">
-        <li class="widgeticon ion-locked display" id="lock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"> - Unlock for Editing..</li>
-      </div>      
+      <div class="widgetCreator">
+          <b>Created By:</b> {{createdBy.username}}
+      </div>
+      <div class="widgetDescription">
+      <i>{{description}}</i>
+      </div>
+      {{#if isMyWidget}}
+      <div class="widgetmenu lock clickable" title="click to unlock widget">
+        <li class="clickable widgeticon ion-locked display" id="lock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"> - Unlock for Editing</li>
+      </div>
+      {{else}}
+      <div class="widgetmenu copy clickable" title="click to unlock widget" >
+        <li class="ion-ios-copy-outline widgeticon" data-pack="default" data-tags="" style="display: inline-block;">
+        - Copy This Widget
+      </li>
+      </div>
+
+      {{/if}}      
     </div>
     <!-- end display-mode header -->
 
@@ -31,17 +45,17 @@
         <li class="dropdown">
           <a href="#" data-toggle="dropdown" class="dropdown-toggle">Actions <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li class="dropdown_widgeticon save ion-ios-upload " data-pack="default" data-tags="" alt="save widget" style="display: inline-block;"> Save</li>
+            <li class="dropdown_widgeticon save ion-ios-upload clickable " data-pack="default" data-tags="" alt="save widget" style="display: inline-block;"> Save</li>
 
             {{#if isTemplate}}
-            <li class="dropdown_widgeticon save_template ion-paper-airplane {{#if isTemplate}}
+            <li class="clickable dropdown_widgeticon save_template ion-paper-airplane {{#if isTemplate}}
 isWidget{{/if}}" data-pack="default" data-tags="" alt="remove from reusable template list" style="display: inline-block;" title="remove this widget from reusable template list."> Remove From Templates</li>
             {{else}}
-            <li class="dropdown_widgeticon save_template ion-paper-airplane {{#if isTemplate}}
+            <li class="clickable dropdown_widgeticon save_template ion-paper-airplane {{#if isTemplate}}
 isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable template" style="display: inline-block;" title="save this widget as a reusable template (will show up in the header drop down with the same icon)."> Save as Template</li>
             {{/if}}
             <li class="divider"></li>
-            <li class="dropdown_widgeticon ion-ios-trash-outline delete" id="delete_{{url}}" data-pack="ios" data-tags="delete, remove, dispose, waste, basket, dump, kill" style="display: inline-block;"> Delete Widget</li>
+            <li class="clickable dropdown_widgeticon ion-ios-trash-outline delete" id="delete_{{url}}" data-pack="ios" data-tags="delete, remove, dispose, waste, basket, dump, kill" style="display: inline-block;"> Delete Widget</li>
           </ul>
         </li>
 
@@ -50,8 +64,8 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1_{{url}}">
             <li>Pull Data from:</li>
             {{#each otherwidgets}}
-              <li><a href="#" class="add_code {{url}}" data-pullfrom="{{url}}" data-pulltype="data"><i class="widgetIDText" data-pullfrom="{{url}}" data-pulltype="data">{{url}}</i>: {{name}} (data)</a></li>
-              <li><a href="#" class="add_code {{url}}" data-pullfrom="{{url}}" data-pulltype="html"><i class="widgetIDText" data-pullfrom="{{url}}" data-pulltype="html">{{url}}</i>: {{name}} (html)</a></li>
+              <li><a href="#" class="add_code {{url}} clickable" data-pullfrom="{{url}}" data-pulltype="data"><i class="widgetIDText" data-pullfrom="{{url}}" data-pulltype="data">{{url}}</i>: {{name}} (data)</a></li>
+              <li><a href="#" class="add_code {{url}} clickable" data-pullfrom="{{url}}" data-pulltype="html"><i class="widgetIDText" data-pullfrom="{{url}}" data-pulltype="html">{{url}}</i>: {{name}} (html)</a></li>
 <li role="separator" class="divider"></li>              
             {{/each}}
           </ul>
@@ -85,6 +99,8 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
           <B>Widget Name:</b> {{> editableText collection="widgets" field="name"}}
           <BR>
           <B>Description:</b> {{> editableText collection="widgets" textarea=true acceptEmpty=true field="description"}}
+          <BR>
+          <b>Created By:</b> {{createdBy.username}}
           <HR>
           <b style="font-size: 1.1em;">API Links:</b>
           <BR>

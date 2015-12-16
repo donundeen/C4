@@ -24,3 +24,10 @@ meteoric:ionicons-sass
 twbs:bootstrap
 babrahams:editable-text
 flemay:less-autoprefixer
+accounts-ui
+accounts-password
+accounts-facebook
+accounts-github
+accounts-twitter
+accounts-google
+accounts-weibo
