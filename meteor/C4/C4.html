@@ -45,9 +45,13 @@
       <div class="container-item widgetmenu login" title="Login for User Things">
         <h4>{{> loginButtons}}</h4>
       </div>
+      <div class="container-item widgetmenu help">
+        <li class=" clickable headericon ion-help-buoy display" id="help" data-pack="default" data-tags="" style="display: inline-block;" data-toggle="modal" data-target="#help_modal"></li>
+      </div>
 
     </div>
     <br>
+    {{> help}}
 
     <div class="widgets container">
       {{#each widgets}}

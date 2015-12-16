@@ -11,22 +11,22 @@ Semantic UI: http://semantic-ui.com/
 
 
 TODOs:
+- MVP: Help Text
 - DONE: MVP: need a proxy for calling external webservices
 -- MVP: then include as a "insert code snippet" bit
+- MVP: insert code: pageid, pagetype, pageurl
 - MVP need an image proxy as well.
-- MVP: Help Text
 -- MVP: "How to use this app" - bare minimum
 - MVP: Make some useful templates and examples
 -- a few culutural APIs
+- MVP: functionality for persisting data for a widget on a pageid level. eg, to make a "this object comments" widget, or something like that.
 
 
-- user session data
+- functionality for getting/setting user session information
 - user/group/public access levels on widgets
-- insert code: pageid, pagetype, pageurl
 - re-ordering widgets
 - Comments section for each widget.
 - "super-minimized widgets" : for widgets that you need to do stuff, but mostly just want hidden.
-- functionality for persisting data for a widget on a pageid level. eg, to make a "this object comments" widget, or something like that.
 - in general, need to really ace the way the widget looks in both edit and display modes, and in switching between those modes.
 - need a consistent approach to UI for menu. 
 - need lots of styling help, so it's veru comfortable to use.
