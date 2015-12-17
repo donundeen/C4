@@ -133,7 +133,10 @@ if (Meteor.isClient) {
       return false;
     },
 
- 
+    "click .giphy": function(e, t){
+      $(e.target).hide();
+    },
+
 
 
     'click .copy_from_template' : function(){
@@ -309,7 +312,20 @@ if (Meteor.isClient) {
     })(this);
  }); 
 
+
+  Template.help.events({
+    "click .giphy": function(e, t){
+      $(e.target).hide();
+    }
+  });
+
   Template.widget.events({
+
+    "click .giphy": function(e, t){
+      $(e.target).hide();
+    },
+
+
     "click .delete": function () {
       if(this.isTemplate){
         this.pagetype = "template";
