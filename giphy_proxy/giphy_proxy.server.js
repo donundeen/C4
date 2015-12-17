@@ -68,6 +68,9 @@ function parseRequest(req, res){
   var term = split.pop();
   console.log(term);
 
+  split = term.split("?");
+  term = split[0];
+
   if (term && term != "favicon.ico"){
     getRandGiphy(term, res);
   }else{
@@ -78,7 +81,7 @@ function parseRequest(req, res){
 
 
 function getRandGiphy(term, res){
-  var url = "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag="+ encodeURIComponent(term);
+  var url = "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag="+ term;
   console.log("url is "+ url);
   var request = require("request");
 
@@ -90,27 +93,16 @@ function getRandGiphy(term, res){
       console.log(JSON.stringify(retdata, null, ' '));
       var imageurl = retdata.data.fixed_width_downsampled_url;
       console.log("mageurl is  " + imageurl);
-//      res.writeHead(200, {'Content-Type': 'image/gif' });
-      var request2 = require("request");
-      request2.get(imageurl).pipe(res);     
-//     res.end(error_img, 'binary');
-
-
-/*
-      if(retdata == ''){
-        console.log("no results");
-        retdata = {};
+      if(imageurl){
+        var request2 = require("request");
+        request2.get(imageurl).pipe(res);
       }else{
-        resultCache[url] = retdata;
-        res.writeHead(200, {'Content-Type': 'image/gif'});
-        res.end(JSON.stringify(retdata));
+        res.writeHead(200, {'Content-Type': 'image/gif' });
+        res.end(error_img, 'binary');
       }
-      */
     }else{
-
-     res.writeHead(200, {'Content-Type': 'image/gif' });
-     res.end(error_img, 'binary');
-
+      res.writeHead(200, {'Content-Type': 'image/gif' });
+      res.end(error_img, 'binary');
     }
   });
 }

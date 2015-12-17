@@ -97,6 +97,21 @@ if (Meteor.isClient) {
     return doc;
   }
 
+
+  function giphy_modal(term, text){
+      $("#giphy_modal").modal('show');
+      $(".giphy_modal_header").text(text);
+      var url = "/giphy_proxy/"+encodeURIComponent(term);
+      $(".giphy_modal_image_div").empty();
+      var imgurl = url+"?" + new Date().getTime();
+      $(".giphy_modal_image_div").html("<img src='"+imgurl+"' width='200' class='giphy_modal_image_img'/>");
+      
+      setTimeout(function(){
+        $("#giphy_modal").modal('hide');
+      }, 2000);
+
+  }
+
   Template.body.helpers({
     widgets: function () {
         // Otherwise, return all of the tasks
@@ -120,6 +135,8 @@ if (Meteor.isClient) {
 
       $(".lockall").hide();
       $(".unlockall").show();
+      giphy_modal("unlock", "Unlocking all widgets you have access to");
+
 
       return false;
 
@@ -129,6 +146,8 @@ if (Meteor.isClient) {
       $(".unlock").trigger("click");
       $(".lockall").show();
       $(".unlockall").hide();
+
+      giphy_modal("lock", "Locking all Widgets");
 
       return false;
     },
@@ -169,6 +188,9 @@ if (Meteor.isClient) {
                     rand: Math.random() };
         Widgets.insert(newWidget);
       });
+
+      giphy_modal("copy", "New Widget Copied From Template");
+
 
       return false;
     },
@@ -333,6 +355,9 @@ if (Meteor.isClient) {
       }else{
         Widgets.remove(this._id);
       }
+
+      giphy_modal("delete", "Widget Deleted");
+
       return false;
     },
 
@@ -356,6 +381,7 @@ if (Meteor.isClient) {
       HTTP.post(url, options, function(error, results){
       });
 
+      giphy_modal("saved", "Widget Content Saved");
 
       return false;
     },
