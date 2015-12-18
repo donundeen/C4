@@ -356,7 +356,7 @@ if (Meteor.isClient) {
         Widgets.remove(this._id);
       }
 
-      giphy_modal("delete", "Widget Deleted");
+      giphy_modal("erase", "Widget Deleted");
 
       return false;
     },
@@ -582,6 +582,9 @@ if (Meteor.isClient) {
                     rand: Math.random() };
         Widgets.insert(newWidget);
       });
+
+      giphy_modal("copy", "widget copied");
+
       console.log("copied");
       return false;
     },    
@@ -592,6 +595,9 @@ if (Meteor.isClient) {
       Widgets.update(this._id, this);
       var editors = document.getElementById('jsbin_'+this._id).contentWindow.editors;
       var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
+
+      giphy_modal("promotion", "widget saved as a template");
+
       return false;
     },
 
