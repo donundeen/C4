@@ -47,19 +47,6 @@ if (Meteor.isClient) {
 
 
 
-  function giphy_modal(term, text){
-      $("#giphy_modal").modal('show');
-      $(".giphy_modal_header").text(text);
-      var url = "/giphy_proxy/"+encodeURIComponent(term);
-      $(".giphy_modal_image_div").empty();
-      var imgurl = url+"?" + new Date().getTime();
-      $(".giphy_modal_image_div").html("<img src='"+imgurl+"' width='200' class='giphy_modal_image_img'/>");
-      
-      setTimeout(function(){
-        $("#giphy_modal").modal('hide');
-      }, 2000);
-
-  }
 
   Template.body.helpers({
     widgets: function () {
