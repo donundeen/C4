@@ -85,6 +85,9 @@ if (Meteor.isClient) {
     }else{
       doc.usableWidgetStyle = doc.widgetStyle;
     }
+    if(!doc.createdBy){
+      doc.createdBy = {};
+    }
 
     if(doc.displayUsableHeight.match(/px/)){
       var height = doc.displayUsableHeight.replace(/px/,"");
@@ -652,7 +655,11 @@ if (Meteor.isClient) {
 
     isMyWidget : function (){
       // is this a widget I created?
-      return this.createdBy.username = Meteor.user().username;
+      if(this.createdBy){
+        return this.createdBy.username = Meteor.user().username;
+      }else{
+        return false;
+      }
     }
   });
 
