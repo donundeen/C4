@@ -295,21 +295,15 @@ if (Meteor.isClient) {
     (function(realthis){
       $("[title]").tooltip({placement: "auto"});
       var thisid = realthis.data._id;
-      console.log("in onRendered anon "+ thisid);
       var element = document.getElementById('jsbin_'+thisid);
       var thiselement = document.getElementById('widgetContainer_'+thisid);
       $(".widgetDisplayHeader", thiselement).hide();  
 
-
-
       // maybe already exists?
       var theElement = document.getElementById('jsbin_'+thisid);
       if(theElement && theElement.contentWindow && theElement.contentWindow.document){
-        console.log("no need to listen for jsbin_"+thisid + " to be created");
         $(theElement).load(function(){
-          console.log("target load " + thisid);
           var thiselement = document.getElementById('widgetContainer_'+thisid);
-
           var editors = jsbin = menu = bin = null;
           var theElement = document.getElementById('jsbin_'+thisid);
           if(theElement){
@@ -319,25 +313,15 @@ if (Meteor.isClient) {
             menu = theElement.contentWindow.document.getElementById("control");
             bin = theElement.contentWindow.document.getElementById("bin");   
             var thiselement = document.getElementById('widgetContainer_'+thisid);
-
             var newbintop = 0;
-
-            console.log("hiding");
-            console.log(menu);
             $(menu).hide();
-            console.log("putting in display mode");
             $(menu).hide();
             $(".editmodeonly", thiselement).hide();
             this.oldbintop = $(bin).css("top");
             $(bin).css("top", newbintop);
-            console.log(realthis);
-            console.log(thisid + " 1 width is " + realthis.data.displayUsableWidth);
-            console.log(thisid + " 2 width is " + realthis.data.displayWidth);
             $(thiselement).attr("style", realthis.data.usableWidgetStyle);
             $(thiselement).css("width", realthis.data.displayUsableWidth);
             $(thiselement).css("height", realthis.data.displayUsableHeight);
-            
-
           }else{
             console.log("no element found for jsbin_"+thisid);
           }
@@ -349,12 +333,9 @@ if (Meteor.isClient) {
           $((evt.target)).load(function(){
             console.log("target load " + thisid);
             var thiselement = document.getElementById('widgetContainer_'+thisid);
-
-
             var editors = jsbin = menu = bin = null;
             var theElement = document.getElementById('jsbin_'+thisid);
             if(theElement){
-              console.log("found element for jsbin_"+thisid);
               editors = theElement.contentWindow.editors;
               jsbin = theElement.contentWindow.jsbin;
               menu = theElement.contentWindow.document.getElementById("control");
@@ -365,22 +346,15 @@ if (Meteor.isClient) {
             if(jsbin && jsbin.panels){
               jsbin.panels.saveOnExit = true;
             }
-
             var newbintop = 0;
-
             // put it in DISPLAY MODE
-            console.log("putting in display mode");
             $(menu).hide();
             $(".editmodeonly", thiselement).hide();
             this.oldbintop = $(bin).css("top");
             $(bin).css("top", newbintop);
-            console.log(realthis);
-            console.log(thisid + " 1 width is " + realthis.data.displayUsableWidth);
-            console.log(thisid + " 2 width is " + realthis.data.displayWidth);
             $(thiselement).attr("style", realthis.data.usableWidgetStyle);
             $(thiselement).css("width", realthis.data.displayUsableWidth);
             $(thiselement).css("height", realthis.data.displayUsableHeight);
-
           });
         }
       });
@@ -399,7 +373,6 @@ if (Meteor.isClient) {
     "click .giphy": function(e, t){
       $(e.target).hide();
     },
-
 
     "click .delete": function () {
       if(this.isTemplate){
