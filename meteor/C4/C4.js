@@ -44,10 +44,6 @@ if (Meteor.isClient) {
   });
 
 
-
-
-
-
   Template.body.helpers({
     widgets: function () {
         // Otherwise, return all of the tasks

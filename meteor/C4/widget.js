@@ -1,7 +1,7 @@
 
 if (Meteor.isClient) {
 
-
+/////// FUNCTION DEFS
   function setDisplayModeOn(widgetData, iframeElement, widgetElement, menu, bin, jsbin){
     var newbintop = 0;
     $(menu).hide();
@@ -47,9 +47,11 @@ if (Meteor.isClient) {
     $(widgetElement).css("height","100%");
 
   }
+/////// END FUNCTION DEFS
 
 
 
+/////// WIDGET ONRENDERED
   // In the client code, below everything else
   Template.widget.onRendered(function(){
 
@@ -107,7 +109,11 @@ if (Meteor.isClient) {
       });
     })(this);
  }); 
+/////////// END WIDGET ONRENDERED
 
+
+
+//////////// EVENTS
 
   Template.help.events({
     "click .giphy": function(e, t){
@@ -371,6 +377,10 @@ if (Meteor.isClient) {
 
 
   });  
+////// END EVENTS
+
+
+////// HELPERS
 
   Template.widget.helpers({
     otherwidgets: function () {
@@ -387,4 +397,8 @@ if (Meteor.isClient) {
       }
     }
   });
+//////// END HELPERS
+
+
+
 }
