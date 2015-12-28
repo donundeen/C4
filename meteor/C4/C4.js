@@ -10,7 +10,9 @@ if (Meteor.isClient) {
   });
   console.log("starting meteor");
 
- // Widgets.remove("jow");
+
+
+////// HELPERS
   UI.registerHelper('shortIt', function(stringToShorten, maxCharsAmount){
     if(stringToShorten.length > maxCharsAmount){
       return stringToShorten.substring(0, maxCharsAmount) + '...';
@@ -26,11 +28,9 @@ if (Meteor.isClient) {
     return Meteor.absoluteUrl();
   });
 
-
   Accounts.ui.config({
     passwordSignupFields: "USERNAME_AND_EMAIL"
   });
-
 
   Template.registerHelper("pageid", function(){  
     return pageinfo().pageid;
@@ -54,8 +54,19 @@ if (Meteor.isClient) {
       return Widgets.find({isTemplate : true}, {sort: {createdAt: -1}}); 
     }
   });
+////// END HELPERS
 
 
+////// TEMPLATE ONRENDERED
+  Template.body.onRendered(function(){
+    $(".tooltip-right").tooltip({placement: "right"});
+    $("[title]").tooltip({placement: "auto"});
+  });
+////// END ONRENDERED
+
+
+
+/////// EVENTS
   Template.body.events({
 
 
@@ -182,9 +193,9 @@ if (Meteor.isClient) {
                     html : results.data.html,
                     javascript : results.data.javascript,
                     css: results.data.css,
-                    displayWidth: results.data.displayWidth,
-                    displayHeight: results.data.displayHeight,
-                    widgetStyle : results.data.widgetStyle,
+                    displayWidth: "",
+                    displayHeight:  "",
+                    widgetStyle :  "",
                     pagetype : pageinfo().pagetype,
                     pageurl : pageinfo().pageurl,
                     pageid : pageinfo().pageid,
@@ -198,21 +209,13 @@ if (Meteor.isClient) {
 
     'click .test' : function(){
       console.log("testing");
-      var editors = document.getElementById('jsbin_goq').contentWindow.editors;
-      console.log(editors);
-
-      var snippet = "hey there you!";
-
-      addJsCodeAtCursor(snippet, editors);
       return false;
     }
   });
 
 
-  Template.body.onRendered(function(){
-    $(".tooltip-right").tooltip({placement: "right"});
-    $("[title]").tooltip({placement: "auto"});
-  });
+///// END EVENTS
+
 
 }
 
