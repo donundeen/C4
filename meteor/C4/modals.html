@@ -1,0 +1,39 @@
+
+<template name="giphy_modal">
+    <div class="modal fade" id="giphy_modal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header giphy_modal_header" style="text-align: center">
+                </div>
+                <div class="modal-body giphy_modal_image_div" style="text-align: center;"></div>
+            </div>
+            <!--
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn">Close</a>
+            </div>
+        -->
+        </div>
+    </div>      
+</template>
+
+<template name="webservice_insert_modal">
+    <div class="modal fade" id="webservice_insert_modal">
+        <div class="modal-dialog modal">
+            <div class="modal-content">
+                <div class="modal-header webservice_insert_modal_header" style="text-align: center">
+                    Insert Webservice Call
+                </div>
+                <div class="modal-body giphy_modal_image_div form-group" style="">
+                    <!-- text input field here -->
+                    <label for="webservice_insert">Webservice URL:</label>
+                    <textarea class="form-control" rows="4" id="webservice_insert"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn">Close</a>
+            </div>
+        </div>
+    </div>      
+
+
+</template>

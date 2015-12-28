@@ -445,6 +445,10 @@ if (Meteor.isClient) {
       return false;
     },
 
+    "click .call_webservice_url" : function(evt, template){
+      console.log("calling webservice url");
+    },
+
     "click .add_code" : function(evt, template){
 
       var pullfrom = evt.currentTarget.dataset.pullfrom;
