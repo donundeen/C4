@@ -186,6 +186,8 @@ if (Meteor.isClient) {
                     url: results.data.url,
                     createdAt: new Date(),
                     rand: Math.random() };
+        console.log("creating new widget");
+        console.log(newWidget);
         Widgets.insert(newWidget);
       });
 
@@ -293,30 +295,81 @@ if (Meteor.isClient) {
     (function(realthis){
       $("[title]").tooltip({placement: "auto"});
       var thisid = realthis.data._id;
+      console.log("in onRendered anon "+ thisid);
       var element = document.getElementById('jsbin_'+thisid);
       var thiselement = document.getElementById('widgetContainer_'+thisid);
       $(".widgetDisplayHeader", thiselement).hide();  
 
+
+
+      // maybe already exists?
+      var theElement = document.getElementById('jsbin_'+thisid);
+      if(theElement && theElement.contentWindow && theElement.contentWindow.document){
+        console.log("no need to listen for jsbin_"+thisid + " to be created");
+        $(theElement).load(function(){
+          console.log("target load " + thisid);
+          var thiselement = document.getElementById('widgetContainer_'+thisid);
+
+          var editors = jsbin = menu = bin = null;
+          var theElement = document.getElementById('jsbin_'+thisid);
+          if(theElement){
+            console.log("found element for jsbin_"+thisid);
+            editors = theElement.contentWindow.editors;
+            jsbin = theElement.contentWindow.jsbin;
+            menu = theElement.contentWindow.document.getElementById("control");
+            bin = theElement.contentWindow.document.getElementById("bin");   
+            var thiselement = document.getElementById('widgetContainer_'+thisid);
+
+            var newbintop = 0;
+
+            console.log("hiding");
+            console.log(menu);
+            $(menu).hide();
+            console.log("putting in display mode");
+            $(menu).hide();
+            $(".editmodeonly", thiselement).hide();
+            this.oldbintop = $(bin).css("top");
+            $(bin).css("top", newbintop);
+            console.log(realthis);
+            console.log(thisid + " 1 width is " + realthis.data.displayUsableWidth);
+            console.log(thisid + " 2 width is " + realthis.data.displayWidth);
+            $(thiselement).attr("style", realthis.data.usableWidgetStyle);
+            $(thiselement).css("width", realthis.data.displayUsableWidth);
+            $(thiselement).css("height", realthis.data.displayUsableHeight);
+            
+
+          }else{
+            console.log("no element found for jsbin_"+thisid);
+          }
+        });
+      }
       // this part here happens when the JSBIN stuff is loaded.
       document.addEventListener("DOMNodeInserted", function(evt, item){
         if($(evt.target)[0].tagName == "IFRAME"){
           $((evt.target)).load(function(){
+            console.log("target load " + thisid);
             var thiselement = document.getElementById('widgetContainer_'+thisid);
 
-            var editors = document.getElementById('jsbin_'+thisid).contentWindow.editors;
-            var jsbin = document.getElementById('jsbin_'+thisid).contentWindow.jsbin;
 
-            if(jsbin.panels){
+            var editors = jsbin = menu = bin = null;
+            var theElement = document.getElementById('jsbin_'+thisid);
+            if(theElement){
+              console.log("found element for jsbin_"+thisid);
+              editors = theElement.contentWindow.editors;
+              jsbin = theElement.contentWindow.jsbin;
+              menu = theElement.contentWindow.document.getElementById("control");
+              bin = theElement.contentWindow.document.getElementById("bin");              
+            }else{
+              console.log("no element found for jsbin_"+thisid);
+            }
+            if(jsbin && jsbin.panels){
               jsbin.panels.saveOnExit = true;
             }
-            var el = $(editors.live.el)[0];
 
-            var menu = document.getElementById('jsbin_'+thisid).contentWindow.document.getElementById("control");
-            var bin = document.getElementById('jsbin_'+thisid).contentWindow.document.getElementById("bin");
             var newbintop = 0;
-            this.maxed = true;
 
             // put it in DISPLAY MODE
+            console.log("putting in display mode");
             $(menu).hide();
             $(".editmodeonly", thiselement).hide();
             this.oldbintop = $(bin).css("top");
@@ -408,6 +461,10 @@ if (Meteor.isClient) {
       var codeString = "{from: '"+pullfrom+"', type : '"+pulltype+"'}";
       var codeStringRe = "\\{from: '"+pullfrom+"', type : '"+pulltype+"'\\}";
       var editors = document.getElementById('jsbin_'+template.data.url).contentWindow.editors;
+
+      if(!editors){
+        return false;
+      }
       var code = editors.javascript.getCode();
       var line = editors.javascript.editor.getCursor().line;
       var charpos = editors.javascript.editor.getCursor().ch;
@@ -484,8 +541,11 @@ if (Meteor.isClient) {
 
       var editors = document.getElementById('jsbin_'+this._id).contentWindow.editors;
       var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
-      jsbin.panels.show("html");
-      jsbin.panels.show("javascript");
+
+      if(jsbin){
+        jsbin.panels.show("html");
+        jsbin.panels.show("javascript");
+      }
       $(".lock", thiselement).hide();
       $(".unlock", thiselement).show();
 //      editors.panels.show("css");
@@ -495,16 +555,13 @@ if (Meteor.isClient) {
       console.log(jsbin);
 
       var newbintop = 0;
-      this.maxed = false;
 
       // put it in EDIT MODE
-        $(menu).show();
-        $(".editmodeonly", thiselement).show();
-        $(bin).css("top", this.oldbintop);
-        $(thiselement).css("width","100%");
-        $(thiselement).css("height","100%");
-
-
+      $(menu).show();
+      $(".editmodeonly", thiselement).show();
+      $(bin).css("top", this.oldbintop);
+      $(thiselement).css("width","100%");
+      $(thiselement).css("height","100%");
 
       return false;
 
@@ -520,10 +577,12 @@ if (Meteor.isClient) {
 
       var editors = document.getElementById('jsbin_'+this._id).contentWindow.editors;
       var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
-      jsbin.panels.hide("html");
-      jsbin.panels.hide("javascript");
-      jsbin.panels.hide("css");
-      jsbin.panels.hide("console");
+      if(jsbin){
+        jsbin.panels.hide("html");
+        jsbin.panels.hide("javascript");
+        jsbin.panels.hide("css");
+        jsbin.panels.hide("console");
+      }
       $(".lock", thiselement).show();
       $(".unlock", thiselement).hide();
 
@@ -554,8 +613,6 @@ if (Meteor.isClient) {
 
 
       var template = Widgets.findOne({url : this.url}); //.map(setWidgetDefaults);
-      console.log("got template");
-      console.log(template);
       var dataobj = {html : template.html, css: template.css, javascript: template.javascript};
       var url = "/api/save";//?js="+jsstring+"&html="+htmlstring+"&css="+csstring,
       var options = {data: dataobj};

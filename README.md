@@ -11,17 +11,18 @@ Semantic UI: http://semantic-ui.com/
 
 
 TODOs:
-- MVP: Help Text
 - DONE: MVP: need a proxy for calling external webservices
 -- MVP: then include as a "insert code snippet" bit
 - MVP: insert code: pageid, pagetype, pageurl
-- MVP need an image proxy as well.
+- MVP: Help Text
 -- MVP: "How to use this app" - bare minimum
+- MVP need an image proxy as well.
 - MVP: Make some useful templates and examples
 -- a few culutural APIs
 - MVP: functionality for persisting data for a widget on a pageid level. eg, to make a "this object comments" widget, or something like that.
 
 
+- confirm delete.
 - functionality for getting/setting user session information
 - user/group/public access levels on widgets
 - re-ordering widgets
@@ -48,6 +49,10 @@ CRAZY IDEAS:
 -- Animated gif to indicate "saved" widget
 
 
+
+COMPLETED
+- BUG: new widget has menu displayed, but isn't fully in Edit mode. Should open up in edit mode.
+-- "sort of" fixed
 - DONE: user login
 - DONE widget configuration UI, for styling.
 - DONE: MVP: Headless need to be able to return just the ".c4_html" html or ".c4_data" json, so it can function like an API.
