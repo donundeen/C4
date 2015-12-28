@@ -285,16 +285,60 @@ if (Meteor.isClient) {
 
 
 
+  function setDisplayModeOn(widgetData, iframeElement, widgetElement, menu, bin, jsbin){
+    var newbintop = 0;
+    $(menu).hide();
+    $(".editmodeonly", widgetElement).hide();
+    $(".displaymodeonly", widgetElement).show();
+    iframeElement.oldbintop = $(bin).css("top");
+    $(bin).css("top", newbintop);
+    $(widgetElement).attr("style", widgetData.usableWidgetStyle);
+    $(widgetElement).css("width", widgetData.displayUsableWidth);
+    $(widgetElement).css("height", widgetData.displayUsableHeight);
+    $(".widgetDisplayHeader", widgetElement).hide();  
 
+    if(jsbin && jsbin.panels){
+      jsbin.panels.hide("html");
+      jsbin.panels.hide("javascript");
+      jsbin.panels.hide("css");
+      jsbin.panels.hide("console");
+    }
+    $(".lock", widgetElement).show();
+    $(".unlock", widgetElement).hide();
+    $(widgetElement).data("mode", "display");
+
+  }
+
+  function setEditModeOn(widgetData, iframeElement, widgetElement, menu, bin, jsbin){
+
+    if(jsbin){
+      jsbin.panels.show("html");
+      jsbin.panels.show("javascript");
+    }
+    $(".lock", widgetElement).hide();
+    $(".unlock", widgetElement).show();
+//      editors.panels.show("css");
+
+    var newbintop = 0;
+
+    // put it in EDIT MODE
+    $(menu).show();
+    $(".editmodeonly", widgetElement).show();
+    $(".displaymodeonly", widgetElement).hide();
+    $(bin).css("top", iframeElement.oldbintop);
+    $(widgetElement).css("width","100%");
+    $(widgetElement).css("height","100%");
+
+  }
 
 
 
   // In the client code, below everything else
   Template.widget.onRendered(function(){
 
-    (function(realthis){
+    (function(widget){
       $("[title]").tooltip({placement: "auto"});
-      var thisid = realthis.data._id;
+      var thisid = widget.data._id;
       var element = document.getElementById('jsbin_'+thisid);
       var thiselement = document.getElementById('widgetContainer_'+thisid);
       $(".widgetDisplayHeader", thiselement).hide();  
@@ -303,9 +347,8 @@ if (Meteor.isClient) {
       var theElement = document.getElementById('jsbin_'+thisid);
       if(theElement && theElement.contentWindow && theElement.contentWindow.document){
         $(theElement).load(function(){
-          var thiselement = document.getElementById('widgetContainer_'+thisid);
+          var widgetElement = document.getElementById('widgetContainer_'+thisid);
           var editors = jsbin = menu = bin = null;
-          var theElement = document.getElementById('jsbin_'+thisid);
           if(theElement){
             console.log("found element for jsbin_"+thisid);
             editors = theElement.contentWindow.editors;
@@ -313,15 +356,10 @@ if (Meteor.isClient) {
             menu = theElement.contentWindow.document.getElementById("control");
             bin = theElement.contentWindow.document.getElementById("bin");   
             var thiselement = document.getElementById('widgetContainer_'+thisid);
-            var newbintop = 0;
-            $(menu).hide();
-            $(menu).hide();
-            $(".editmodeonly", thiselement).hide();
-            this.oldbintop = $(bin).css("top");
-            $(bin).css("top", newbintop);
-            $(thiselement).attr("style", realthis.data.usableWidgetStyle);
-            $(thiselement).css("width", realthis.data.displayUsableWidth);
-            $(thiselement).css("height", realthis.data.displayUsableHeight);
+            if(jsbin && jsbin.panels){
+              jsbin.panels.saveOnExit = true;
+            }            
+            setDisplayModeOn(widget.data, this, widgetElement, menu, bin, jsbin);
           }else{
             console.log("no element found for jsbin_"+thisid);
           }
@@ -332,7 +370,7 @@ if (Meteor.isClient) {
         if($(evt.target)[0].tagName == "IFRAME"){
           $((evt.target)).load(function(){
             console.log("target load " + thisid);
-            var thiselement = document.getElementById('widgetContainer_'+thisid);
+            var widgetElement = document.getElementById('widgetContainer_'+thisid);
             var editors = jsbin = menu = bin = null;
             var theElement = document.getElementById('jsbin_'+thisid);
             if(theElement){
@@ -346,15 +384,7 @@ if (Meteor.isClient) {
             if(jsbin && jsbin.panels){
               jsbin.panels.saveOnExit = true;
             }
-            var newbintop = 0;
-            // put it in DISPLAY MODE
-            $(menu).hide();
-            $(".editmodeonly", thiselement).hide();
-            this.oldbintop = $(bin).css("top");
-            $(bin).css("top", newbintop);
-            $(thiselement).attr("style", realthis.data.usableWidgetStyle);
-            $(thiselement).css("width", realthis.data.displayUsableWidth);
-            $(thiselement).css("height", realthis.data.displayUsableHeight);
+            setDisplayModeOn(widget.data, this, widgetElement, menu, bin, jsbin);
           });
         }
       });
@@ -508,33 +538,16 @@ if (Meteor.isClient) {
     // this sets it to EDIT mode
     "click .lock": function () {
 
-      console.log("locked " + this._id);
-      var thiselement = document.getElementById('widgetContainer_'+this._id);
-      $(thiselement).data("mode", "edit");
+      var widgetElement = document.getElementById('widgetContainer_'+this._id);
+      var iframeElement = document.getElementById('jsbin_'+this._id)
 
-      var editors = document.getElementById('jsbin_'+this._id).contentWindow.editors;
-      var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
-
-      if(jsbin){
-        jsbin.panels.show("html");
-        jsbin.panels.show("javascript");
-      }
-      $(".lock", thiselement).hide();
-      $(".unlock", thiselement).show();
-//      editors.panels.show("css");
+      var editors = iframeElement.contentWindow.editors;
+      var jsbin = iframeElement.contentWindow.jsbin;
       var menu = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("control");
       var bin = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("bin");
-      console.log(editors);
-      console.log(jsbin);
 
-      var newbintop = 0;
+      setEditModeOn(this, iframeElement, widgetElement, menu, bin, jsbin);
 
-      // put it in EDIT MODE
-      $(menu).show();
-      $(".editmodeonly", thiselement).show();
-      $(bin).css("top", this.oldbintop);
-      $(thiselement).css("width","100%");
-      $(thiselement).css("height","100%");
 
       return false;
 
@@ -544,38 +557,14 @@ if (Meteor.isClient) {
     // this sets it to DISPLAY mode
     "click .unlock": function () {
 
-      var thiselement = document.getElementById('widgetContainer_'+this._id);
+      var widgetElement = document.getElementById('widgetContainer_'+this._id);
+      var iframeElement = document.getElementById('jsbin_'+this._id)
 
-      $(thiselement).data("mode", "display");
-
-      var editors = document.getElementById('jsbin_'+this._id).contentWindow.editors;
-      var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
-      if(jsbin){
-        jsbin.panels.hide("html");
-        jsbin.panels.hide("javascript");
-        jsbin.panels.hide("css");
-        jsbin.panels.hide("console");
-      }
-      $(".lock", thiselement).show();
-      $(".unlock", thiselement).hide();
-
+      var editors = iframeElement.contentWindow.editors;
+      var jsbin = iframeElement.contentWindow.jsbin;
       var menu = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("control");
       var bin = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("bin");
-      /*
-      console.log(editors);
-      console.log(jsbin);
-      */
-      var newbintop = 0;
-      // put it in DISPLAY MODE
-      $(menu).hide();
-      console.log($(".editmodeonly"));
-      $(".editmodeonly", thiselement).hide();
-      this.oldbintop = $(bin).css("top");
-      $(bin).css("top", newbintop);
-      $(thiselement).attr("style", this.usableWidgetStyle);
-      $(thiselement).css("width", this.displayUsableWidth);
-      $(thiselement).css("height", this.displayUsableHeight);
-
+      setDisplayModeOn(this, iframeElement, widgetElement, menu, bin, jsbin);
 
       return false;
     },
@@ -633,6 +622,7 @@ if (Meteor.isClient) {
 
 
     "mouseenter .widgetMouseOverTarget" : function(){
+      console.log("mouseover");
         var thiselement = document.getElementById('widgetContainer_'+this._id);
         var mode = $(thiselement).data("mode");
         if(!mode || mode == "display"){
