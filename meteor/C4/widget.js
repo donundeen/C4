@@ -167,6 +167,9 @@ if (Meteor.isClient) {
 
     "click .call_webservice_url" : function(evt, template){
       console.log("calling webservice url");
+      $("#webservice_insert_modal").modal('show');
+
+      
       /* need to insert something like:
 {
     id : "vasearch",
