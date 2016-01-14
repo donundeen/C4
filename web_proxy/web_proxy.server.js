@@ -49,9 +49,16 @@ function parseRequest(req, res){
   var parsed = urlparser.parse(req.url, true)
   var query = urlparser.parse(req.url, true).query;
 
+  var headers = {};
+  if(parsed.query.headers){
+      headers = JSON.parse(parsed.query.headers);
+  }
+  
   var path = parsed.path;
-  var url = path.replace(/\/web_proxy\//,"");
-  //  imgproxy(query.imgname, query.width, query.height, query, res);
+
+  url = parsed.query.url;
+
+  var options = {url: url, headers: headers};
 
   if(resultCache[url]){
     res.writeHead(200, {'Content-Type': 'application/json'});
@@ -59,7 +66,7 @@ function parseRequest(req, res){
     return;
   }
 
-  request(url, function(error, response, body){
+  request(options, function(error, response, body){
     if (!error && response.statusCode == 200) {   
       // console.log("|"+retdata+"|");
       console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! success");
@@ -74,10 +81,13 @@ function parseRequest(req, res){
         res.end(JSON.stringify(retdata));
       }
     }else{
-
+      console.log("Eeeeeeeeeeeeeeeeeeeeeeeee     returning error");
+      console.log(error);
+//      console.log(response);
+      console.log(body);
       res.writeHead(200, {'Content-Type': 'text/html', 
                         'Access-Control-Allow-Origin' : '*'});
-      res.end("<html><body><pre>not sure what to do</pre></body></html>");
+      res.end("<html><body><pre>not sure what to do \n" + error + "\n </pre></body></html>");
     }
   });
 }

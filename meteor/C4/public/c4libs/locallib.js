@@ -151,15 +151,19 @@ function getOutputFromWidget(widgetName, callback){
 }
 
 
-function webserviceData(url, callback){
-    var theurl = "http://localhost/web_proxy/"+url;
-    console.log("calling webservice url " + theurl);
+function webserviceData(url, callback, item){
+    var theurl = "http://localhost/web_proxy/?url="+encodeURI(url);
+    console.log("....calling webservice url " + theurl);
+    var data = {lookatme :  "kanye"};
+    if(item.authentication_token){
+        data.headers = JSON.stringify({'Authorization':'Token token=' + item.authentication_token});
+    }
     $.ajax({
         url: theurl,
         dataType: 'json',
+        data: data,
         success : function(result){
             console.log("got result for call to " + theurl);
-            console.log(result);
             callback(result);
         },
         error : function (xhr, status, error) {
@@ -240,7 +244,7 @@ function requireWidgetData(requiresList, callback){
                     removeWaitingGif();                    
                     callback(resultsSet);
                 }            
-            });
+            }, item);
         }else{
             resultsSet[item.from] = {};
             if(funcscomplete++ == length){
