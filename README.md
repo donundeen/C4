@@ -22,6 +22,7 @@ TODOs:
 - MVP: functionality for persisting data for a widget on a pageid level. eg, to make a "this object comments" widget, or something like that.
 
 
+- per-widget comments, per-widget instance comments.
 - confirm delete.
 - functionality for getting/setting user session information
 - user/group/public access levels on widgets
