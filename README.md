@@ -11,8 +11,6 @@ Semantic UI: http://semantic-ui.com/
 
 
 TODOs:
-- DONE: MVP: need a proxy for calling external webservices
--- MVP: then include as a "insert code snippet" bit
 - MVP: insert code: pageid, pagetype, pageurl
 - MVP: Help Text
 -- MVP: "How to use this app" - bare minimum
@@ -20,6 +18,7 @@ TODOs:
 - MVP: Make some useful templates and examples
 -- a few culutural APIs
 - MVP: functionality for persisting data for a widget on a pageid level. eg, to make a "this object comments" widget, or something like that.
+- BUG - Widget should vertically maximize when in edit mode.
 
 
 - per-widget comments, per-widget instance comments.
@@ -52,6 +51,8 @@ CRAZY IDEAS:
 
 
 COMPLETED
+- DONE: MVP: need a proxy for calling external webservices
+-- MVP: then include as a "insert code snippet" bit
 - BUG: new widget has menu displayed, but isn't fully in Edit mode. Should open up in edit mode.
 -- "sort of" fixed
 - DONE: user login

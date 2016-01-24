@@ -115,6 +115,43 @@ if (Meteor.isClient) {
 
 //////////// EVENTS
 
+  function insert_code(jsbin_id, codeString, codeStringRe, comments){
+
+    var editors = document.getElementById(jsbin_id).contentWindow.editors;
+
+    if(!editors){
+      return true;
+    }
+    var code = editors.javascript.getCode();
+    var line = editors.javascript.editor.getCursor().line;
+    var charpos = editors.javascript.editor.getCursor().ch;
+    // make sure it's not already in there:
+    var codeRe = new RegExp("\/\/ *c4_requires[\\s\\S]*\\[[\\s\\S]*"+codeStringRe+"[\\s\\S]*\\] *,[\\s\\S]*\/\/ *end_c4_requires");
+    var codeMatch = code.match(codeRe);
+    if(!codeMatch){
+      // match to empty array
+      var match = /(\/\/ *c4_requires[\s\S]*\[)\s*(\] *,[\s\S]*\/\/ *end_c4_requires)/;
+      var results = code.match(match);
+      newcode = code.replace(match, "$1\n"+codeString+" // "+comments+"\n$2")
+
+      if(newcode == code){
+        // match to non-empty array
+        var match = /(\/\/ *c4_requires[\s\S]*\[)([^\]]*\] *,[\s\S]*\/\/ *end_c4_requires)/;
+        var results = code.match(match);
+        newcode = code.replace(match, "$1\n"+codeString+", // " + comments + "$2");
+      }
+      code = newcode;
+      var state = { line: editors.javascript.editor.currentLine(),
+          character: editors.javascript.editor.getCursor().ch,
+          add: 0
+      };
+
+      editors.javascript.setCode(code);
+      editors.javascript.editor.setCursor({ line: state.line + state.add, ch: state.character });
+    }
+  }
+
+
   Template.help.events({
     "click .giphy": function(e, t){
       $(e.target).hide();
@@ -134,9 +171,7 @@ if (Meteor.isClient) {
       }else{
         Widgets.remove(this._id);
       }
-
       giphy_modal("erase", "Widget Deleted");
-
       return false;
     },
 
@@ -165,18 +200,46 @@ if (Meteor.isClient) {
       return false;
     },
 
+
     "click .call_webservice_url" : function(evt, template){
       console.log("calling webservice url");
       $("#webservice_insert_modal").modal('show');
 
-      
+      $("#webservice_insert_modal_submit").click(function(){
+        var jsbin_id = 'jsbin_'+template.data.url;
+
+
+        var url = $("#webservice_insert_url").val().trim();
+        var name = $("#webservice_insert_name").val().trim();
+        var auth_token = $("#webservice_insert_auth_token").val().trim();
+        var return_type = $("input[name=webservice_insert_return_type]:checked").val().trim();
+
+        url = url.replace("||PAGEID||" , "'+pageId()+'");
+        url = url.replace("||PAGETYPE||" , "'+pageType()+'");
+
+        var token_string;
+        if(auth_token){
+          token_string = " \n authentication_token : '"+auth_token+"',";
+        }
+
+        var codeString = "{\n id:'"+name+"', \n type: 'webservice', "+ token_string +" \n return_type: '"+return_type+"', \n url: '"+ url+"' \n}"
+        var codeStringRe = "\\{\n id:'"+name+"', \n type: 'webservice', \n return_type: '"+return_type+"', \n url: '"+ url+"' \n\\}"
+        var comments = " this will hold a " +return_type +" object";
+
+        insert_code(jsbin_id, codeString, codeStringRe, comments);
+
       /* need to insert something like:
 {
     id : "vasearch",
     type :"webservice", 
+    return_type : "JSON" or "HTML"
     url : "http://www.vam.ac.uk/api/json/museumobject/search?q="+pageid()}
 
       */
+
+      });
+
+
     },
 
     "click .add_code" : function(evt, template){
@@ -200,43 +263,11 @@ if (Meteor.isClient) {
       }
       var codeString = "{from: '"+pullfrom+"', type : '"+pulltype+"'}";
       var codeStringRe = "\\{from: '"+pullfrom+"', type : '"+pulltype+"'\\}";
-      var editors = document.getElementById('jsbin_'+template.data.url).contentWindow.editors;
 
-      if(!editors){
-        return true;
-      }
-      var code = editors.javascript.getCode();
-      var line = editors.javascript.editor.getCursor().line;
-      var charpos = editors.javascript.editor.getCursor().ch;
-      // make sure it's not already in there:
-      var codeRe = new RegExp("\/\/ *c4_requires[\\s\\S]*\\[[\\s\\S]*"+codeStringRe+"[\\s\\S]*\\] *,[\\s\\S]*\/\/ *end_c4_requires");
-      console.log(codeRe);
-      var codeMatch = code.match(codeRe);
-      if(!codeMatch){
-        console.log(" no match, replacing");
-        // match to empty array
-        var match = /(\/\/ *c4_requires[\s\S]*\[)\s*(\] *,[\s\S]*\/\/ *end_c4_requires)/;
-        var results = code.match(match);
-        console.log(results);
-        newcode = code.replace(match, "$1\n"+codeString+" // "+comments+"\n$2")
+      var jsbin_id = 'jsbin_'+template.data.url;
 
-        if(newcode == code){
-          // match to non-empty array
-          var match = /(\/\/ *c4_requires[\s\S]*\[)([^\]]*\] *,[\s\S]*\/\/ *end_c4_requires)/;
-          var results = code.match(match);
-          console.log(results);
+      insert_code(jsbin_id, codeString, codeStringRe, comments);
 
-          newcode = code.replace(match, "$1\n"+codeString+", // " + comments + "$2");
-        }
-        code = newcode;
-        var state = { line: editors.javascript.editor.currentLine(),
-            character: editors.javascript.editor.getCursor().ch,
-            add: 0
-          };
-
-        editors.javascript.setCode(code);
-        editors.javascript.editor.setCursor({ line: state.line + state.add, ch: state.character });
-      }
       return true;
     },
 

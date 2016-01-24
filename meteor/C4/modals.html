@@ -24,15 +24,25 @@
                 <div class="modal-header webservice_insert_modal_header" style="text-align: center">
                     Insert Webservice Call
                 </div>
-                <div class="modal-body giphy_modal_image_div form-group" style="">
+                <div class="modal-body form-group" style="">
                     <!-- text input field here -->
-                    <label for="webservice_insert">Webservice URL:</label>
-                    <textarea class="form-control" rows="4" id="webservice_insert"></textarea><BR>
+                    <label for="webservice_insert_name">Script Name (something short)</label>
+                    <input type="text" id="webservice_insert_name" />
+                    <BR>
+                    <label for="webservice_insert_return_type">Return Type</label>
+                    <input type="radio" name="webservice_insert_return_type" value="json" />JSON
+                    <input type="radio" name="webservice_insert_return_type" value="html" />HTML
+                    <BR/>
+                    <label for="webservice_insert_auth_token">Authentication Token</label>
+                    <input type="text" id="webservice_insert_auth_token" />
+                    <BR>
+                    <label for="webservice_insert_url">Webservice URL:</label>
+                    <textarea class="form-control" rows="4" id="webservice_insert_url"></textarea><BR>
                     <i>use ||PAGETYPE|| and ||PAGEID|| template vars in the URL. In this case, ||PAGETYPE|| value is '{{pagetype}}'' and ||PAGEID|| value is '{{pageid}}', but this will change when the template is used on other pages.</i>
                 </div>
             
                 <div class="modal-footer">
-                    <a href="#" data-dismiss="modal" class="btn">Insert</a>
+                    <a href="#" data-dismiss="modal" id="webservice_insert_modal_submit" class="btn">Insert</a>
                 </div>
             </div>
         </div>
