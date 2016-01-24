@@ -19,7 +19,7 @@ TODOs:
 -- a few culutural APIs
 - MVP: functionality for persisting data for a widget on a pageid level. eg, to make a "this object comments" widget, or something like that.
 - BUG - Widget should vertically maximize when in edit mode.
-
+- BUG - sometimes webservice proxy/cache mechanism returns the wrong results?
 
 - per-widget comments, per-widget instance comments.
 - confirm delete.
