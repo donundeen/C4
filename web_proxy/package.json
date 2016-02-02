@@ -4,9 +4,9 @@
   "description": "Creative Collaborative Cultural Commons Coding. Web Server Proxy",
   "author": "don undeen <donundeen@gmail.com>",
   "contributors": [{
-  "name": "don undeen",
-  "email": "donundeen@gmail.com"
-}],
+    "name": "don undeen",
+    "email": "donundeen@gmail.com"
+  }],
   "scripts": {
     "test": "echo about to test",
     "start": "node index.js",
