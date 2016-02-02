@@ -21,6 +21,9 @@ TODOs:
 - BUG - Widget should vertically maximize when in edit mode.
 - BUG - sometimes webservice proxy/cache mechanism returns the wrong results?
 
+
+
+- JSON Viewer. https://github.com/yesmeck/jquery-jsonview
 - per-widget comments, per-widget instance comments.
 - confirm delete.
 - functionality for getting/setting user session information
