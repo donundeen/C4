@@ -11,6 +11,7 @@ Semantic UI: http://semantic-ui.com/
 
 
 TODOs:
+- package.json file
 - MVP: insert code: pageid, pagetype, pageurl
 - MVP: Help Text
 -- MVP: "How to use this app" - bare minimum
