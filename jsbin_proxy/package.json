@@ -23,7 +23,7 @@
 },
   "dependencies": {
     "request" : "2.55.x",
-    "zombie" : "2.x",
+    "zombie" : "2.x"
   },
   "devDependencies": {
 
