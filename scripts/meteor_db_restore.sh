@@ -1,0 +1,1 @@
+/usr/local/bin/mongorestore -hlocalhost:3001 -d meteor  ../dbbackups/meteor

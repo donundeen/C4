@@ -10,3 +10,7 @@ giphy_proxy/npm-debug.log
 meteor/C4/.meteor/
 
 npm-debug.log
+
+giphy_proxy/node_modules/
+
+jsbin_proxy/node_modules/
