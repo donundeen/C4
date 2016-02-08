@@ -1,6 +1,41 @@
 
 Widgets = new Mongo.Collection("widgets");
 
+// set GLOBAL VARS
+//In the client side
+SERVER_NAME = "localhost";
+SERVER_IP = "localhost";
+
+if (Meteor.isClient) {
+   Meteor.call('getServerName', function(err, results) {
+       SERVER_NAME=results;
+   });
+   Meteor.call('getServerIP', function(err, results) {
+       SERVER_IP=results;
+   });
+}
+
+
+if (Meteor.isServer) {
+
+   Meteor.methods({
+      getServerName: function(){
+	  SERVER_NAME = process.env.SERVER_NAME;
+	  if(typeof(SERVER_NAME)==="undefined"){
+	      SERVER_NAME = "localhost";
+	  }
+          return SERVER_NAME;
+      },
+       getServerIP :  function(){
+	   SERVER_IP = process.env.SERVER_IP;
+	   if(typeof(SERVER_IP)==="undefined"){
+	       SERVER_IP = "localhost";
+	   }
+	   return SERVER_IP;
+       }
+   });
+}
+
 if (Meteor.isClient) {
 
   Meteor.startup(function(){
@@ -42,8 +77,12 @@ if (Meteor.isClient) {
   Template.registerHelper("pagetype", function(){  
     return pageinfo().pagetype;
   });
-
-
+  Template.registerHelper("SERVER_NAME",function(){
+      return SERVER_NAME;
+  });
+  Template.registerHelper("SERVER_IP",function(){
+      return SERVER_IP;
+  });
   Template.body.helpers({
     widgets: function () {
         // Otherwise, return all of the tasks
@@ -153,7 +192,7 @@ if (Meteor.isClient) {
       var htmlstring = '<html>\n '+ 
 '<head>\n '+
 '<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>\n '+
-'<script src="http://localhost/c4libs/locallib.js"></script>\n '+
+'<script src="/c4libs/locallib.js"></script>\n '+
 '   <script type="application/json" class="c4_data">{"data" : "data placed here gets passed along"}</script>\n '+
 '</head>\n '+
 '<body>\n '+

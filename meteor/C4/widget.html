@@ -111,7 +111,7 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
           <br>
           <b>HTML Output:</b><a href="/headless/{{url}}/{{pagetype}}/{{pageid}}.html" target="_blank">/headless/{{url}}/{{pagetype}}/{{pageid}}.html</a>
           <BR>
-          <b>JSBIN Embed URL:</b> http://localhost/jsbin/{{url}}/latest/edit?output&height={{jsbinHeight}}&pagetype={{pagetype}}&pageid={{pageid}}
+          <b>JSBIN Embed URL:</b> http://{{HOSTNAME}}/jsbin/{{url}}/latest/edit?output&height={{jsbinHeight}}&pagetype={{pagetype}}&pageid={{pageid}}
         </div>
         <div class="modal-footer">
           <a href="#" data-dismiss="modal" class="btn">Close</a>
@@ -214,12 +214,12 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
     <!-- end of menu header -->
 
     <div class="widgetBody" >
-      <a class="jsbin jsbin-embed jsbin-embed-dyn" id="jsbin_{{url}}" href="http://localhost/jsbin/{{url}}/latest/edit?output&height={{jsbinHeight}}&pagetype={{pagetype}}&pageid={{pageid}}">JS Bin....{{url}}:</a>
+      <a class="jsbin jsbin-embed jsbin-embed-dyn" id="jsbin_{{url}}" href="/jsbin/{{url}}/latest/edit?output&height={{jsbinHeight}}&pagetype={{pagetype}}&pageid={{pageid}}">JS Bin....{{url}}:</a>
 
 <!--
-      <a class="jsbin jsbin-embed jsbin-embed-dyn" id="jsbin_{{url}}" href="http://localhost/jsbin/{{url}}/latest/edit?output&height={{encodeURIComponent displayUsableHeight}}&pagetype={{pagetype}}&pageid={{pageid}}">JS Bin....{{url}}:</a>
+      <a class="jsbin jsbin-embed jsbin-embed-dyn" id="jsbin_{{url}}" href="/jsbin/{{url}}/latest/edit?output&height={{encodeURIComponent displayUsableHeight}}&pagetype={{pagetype}}&pageid={{pageid}}">JS Bin....{{url}}:</a>
     -->
-      <script src="http://localhost/jsbin/js/embed.js"></script>
+      <script src="/jsbin/js/embed.js"></script>
     </div>
   </div>
 </template>

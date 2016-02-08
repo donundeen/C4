@@ -411,10 +411,14 @@ module.exports = Observable.extend({
         if (result.isowner || result.found === false) { // if anonymous or user is owner
           params.revision += 1; // bump the revision from the *latest*
           that.models.bin.createRevision(params, function (err, result) {
-            var query = {id: req.params.bin, revision: result.revision};
+console.log(JSON.stringify(result, null, " "));
             if (err) {
+console.log("Error on createRevision");
+console.log(err);
               return next(err);
             }
+
+            var query = {id: req.params.bin, revision: result.revision};
 
             that.models.bin.load(query, function (err, result) {
               if (err) {

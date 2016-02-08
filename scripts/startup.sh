@@ -1,9 +1,7 @@
 C5_HOME_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
-JSBIN_CONFIG=$C5_HOME_DIR/server_configs/jsbin/config.api.json
-echo $JSBIN_CONFIG
 sudo nginx -c $C5_HOME_DIR/server_configs/nginx/nginx.conf
-echo PORT=3003 JSBIN_CONFIG=$C5_HOME_DIR/server_configs/jsbin/config.local.json JSBIN_PROXY=on jsbin &
-PORT=3003 JSBIN_CONFIG=$C5_HOME_DIR/server_configs/jsbin/config.local.json JSBIN_PROXY=on jsbin &
+echo PORT=3003 JSBIN_CONFIG=$C5_HOME_DIR/server_configs/jsbin/config.embed.json JSBIN_PROXY=on jsbin &
+PORT=3003 JSBIN_CONFIG=$C5_HOME_DIR/server_configs/jsbin/config.embed.json JSBIN_PROXY=on jsbin &
 echo JSBIN_CONFIG=$C5_HOME_DIR/server_configs/jsbin/config.api.json  jsbin &
 JSBIN_CONFIG=$C5_HOME_DIR/server_configs/jsbin/config.api.json  jsbin &
 cd ../web_proxy

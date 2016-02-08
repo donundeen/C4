@@ -129,7 +129,7 @@ function getOutputFromWidget(widgetName, callback){
         callback(c4_widget_cache[widgetName]);
         return true;
     }
-    var reqUrl = 'http://localhost/headless/'+widgetName+'/'+pageType()+"/"+pageId();
+    var reqUrl = '/headless/'+widgetName+'/'+pageType()+"/"+pageId();
     console.log("calling " + reqUrl);
     $.ajax({
         url: reqUrl,
@@ -152,7 +152,7 @@ function getOutputFromWidget(widgetName, callback){
 
 
 function webserviceData(url, callback, item){
-    var theurl = "http://localhost/web_proxy/?url="+encodeURI(url);
+    var theurl = "/web_proxy/?url="+encodeURI(url);
     console.log("....calling webservice url " + theurl);
     var data = {lookatme :  "kanye"};
     if(item.authentication_token){
