@@ -1,0 +1,7 @@
+export C5_HOME_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+export C5_SERVER_NAME="localhost"
+export C5_SERVER_IP="localhost"
+export C5_SERVER_ENV="development"
+export C5_JSBIN_API_CONFIG="$C5_HOME_DIR/server_configs/jsbin/config.api.local.json"
+export C5_JSBIN_EMBED_CONFIG="$C5_HOME_DIR/server_configs/jsbin/config.embed.local.json"
+export C5_NGINX_CONFIG="$C5_HOME_DIR/server_configs/nginx/nginx.local.conf"
