@@ -10,7 +10,7 @@ so including a random gif is as easy as
 
 */
 
-    
+console.log(process.version);    
 var urlparser = require("url");
 
 var fs = require("fs");
