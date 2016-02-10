@@ -166,6 +166,11 @@ body {
 .widgets .container {
     margin-top: 100px;
     float: left;
+    width: 100%;
+}
+
+.container {
+    width: 100%;
 }
 
 
