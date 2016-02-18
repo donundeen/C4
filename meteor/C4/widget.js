@@ -96,7 +96,9 @@ if (Meteor.isClient) {
               editors = theElement.contentWindow.editors;
               jsbin = theElement.contentWindow.jsbin;
               menu = theElement.contentWindow.document.getElementById("control");
-              bin = theElement.contentWindow.document.getElementById("bin");              
+              bin = theElement.contentWindow.document.getElementById("bin");
+              console.log(jsbin);           
+              console.log(editors);           
             }else{
               console.log("no element found for jsbin_"+thisid);
             }

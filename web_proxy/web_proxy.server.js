@@ -56,7 +56,7 @@ function parseRequest(req, res){
   
   var path = parsed.path;
 
-  url = parsed.query.url.trim();
+  var url = parsed.query.url.trim();
 
   if(url == ""){
     res.writeHead(200, {'Content-Type': 'application/json'});
