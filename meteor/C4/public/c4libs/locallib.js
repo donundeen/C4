@@ -192,6 +192,16 @@ function removeWaitingGif(){
     $(".waitinggif").remove();
 }
 
+
+function dataIntoJsonView(data){
+    console.log(window.parent.parent.frameElement.parentNode);
+    var container = $(window.parent.parent.frameElement.parentNode).parent();
+    var editHeader = $(".widgetEditHeader",container);
+    $(".nav",editHeader).css("border", "1px solid black");
+// from here, edit the "Data", populate it with the json view thing.
+
+}
+
 function requireWidgetData(requiresList, callback){
     console.log("in requireWidgetData");
 
@@ -201,6 +211,7 @@ function requireWidgetData(requiresList, callback){
     var length = requiresList.length;
     var funcscomplete = 0;
     var resultsSet = {};
+    var forJsonView = {};
     if(length == 0){
         removeWaitingGif();
         callback(resultsSet);
@@ -211,10 +222,13 @@ function requireWidgetData(requiresList, callback){
             widgetData(item.from, function(response){
                 if(!resultsSet[item.from]){
                     resultsSet[item.from] = {};
+                    forJsonView[item.from] = {};
                 }
                 resultsSet[item.from].data = response;
+                forJsonView[item.from].data = response;
                 if(++funcscomplete == length){
                     removeWaitingGif();
+                    dataIntoJsonView(forJsonView);
                     callback(resultsSet);
                 }            
             });
@@ -226,11 +240,13 @@ function requireWidgetData(requiresList, callback){
                 resultsSet[item.from].html = response;
                 if(++funcscomplete == length){
                     removeWaitingGif();
+                    dataIntoJsonView(forJsonView);
                     callback(resultsSet);
                 }
             });
             if(++funcscomplete == length){
                 removeWaitingGif();
+                dataIntoJsonView(forJsonView);
                 callback(resultsSet);
             }            
         }else if(item.type == "webservice"){
@@ -239,9 +255,12 @@ function requireWidgetData(requiresList, callback){
             var format = item.format;
             webserviceData(url, function(response){
                 resultsSet[id] = {};
+                forJsonView[id] = {};
                 resultsSet[id].data = response;
+                forJsonView[id].data = response;
                 if(++funcscomplete == length){
-                    removeWaitingGif();                    
+                    removeWaitingGif();
+                    dataIntoJsonView(forJsonView);
                     callback(resultsSet);
                 }            
             }, item);
@@ -249,6 +268,7 @@ function requireWidgetData(requiresList, callback){
             resultsSet[item.from] = {};
             if(funcscomplete++ == length){
                 removeWaitingGif();
+                dataIntoJsonView(forJsonView);
                 callback(resultsSet);
             }            
         }

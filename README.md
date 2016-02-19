@@ -22,8 +22,8 @@ TODOs:
 - BUG - sometimes webservice proxy/cache mechanism returns the wrong results?
 - BUG sometimes the jsbin doesn't run on page load, sometimes it doesn't even show.
 
-- JSON Viewer. https://github.com/yesmeck/jquery-jsonview
 - per-widget comments, per-widget instance comments.
+ 	- https://atmospherejs.com/arkham/comments-ui
 - confirm delete.
 - functionality for getting/setting user session information
 - user/group/public access levels on widgets
@@ -34,15 +34,13 @@ TODOs:
 - need a consistent approach to UI for menu. 
 - need lots of styling help, so it's veru comfortable to use.
 - saving and exporting/importing widgets as mongo data
--- https://themeteorchef.com/recipes/exporting-data-from-your-meteor-application/
--- http://justmeteor.com/blog/backup-and-restore-your-mongodb-database/
+	- https://themeteorchef.com/recipes/exporting-data-from-your-meteor-application/
+	- http://justmeteor.com/blog/backup-and-restore-your-mongodb-database/
 - packaging all the code so it's easy to install and run, and to deliver to an app server.
 - "Undo" widget deletes 
 - promoted widgets (that do important stuff)
 - "my favorite widgets"  
--- example widgets
-- "lock" code that someone else is editing. concurrent editing would be cool, though..
--- we'll save this for post-MVP, and ask people to be careful
+	- example widgets
 - WYSIWYG HTML Editor, that works in JSBIN
 
 
