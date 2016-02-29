@@ -277,7 +277,7 @@ var renderLivePreview = (function () {
   if (!$live.find('iframe').length) {
     iframe = document.createElement('iframe');
     iframe.setAttribute('class', 'stretch');
-    iframe.setAttribute('sandbox', 'allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation');
+    iframe.setAttribute('sandbox', 'allow-forms allow-top-navigation allow-pointer-lock allow-popups allow-same-origin allow-scripts');
     iframe.setAttribute('frameBorder', '0');
     $live.prepend(iframe);
     iframe.src = jsbin.runner;

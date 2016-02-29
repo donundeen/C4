@@ -219,7 +219,7 @@ function embed(link) {
   iframe.id = link.id; // also inherit, giving more style control to the user
   iframe.style.border = '1px solid #aaa';
 
-  iframe.setAttribute("sandbox", "allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation");
+  iframe.setAttribute("sandbox", "allow-forms allow-top-navigation allow-pointer-lock allow-popups allow-same-origin allow-scripts");
 
   var query = getQuery(link.search);
   iframe.style.width = query.width || '100%';
