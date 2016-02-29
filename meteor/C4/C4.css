@@ -23,11 +23,13 @@ body {
 .container-item { 
     position: relative;
     background: #886;
-    border: 2px solid;
-    border-radius: 25px;
+    border: none;
+    border-radius: 20px;
     padding: 10px;
     margin: 5px;
 }
+
+
 
 .header{
     height: 100px;
@@ -53,7 +55,7 @@ body {
 
 .navbar {
     background: #886;
-    border: none;
+    border: 0px;
     color: black;
 }
 .navbar-brand {
@@ -173,6 +175,19 @@ body {
     width: 100%;
 }
 
+.jsbin {
+    border-radius: 20px;    
+}
+
+iframe {
+    border-radius: 20px;
+
+}
+
+.stretch {
+    border-radius: 20px;
+
+}
 
 img {
     border-radius: 20px;

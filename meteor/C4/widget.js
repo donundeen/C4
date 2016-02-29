@@ -2,9 +2,18 @@
 if (Meteor.isClient) {
 
 /////// FUNCTION DEFS
-  function setDisplayModeOn(widgetData, iframeElement, widgetElement, menu, bin, jsbin){
+  var dix = 0;
+  function setDisplayModeOn(widgetData, iframeElement, widgetElement, menu, bin, jsbin, widgetid){
+
+    dix++;
+    var di = dix;
     var newbintop = 0;
     $(menu).hide();
+
+    if(widgetData.displayUsableWidth.trim() == ""){
+      widgetData.displayUsableWidth = "50%";
+    }
+
     $(".editmodeonly", widgetElement).hide();
     $(".displaymodeonly", widgetElement).show();
     iframeElement.oldbintop = $(bin).css("top");
@@ -12,7 +21,9 @@ if (Meteor.isClient) {
     $(widgetElement).attr("style", widgetData.usableWidgetStyle);
     $(widgetElement).css("width", widgetData.displayUsableWidth);
     $(widgetElement).css("height", widgetData.displayUsableHeight);
+    $(widgetElement).css("border-radius", "20px");
     $(".widgetDisplayHeader", widgetElement).hide();  
+
 
     if(jsbin && jsbin.panels){
       jsbin.panels.hide("html");
@@ -23,6 +34,20 @@ if (Meteor.isClient) {
     $(".lock", widgetElement).show();
     $(".unlock", widgetElement).hide();
     $(widgetElement).data("mode", "display");
+
+    $(iframeElement).css("max-height", "");
+    $(iframeElement).css("max-width", "");
+    $(iframeElement).width($(widgetElement).width());
+    $(iframeElement).height($(widgetElement).height());
+    $(iframeElement).css("border-radius", "20px");
+
+    (function(wn, wd, ifr){
+      $(wn).resize(function(){
+        console.log("resizing");
+        $(ifr).width($(wd).width());
+        $(ifr).height($(wd).height());
+      });
+    })(window, widgetElement, iframeElement);
 
   }
 
@@ -43,8 +68,14 @@ if (Meteor.isClient) {
     $(".editmodeonly", widgetElement).show();
     $(".displaymodeonly", widgetElement).hide();
     $(bin).css("top", iframeElement.oldbintop);
-    $(widgetElement).css("width","100%");
-    $(widgetElement).css("height","100%");
+    $(widgetElement).css("width",$(window).width());
+    $(widgetElement).css("height",$(window).height());
+    $(widgetElement).css("border-radius", "20px");
+
+    $(iframeElement).css("max-height", "");
+    $(iframeElement).width($(widgetElement).width());
+    $(iframeElement).height($(widgetElement).height() - 80);
+    $(iframeElement).css("border-radius", "20px");
 
   }
 /////// END FUNCTION DEFS
@@ -78,37 +109,40 @@ if (Meteor.isClient) {
             if(jsbin && jsbin.panels){
               jsbin.panels.saveOnExit = true;
             }            
-            setDisplayModeOn(widget.data, this, widgetElement, menu, bin, jsbin);
+            console.log("$?$?$?$?$?$??$?$?$?$$?$??$$");
+            setDisplayModeOn(widget.data, this, widgetElement, menu, bin, jsbin, thisid);
           }else{
             console.log("no element found for jsbin_"+thisid);
           }
         });
       }
       // this part here happens when the JSBIN stuff is loaded.
-      document.addEventListener("DOMNodeInserted", function(evt, item){
-        if($(evt.target)[0].tagName == "IFRAME"){
-          $((evt.target)).load(function(){
-            console.log("target load " + thisid);
-            var widgetElement = document.getElementById('widgetContainer_'+thisid);
-            var editors = jsbin = menu = bin = null;
-            var theElement = document.getElementById('jsbin_'+thisid);
-            if(theElement){
-              editors = theElement.contentWindow.editors;
-              jsbin = theElement.contentWindow.jsbin;
-              menu = theElement.contentWindow.document.getElementById("control");
-              bin = theElement.contentWindow.document.getElementById("bin");
-              console.log(jsbin);           
-              console.log(editors);           
-            }else{
-              console.log("no element found for jsbin_"+thisid);
+      (function(this_id){
+        document.addEventListener("DOMNodeInserted", function(evt, item){
+          (function(_evt, _this_id){
+            if($(_evt.target)[0].tagName == "IFRAME" && $(_evt.target)[0].id.replace("jsbin_","") == _this_id){
+              console.log($(_evt.target)[0].id);
+              $((_evt.target)).load(function(){
+                var widgetElement = document.getElementById('widgetContainer_'+_this_id);
+                var editors = jsbin = menu = bin = null;
+                var theElement = document.getElementById('jsbin_'+_this_id);
+                if(theElement){
+                  editors = theElement.contentWindow.editors;
+                  jsbin = theElement.contentWindow.jsbin;
+                  menu = theElement.contentWindow.document.getElementById("control");
+                  bin = theElement.contentWindow.document.getElementById("bin");
+                }else{
+                  console.log("no element found for jsbin_"+_this_id);
+                }
+                if(jsbin && jsbin.panels){
+                  jsbin.panels.saveOnExit = true;
+                }
+                setDisplayModeOn(widget.data, this, widgetElement, menu, bin, jsbin, _this_id);
+              });
             }
-            if(jsbin && jsbin.panels){
-              jsbin.panels.saveOnExit = true;
-            }
-            setDisplayModeOn(widget.data, this, widgetElement, menu, bin, jsbin);
-          });
-        }
-      });
+          })(evt, this_id);
+        });
+      })(thisid);
     })(this);
  }); 
 /////////// END WIDGET ONRENDERED
@@ -282,10 +316,10 @@ if (Meteor.isClient) {
       var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
       var menu = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("control");
       var bin = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("bin");
-      console.log(editors);
-      console.log(jsbin);
+//      console.log(editors);
+//      console.log(jsbin);
 
-      console.log(thiselement);
+//      console.log(thiselement);
 
       var newbintop = 0;
       this.maxed = !this.maxed;
@@ -334,7 +368,7 @@ if (Meteor.isClient) {
       var jsbin = iframeElement.contentWindow.jsbin;
       var menu = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("control");
       var bin = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("bin");
-      setDisplayModeOn(this, iframeElement, widgetElement, menu, bin, jsbin);
+      setDisplayModeOn(this, iframeElement, widgetElement, menu, bin, jsbin, this._id);
 
       return false;
     },

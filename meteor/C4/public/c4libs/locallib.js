@@ -1,7 +1,6 @@
 var c4_widget_cache = {};
 
 
-
 function pageId(){
     // get parent url, figure out the "page id"
 //    console.log(window.parent.parent.parent.location.href);
@@ -21,7 +20,7 @@ function pageId(){
     }catch(e){
         var pathname = window.location.pathname;
         var split = pathname.split("/");
-        console.log(split);
+//        console.log(split);
         split.shift();
         var next = split.shift();
         if(next == "headless"){
@@ -136,7 +135,7 @@ function getOutputFromWidget(widgetName, callback){
         dataType: 'html',
         success : function(result){
             console.log("got result");
-            console.log(result);
+//            console.log(result);
             c4_widget_cache[widgetName] = result;
             callback(result);
         },
@@ -197,7 +196,7 @@ function dataIntoJsonView(data){
     console.log(window.parent.parent.frameElement.parentNode);
     var container = $(window.parent.parent.frameElement.parentNode).parent();
     var editHeader = $(".widgetEditHeader",container);
-    $(".nav",editHeader).css("border", "1px solid black");
+//    $(".nav",editHeader).css("border", "1px solid black");
 // from here, edit the "Data", populate it with the json view thing.
 
 }
@@ -217,7 +216,7 @@ function requireWidgetData(requiresList, callback){
         callback(resultsSet);
     }
     $.each(requiresList, function(index, item){
-        console.log(item);
+//        console.log(item);
         if(item.type == "data"){
             widgetData(item.from, function(response){
                 if(!resultsSet[item.from]){

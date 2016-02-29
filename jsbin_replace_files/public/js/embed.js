@@ -33,11 +33,8 @@ if (window.jsbinified !== undefined) return;
 
   // this part added by donundeen, to support dynamic insertion of jsbins
   doc.addEventListener("DOMNodeInserted", function(evt, item){
-    console.log("node inserted");
-    console.log(evt.target);
     var bins = $(evt.target).find("a.jsbin-embed-dyn");
     if(bins.length > 0){
-        console.log(bins[0]);
         embed(bins[0]);
     }
   })
@@ -203,7 +200,6 @@ function scoop(link) {
 }
 
 function embed(link) {
-  console.log(link);
   var iframe = document.createElement('iframe');
   var    resize = document.createElement('div');
   var url;
@@ -218,7 +214,7 @@ function embed(link) {
   iframe.className = link.className; // inherit all the classes from the link
   iframe.id = link.id; // also inherit, giving more style control to the user
   iframe.style.border = '1px solid #aaa';
-
+  iframe.style['border-radius'] = "25px;";
   iframe.setAttribute("sandbox", "allow-forms allow-top-navigation allow-pointer-lock allow-popups allow-same-origin allow-scripts");
 
   var query = getQuery(link.search);
