@@ -11,6 +11,8 @@ UI Ideas:
 TODOs:
 
 - MVP: insert code: pageid, pagetype, pageurl
+- dynamically resizable divs
+- another layout option: masonry: https://github.com/voodoohop/meteor-masonrify
 - MVP: Help Text
 	- MVP: "How to use this app" - bare minimum
 - MVP need an image proxy as well.
