@@ -10,20 +10,20 @@ UI Ideas:
 
 TODOs:
 
+- MVP: functionality for persisting data for a widget on a pageid level. eg, to make a "this object comments" widget, or something like that.
+- MVP: elastisearch integration: proxy and helper functions
 - MVP: insert code: pageid, pagetype, pageurl
-- dynamically resizable divs
-- another layout option: masonry: https://github.com/voodoohop/meteor-masonrify
 - MVP: Help Text
 	- MVP: "How to use this app" - bare minimum
 - MVP need an image proxy as well.
 - MVP: Make some useful templates and examples
 	- a few culutural APIs
-- MVP: functionality for persisting data for a widget on a pageid level. eg, to make a "this object comments" widget, or something like that.
-- BUG - sometimes web_proxy is returning wrong data set...
-- BUG - Widget should vertically maximize when in edit mode.
-- BUG - sometimes webservice proxy/cache mechanism returns the wrong results?
 - BUG sometimes the jsbin doesn't run on page load, sometimes it doesn't even show.
 
+
+
+- dynamically resizable divs
+- another layout option: masonry: https://github.com/voodoohop/meteor-masonrify
 - per-widget comments, per-widget instance comments.
  	- https://atmospherejs.com/arkham/comments-ui
 - confirm delete.
@@ -52,6 +52,8 @@ CRAZY IDEAS:
 
 COMPLETED
 
+- BUG - Widget should vertically maximize when in edit mode. - FIXED
+- BUG - sometimes web_proxy is returning wrong data set... FIXED
 - DONE package.json file
 - DONE: MVP: need a proxy for calling external webservices
 	- MVP: then include as a "insert code snippet" bit
