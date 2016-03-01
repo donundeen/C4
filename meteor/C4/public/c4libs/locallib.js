@@ -192,13 +192,42 @@ function removeWaitingGif(){
 }
 
 
+function elasticsearchInsert(pagetype, pageid, data, callback){
+    var url = "/elasticsearch_proxy";
+    var doc = {type : pagetype,
+                id : pageid,
+                data: data
+                }
+    $.ajax({
+        method : "POST",
+        data : JSON.stringify(doc),
+        dataType : "json",
+        contentType: "application/json; charset=utf-8",        
+        url : url,
+        success : function(result){
+            console.log("got result for elasticsearch call to " + url);
+            callback(result);
+        },
+        error : function (xhr, status, error) {
+            console.log("elascticsearchInsert  got error");
+            console.log(error);
+            console.log(status);
+            callback(false);            
+        }
+    });
+}
+
+
 function dataIntoJsonView(data){
-    console.log(window.parent.parent.frameElement.parentNode);
-    var container = $(window.parent.parent.frameElement.parentNode).parent();
-    var editHeader = $(".widgetEditHeader",container);
+    try{
+        console.log(window.parent.parent.frameElement.parentNode);
+        var container = $(window.parent.parent.frameElement.parentNode).parent();
+        var editHeader = $(".widgetEditHeader",container);
 //    $(".nav",editHeader).css("border", "1px solid black");
 // from here, edit the "Data", populate it with the json view thing.
-
+    }catch(e){
+        // maybe there isn't a parent. if so, just ignore, move on...
+    }
 }
 
 function requireWidgetData(requiresList, callback){

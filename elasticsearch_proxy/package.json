@@ -1,0 +1,11 @@
+{
+  "name": "elasticsearch_proxy",
+  "version": "1.0.0",
+  "description": "proxy for elasticsearch",
+  "main": "elasticsearch_proxy.server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "don undeen",
+  "license": "ISC"
+}
