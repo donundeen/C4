@@ -10,6 +10,8 @@ UI Ideas:
 
 TODOs:
 
+- MVP: "page-level"" widgets. This is needed for:
+- MVP: "My Widgets" : "saving" widgets adds them to YOUR users/USERNAME page. And they will also show up in the "add widget" dropdown on every page. 
 - MVP: functionality for persisting data for a widget on a pageid level. eg, to make a "this object comments" widget, or something like that.
 - MVP: elastisearch integration: proxy and helper functions
 - MVP: insert code: pageid, pagetype, pageurl
