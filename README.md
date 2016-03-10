@@ -7,11 +7,17 @@ UI Ideas:
 - Semantic UI: http://semantic-ui.com/
   
 
+using this font library
+
+- https://atmospherejs.com/ixdi/material-design-iconic-font
+- https://materialdesignicons.com/
+- http://zavoloklom.github.io/material-design-iconic-font/examples.html
+- cheatsheet here: http://zavoloklom.github.io/material-design-iconic-font/cheatsheet.html#alert
+
+
 
 TODOs:
 
-- MVP: "page-level"" widgets. This is needed for:
-- MVP: "My Widgets" : "saving" widgets adds them to YOUR users/USERNAME page. And they will also show up in the "add widget" dropdown on every page. 
 - MVP: functionality for persisting data for a widget on a pageid level. eg, to make a "this object comments" widget, or something like that.
 - MVP: elastisearch integration: proxy and helper functions
 - MVP: insert code: pageid, pagetype, pageurl
@@ -54,6 +60,8 @@ CRAZY IDEAS:
 
 COMPLETED
 
+- DONE: MVP: "page-level"" widgets. This is needed for:
+- DONE: MVP: "My Widgets" : "saving" widgets adds them to YOUR users/USERNAME page. And they will also show up in the "add widget" dropdown on every page. 
 - BUG - Widget should vertically maximize when in edit mode. - FIXED
 - BUG - sometimes web_proxy is returning wrong data set... FIXED
 - DONE package.json file
