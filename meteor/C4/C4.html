@@ -27,7 +27,7 @@
     {{#if currentUser}}
       <div class="container-item tooltip-right" align="center" valign="center">
           <button class="clickable btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="true" style="vertical-align: middle;">
-                    <li class="zmdi zmdi-collection-text zmdi-hc-3x"></li>
+                    <li class="zmdi zmdi-collection-text zmdi-hc-3x"></li><BR><li class="zmdi zmdi-caret-down zmdi-hc-3x"></li>
 <!--
         <li class="clickable headericon new_from_template ion-paper-airplane" data-pack="default" data-tags="" alt="copy from widget" style="display: inline-block;"></li>-->
           </button>
@@ -50,7 +50,7 @@
     {{/if}}
       <div class="container-item widgetmenu login" title="Login for User Things">
         <h4>{{> loginButtons}}</h4>
-        <span><a href="/user_libs/{{currentUser.username}}">Your Library</a></span>
+        <span> <a href="/user_libs/{{currentUser.username}}"><i class="zmdi zmdi-collection-text"> Your Library</i></a></span>
       </div>
       <div class="container-item widgetmenu help">
         <li class=" clickable headericon ion-help-buoy display" id="help" data-pack="default" data-tags="" style="display: inline-block;" data-toggle="modal" data-target="#help_modal"></li>
