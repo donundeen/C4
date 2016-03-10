@@ -7,20 +7,14 @@ function pageId(){
     var search= window.parent.parent.location.search;
     var pageid = "";
     try{
-        console.log("searching " + search);
         var results = /.*pageid=([^\&]+)/.exec(search);
         if(results){
             pageid = results[1];
         }
-
-        console.log(" got pageid " + pageid);
         pageid = pageid.replace(/\:script/, "");
-
-        console.log("locallib pageid " + pageid);        
     }catch(e){
         var pathname = window.location.pathname;
         var split = pathname.split("/");
-//        console.log(split);
         split.shift();
         var next = split.shift();
         if(next == "headless"){
@@ -33,9 +27,6 @@ function pageId(){
             pageid = split.shift();
         }
         pageid = pageid.replace(/\:script/, "");
-
-        console.log("locallib returning pageid " + pageid);
-
     }
     return pageid;
 }
@@ -46,7 +37,6 @@ function pageid(){
 
 function pageType(){
     // get parent url, figure out the "page id"
-//    console.log(window.parent.parent.parent.location.href);
     var search= window.parent.parent.location.search;
     var pagetype = "";
     try{
@@ -129,13 +119,10 @@ function getOutputFromWidget(widgetName, callback){
         return true;
     }
     var reqUrl = '/headless/'+widgetName+'/'+pageType()+"/"+pageId();
-    console.log("calling " + reqUrl);
     $.ajax({
         url: reqUrl,
         dataType: 'html',
         success : function(result){
-            console.log("got result");
-//            console.log(result);
             c4_widget_cache[widgetName] = result;
             callback(result);
         },
@@ -152,7 +139,6 @@ function getOutputFromWidget(widgetName, callback){
 
 function webserviceData(url, callback, item){
     var theurl = "/web_proxy/?url="+encodeURI(url);
-    console.log("....calling webservice url " + theurl);
     var data = {lookatme :  "kanye"};
     if(item.authentication_token){
         data.headers = JSON.stringify({'Authorization':'Token token=' + item.authentication_token});
@@ -162,7 +148,7 @@ function webserviceData(url, callback, item){
         dataType: 'json',
         data: data,
         success : function(result){
-            console.log("got result for call to " + theurl);
+//            console.log("got result for call to " + theurl);
             callback(result);
         },
         error : function (xhr, status, error) {
@@ -172,7 +158,6 @@ function webserviceData(url, callback, item){
             callback(false);            
         }
     });
-    console.log("called webserive url");
 }
 
 
@@ -185,9 +170,7 @@ function createWaitingGif(){
 
 
 function removeWaitingGif(){
-
     gifRemoved = true;
-    console.log("removing");
     $(".waitinggif").remove();
 }
 
@@ -231,8 +214,6 @@ function dataIntoJsonView(data){
 }
 
 function requireWidgetData(requiresList, callback){
-    console.log("in requireWidgetData");
-
     if(!window.location.href.match(/headless=true/)){
         createWaitingGif();
     }

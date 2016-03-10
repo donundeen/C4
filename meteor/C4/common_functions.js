@@ -39,8 +39,6 @@ if (Meteor.isClient) {
   }
 
   setWidgetDefaults = function(doc){
-
-    console.log("mapping");
     if(typeof doc.displayWidth === "undefined" || !doc.displayWidth || doc.displayWidth.trim() == "" || doc.displayWidth == "width" || doc.displayWidth == "default"){
       doc.displayWidth = "default";
       doc.displayUsableWidth = "";
@@ -74,8 +72,6 @@ if (Meteor.isClient) {
     if(!doc.this_page_only){
       doc.this_page_only = false;
     }
-
-    console.log("d height " + doc.displayHeight + " : " + doc.displayUsableHeight);
 
     return doc;
   }

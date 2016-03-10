@@ -208,7 +208,6 @@ function embed(link) {
       }else{
         url = link.href.replace(/edit/, 'embed');
       }
-      console.log("url is " + url);
   iframe.src = url;
   iframe._src = url; // support for google slide embed
   iframe.className = link.className; // inherit all the classes from the link

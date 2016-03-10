@@ -14,11 +14,6 @@ if (Meteor.isClient) {
       widgetData.displayUsableWidth = "50%";
     }
 
-
-    console.log("height " + widgetData.displayUsableHeight);
-
-    console.log(widgetData);
-
     $(".editmodeonly", widgetElement).hide();
     $(".displaymodeonly", widgetElement).show();
     iframeElement.oldbintop = $(bin).css("top");
@@ -48,7 +43,6 @@ if (Meteor.isClient) {
 
     (function(wn, wd, ifr){
       $(wn).resize(function(){
-        console.log("resizing");
         $(ifr).width($(wd).width());
         $(ifr).height($(wd).height());
       });
@@ -105,7 +99,6 @@ if (Meteor.isClient) {
           var widgetElement = document.getElementById('widgetContainer_'+thisid);
           var editors = jsbin = menu = bin = null;
           if(theElement){
-            console.log("found element for jsbin_"+thisid);
             editors = theElement.contentWindow.editors;
             jsbin = theElement.contentWindow.jsbin;
             menu = theElement.contentWindow.document.getElementById("control");
@@ -125,7 +118,6 @@ if (Meteor.isClient) {
         document.addEventListener("DOMNodeInserted", function(evt, item){
           (function(_evt, _this_id){
             if($(_evt.target)[0].tagName == "IFRAME" && $(_evt.target)[0].id.replace("jsbin_","") == _this_id){
-              console.log($(_evt.target)[0].id);
               $((_evt.target)).load(function(){
                 var widgetElement = document.getElementById('widgetContainer_'+_this_id);
                 var editors = jsbin = menu = bin = null;
@@ -242,7 +234,6 @@ if (Meteor.isClient) {
 
 
     "click .call_webservice_url" : function(evt, template){
-      console.log("calling webservice url");
       $("#webservice_insert_modal").modal('show');
 
       $("#webservice_insert_modal_submit").click(function(){
@@ -314,16 +305,11 @@ if (Meteor.isClient) {
 
 
     "click .test": function () {
-      console.log("testing widget thing");
       var thiselement = document.getElementById('widgetContainer_'+this._id);
       var editors = document.getElementById('jsbin_'+this._id).contentWindow.editors;
       var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
       var menu = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("control");
       var bin = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("bin");
-//      console.log(editors);
-//      console.log(jsbin);
-
-//      console.log(thiselement);
 
       var newbintop = 0;
       this.maxed = !this.maxed;
@@ -379,16 +365,12 @@ if (Meteor.isClient) {
 
 
     'click .copy' : function(){
-      console.log("copy from template "+ this.url);
-
-
       var template = Widgets.findOne({url : this.url}); //.map(setWidgetDefaults);
       var dataobj = {html : template.html, css: template.css, javascript: template.javascript};
       var url = "/api/save";//?js="+jsstring+"&html="+htmlstring+"&css="+csstring,
       var options = {data: dataobj};
       
       HTTP.post(url, options, function(error, results){
-        console.log("data submitted");
         newWidget = {_id: results.data.url,
                     createdBy : { username : Meteor.user().username,
                     userid : Meteor.userId() },
@@ -412,7 +394,6 @@ if (Meteor.isClient) {
 
       giphy_modal("copy", "widget copied");
 
-      console.log("copied");
       return false;
     },    
 
@@ -442,7 +423,6 @@ if (Meteor.isClient) {
       var newpageurl = newpagetype + "/" + newpageurl;
       
       HTTP.post(url, options, function(error, results){
-        console.log("data submitted");
         newWidget = {_id: results.data.url,
                     createdBy : { username : Meteor.user().username,
                     userid : Meteor.userId() },
@@ -472,7 +452,6 @@ if (Meteor.isClient) {
 
 
     "mouseenter .widgetMouseOverTarget" : function(){
-      console.log("mouseover");
         var thiselement = document.getElementById('widgetContainer_'+this._id);
         var mode = $(thiselement).data("mode");
         if(!mode || mode == "display"){

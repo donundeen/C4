@@ -128,27 +128,18 @@ if (Meteor.isClient) {
 
 
     "click .lockall": function () {
-      console.log("locked" + this._id);
-      console.log("locking");
-
       $(".lock").trigger("click");
-
       $(".lockall").hide();
       $(".unlockall").show();
       giphy_modal("unlock", "Unlocking all widgets you have access to");
-
-
       return false;
 
     },
     "click .unlockall": function () {
-      console.log("unlocking");
       $(".unlock").trigger("click");
       $(".lockall").show();
       $(".unlockall").hide();
-
       giphy_modal("lock", "Locking all Widgets");
-
       return false;
     },
 
@@ -159,15 +150,12 @@ if (Meteor.isClient) {
 
 
     'click .copy_from_template' : function(){
-      console.log("copy from template "+ this.url);
-
       var template = Widgets.findOne({url : this.url}); //.map(setWidgetDefaults);
       var dataobj = {html : template.html, css: template.css, javascript: template.javascript};
       var url = "/api/save";//?js="+jsstring+"&html="+htmlstring+"&css="+csstring,
       var options = {data: dataobj};
       
       HTTP.post(url, options, function(error, results){
-        console.log("data submitted");
         newWidget = {_id: results.data.url,
                     createdBy : { username : Meteor.user().username,
                       userid : Meteor.userId() },
@@ -186,8 +174,6 @@ if (Meteor.isClient) {
                     url: results.data.url,
                     createdAt: new Date(),
                     rand: Math.random() };
-        console.log("creating new widget");
-        console.log(newWidget);
         Widgets.insert(newWidget);
       });
 
@@ -205,7 +191,6 @@ if (Meteor.isClient) {
 
     'click .addwidget' : function(){
       //add jsbin widget
-      console.log("clicked");
 
       var htmlstring = '<html>\n '+ 
 '<head>\n '+
@@ -237,10 +222,6 @@ if (Meteor.isClient) {
       var url = "/api/save";//?js="+jsstring+"&html="+htmlstring+"&css="+csstring,
       var options = {data: dataobj};
       HTTP.post(url, options, function(error, results){
-        console.log("data submitted");
-        console.log(results);
-        console.log(error);
-        console.log(results.data.url);
         newWidget = {_id: results.data.url,
                     createdBy : { username : Meteor.user().username,
                                   userid : Meteor.userId() },          
@@ -265,7 +246,6 @@ if (Meteor.isClient) {
     },
 
     'click .test' : function(){
-      console.log("testing");
       return false;
     }
   });
