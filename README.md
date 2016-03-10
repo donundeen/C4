@@ -49,8 +49,6 @@ TODOs:
 - packaging all the code so it's easy to install and run, and to deliver to an app server.
 - "Undo" widget deletes 
 - promoted widgets (that do important stuff)
-- "my favorite widgets"  
-	- example widgets
 - WYSIWYG HTML Editor, that works in JSBIN
 
 
