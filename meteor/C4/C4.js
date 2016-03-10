@@ -86,12 +86,30 @@ if (Meteor.isClient) {
   Template.body.helpers({
     widgets: function () {
         // Otherwise, return all of the tasks
-        return Widgets.find({pagetype : pageinfo().pagetype}, {sort: {createdAt: -1}}).map(setWidgetDefaults); 
+        var find = {this_page_only: {$in : [false, null]},
+                pagetype : pageinfo().pagetype};
+
+        return Widgets.find(find, {sort: {createdAt: -1}}).map(setWidgetDefaults); 
     },
     widgetTemplates: function () {
       // Otherwise, return all of the tasks
       return Widgets.find({isTemplate : true}, {sort: {createdAt: -1}}); 
-    }
+    },
+    libraryWidgets: function () {
+      // Otherwise, return all of the tasks
+      var find = {inLibrary: true};
+      find["createdBy.userid"] = Meteor.userId();
+      return Widgets.find(find, {sort: {createdAt: -1}}); 
+    },    
+    thisPageWidgets: function () {
+      // Otherwise, return all of the tasks
+      var find = {this_page_only: true,
+                pagetype : pageinfo().pagetype,
+                pageid : pageinfo().pageid};
+      return Widgets.find(find, {sort: {createdAt: -1}}); 
+    }    
+
+
   });
 ////// END HELPERS
 

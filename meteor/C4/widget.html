@@ -20,17 +20,18 @@
       <i>{{description}}</i>
       </div>
       {{#if isMyWidget}}
-      <div class="widgetmenu lock clickable" title="click to unlock widget">
-        <li class="clickable widgeticon ion-locked display" id="lock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"> - Unlock for Editing</li>
-      </div>
-      {{else}}
-      <div class="widgetmenu copy clickable" title="click to unlock widget" >
-        <li class="ion-ios-copy-outline widgeticon" data-pack="default" data-tags="" style="display: inline-block;">
-        - Copy This Widget
-      </li>
-      </div>
+      <div class="widgetmenu lock clickable" title="click to unlock widget" >
+        <i class="zmdi zmdi-lock zmdi-hc-lg"> Unlock for Editing</i>
+      </div>      
+      {{/if}}  
+      <div class="widgetmenu copy clickable" title="click to copy widget" >
+        <i class="zmdi zmdi-copy zmdi-hc-lg"> Copy Widget On This Page</i>
+      </div>      
+      <div class="widgetmenu save_to_library clickable" title="Add to My Library" >
+        <i class="zmdi zmdi-collection-plus zmdi-hc-lg"> Add to My Library</i>
+      </div>      
 
-      {{/if}}      
+
     </div>
     <!-- end display-mode header -->
 
@@ -46,14 +47,10 @@
           <a href="#" data-toggle="dropdown" class="dropdown-toggle">Actions <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li class="dropdown_widgeticon save ion-ios-upload clickable " data-pack="default" data-tags="" alt="save widget" style="display: inline-block;"> Save</li>
+            <li class="divider"></li>
 
-            {{#if isTemplate}}
-            <li class="clickable dropdown_widgeticon save_template ion-paper-airplane {{#if isTemplate}}
-isWidget{{/if}}" data-pack="default" data-tags="" alt="remove from reusable template list" style="display: inline-block;" title="remove this widget from reusable template list."> Remove From Templates</li>
-            {{else}}
-            <li class="clickable dropdown_widgeticon save_template ion-paper-airplane {{#if isTemplate}}
-isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable template" style="display: inline-block;" title="save this widget as a reusable template (will show up in the header drop down with the same icon)."> Save as Template</li>
-            {{/if}}
+            <li class="clickable dropdown_widgeticon save_to_library {{#if isTemplate}}
+isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable template in your library" style="display: inline-block;" title="save this widget as a reusable template in your library."><i class="zmdi zmdi-collection-plus"> Add to My Library</i></li>
             <li class="divider"></li>
             <li class="clickable dropdown_widgeticon ion-ios-trash-outline delete" id="delete_{{url}}" data-pack="ios" data-tags="delete, remove, dispose, waste, basket, dump, kill" style="display: inline-block;"> Delete Widget</li>
           </ul>
@@ -150,9 +147,6 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
     <div class="widgetBody" >
       <a class="jsbin jsbin-embed jsbin-embed-dyn" id="jsbin_{{url}}" href="/jsbin/{{url}}/latest/edit?output&height={{jsbinHeight}}&pagetype={{pagetype}}&pageid={{pageid}}">JS Bin....{{url}}:</a>
 
-<!--
-      <a class="jsbin jsbin-embed jsbin-embed-dyn" id="jsbin_{{url}}" href="/jsbin/{{url}}/latest/edit?output&height={{encodeURIComponent displayUsableHeight}}&pagetype={{pagetype}}&pageid={{pageid}}">JS Bin....{{url}}:</a>
-    -->
       <script src="/jsbin/js/embed.js"></script>
     </div>
   </div>

@@ -71,6 +71,10 @@ if (Meteor.isClient) {
       doc.jsbinHeight = "";
     }
 
+    if(!doc.this_page_only){
+      doc.this_page_only = false;
+    }
+
     return doc;
   }
 }

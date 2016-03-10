@@ -387,15 +387,15 @@ if (Meteor.isClient) {
         console.log("data submitted");
         newWidget = {_id: results.data.url,
                     createdBy : { username : Meteor.user().username,
-                      userid : Meteor.userId() },
+                    userid : Meteor.userId() },
                     isTemplate : false,
                     html : results.data.html,
                     javascript : results.data.javascript,
                     css: results.data.css,
-                    displayWidth: results.data.displayWidth,
-                    displayHeight: results.data.displayHeight,
+                    displayWidth: template.displayWidth,
+                    displayHeight: template.displayHeight,
                     description: "(copied from " + template.name +") " + template.description,
-                    widgetStyle : results.data.widgetStyle,
+                    widgetStyle : template.widgetStyle,
                     name : "copy of " + template.name,
                     pagetype : pageinfo().pagetype,
                     pageurl : pageinfo().pageurl,
@@ -420,6 +420,48 @@ if (Meteor.isClient) {
       var jsbin = document.getElementById('jsbin_'+this._id).contentWindow.jsbin;
 
       giphy_modal("promotion", "widget saved as a template");
+
+      return false;
+    },
+
+    "click .save_to_library": function () {
+      this.isTemplate = !this.isTemplate;
+//      Widgets.update(this._id, this);
+
+      var template = Widgets.findOne({url : this.url}); //.map(setWidgetDefaults);
+      var dataobj = {html : template.html, css: template.css, javascript: template.javascript};
+      var url = "/api/save";//?js="+jsstring+"&html="+htmlstring+"&css="+csstring,
+      var options = {data: dataobj};
+
+      var newpagetype = "user_libs";
+      var newpageid = Meteor.user().username;
+      var newpageurl = newpagetype + "/" + newpageurl;
+      
+      HTTP.post(url, options, function(error, results){
+        console.log("data submitted");
+        newWidget = {_id: results.data.url,
+                    createdBy : { username : Meteor.user().username,
+                    userid : Meteor.userId() },
+                    inLibrary : true,
+                    html : results.data.html,
+                    javascript : results.data.javascript,
+                    css: results.data.css,
+                    displayWidth: template.displayWidth,
+                    displayHeight: template.displayHeight,
+                    description: "(copied from " + template.name +") " + template.description,
+                    widgetStyle : template.widgetStyle,
+                    name : "copy of " + template.name,
+                    pagetype : newpagetype,
+                    pageurl : newpageurl,
+                    pageid : newpageid,
+                    this_page_only : true,
+                    url: results.data.url,
+                    createdAt: new Date(),
+                    rand: Math.random() };
+        Widgets.insert(newWidget);
+      });
+
+      giphy_modal("library", "widget added to your library");
 
       return false;
     },
