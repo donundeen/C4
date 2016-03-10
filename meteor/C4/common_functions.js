@@ -75,6 +75,8 @@ if (Meteor.isClient) {
       doc.this_page_only = false;
     }
 
+    console.log("d height " + doc.displayHeight + " : " + doc.displayUsableHeight);
+
     return doc;
   }
 }

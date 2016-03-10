@@ -93,20 +93,20 @@ if (Meteor.isClient) {
     },
     widgetTemplates: function () {
       // Otherwise, return all of the tasks
-      return Widgets.find({isTemplate : true}, {sort: {createdAt: -1}}); 
+      return Widgets.find({isTemplate : true}, {sort: {createdAt: -1}}).map(setWidgetDefaults);
     },
     libraryWidgets: function () {
       // Otherwise, return all of the tasks
       var find = {inLibrary: true};
       find["createdBy.userid"] = Meteor.userId();
-      return Widgets.find(find, {sort: {createdAt: -1}}); 
+      return Widgets.find(find, {sort: {createdAt: -1}}).map(setWidgetDefaults);
     },    
     thisPageWidgets: function () {
       // Otherwise, return all of the tasks
       var find = {this_page_only: true,
                 pagetype : pageinfo().pagetype,
                 pageid : pageinfo().pageid};
-      return Widgets.find(find, {sort: {createdAt: -1}}); 
+      return Widgets.find(find, {sort: {createdAt: -1}}).map(setWidgetDefaults);
     }    
 
 

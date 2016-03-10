@@ -14,6 +14,11 @@ if (Meteor.isClient) {
       widgetData.displayUsableWidth = "50%";
     }
 
+
+    console.log("height " + widgetData.displayUsableHeight);
+
+    console.log(widgetData);
+
     $(".editmodeonly", widgetElement).hide();
     $(".displaymodeonly", widgetElement).show();
     iframeElement.oldbintop = $(bin).css("top");
@@ -109,7 +114,6 @@ if (Meteor.isClient) {
             if(jsbin && jsbin.panels){
               jsbin.panels.saveOnExit = true;
             }            
-            console.log("$?$?$?$?$?$??$?$?$?$$?$??$$");
             setDisplayModeOn(widget.data, this, widgetElement, menu, bin, jsbin, thisid);
           }else{
             console.log("no element found for jsbin_"+thisid);
