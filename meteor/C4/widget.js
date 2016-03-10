@@ -10,7 +10,7 @@ if (Meteor.isClient) {
     var newbintop = 0;
     $(menu).hide();
 
-    if(widgetData.displayUsableWidth.trim() == ""){
+    if(!widgetData.displayUsableWidth || widgetData.displayUsableWidth.trim() == ""){
       widgetData.displayUsableWidth = "50%";
     }
 
