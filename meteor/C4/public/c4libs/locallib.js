@@ -189,13 +189,13 @@ function elasticsearchInsert(pagetype, pageid, data, callback){
         url : url,
         success : function(result){
             console.log("got result for elasticsearch call to " + url);
-            callback(result);
+            callback(result, false, false);
         },
         error : function (xhr, status, error) {
             console.log("elascticsearchInsert  got error");
             console.log(error);
             console.log(status);
-            callback(false);            
+            callback(false, error, status);            
         }
     });
 }

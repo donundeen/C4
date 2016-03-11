@@ -101,6 +101,11 @@ function startServer(){
 
 function parseRequest(req, res){
 
+
+    if(req.method == 'GET'){
+      
+    }
+
     if (req.method == 'POST') {
         var body = '';
 
