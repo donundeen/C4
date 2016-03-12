@@ -54,7 +54,7 @@ TODOs:
 
 CRAZY IDEAS:
 
-
+- elsticsearch config: https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html
 
 COMPLETED
 

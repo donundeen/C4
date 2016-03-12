@@ -181,6 +181,8 @@ function elasticsearchInsert(pagetype, pageid, data, callback){
                 id : pageid,
                 data: data
                 }
+    console.log("inserting doc");
+    console.log(doc);
     $.ajax({
         method : "POST",
         data : JSON.stringify(doc),
@@ -194,6 +196,7 @@ function elasticsearchInsert(pagetype, pageid, data, callback){
         error : function (xhr, status, error) {
             console.log("elascticsearchInsert  got error");
             console.log(error);
+            console.log(xhr);
             console.log(status);
             callback(false, error, status);            
         }

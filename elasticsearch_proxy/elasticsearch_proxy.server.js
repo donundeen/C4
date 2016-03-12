@@ -1,10 +1,13 @@
 var elasticsearch = require('elasticsearch');
 var client = new elasticsearch.Client({
-  host: 'localhost:9200',
+  host: 'localhost:3010',
   log: 'trace'
 });
 
 /*
+
+// https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html
+
 client.ping({
   // ping usually has a 3000ms timeout 
   requestTimeout: Infinity,
@@ -70,7 +73,7 @@ var qs = require("querystring");
 
 var request = require("request");
 
-var mysecrets = {port: 3010};
+var mysecrets = {port: 3015};
 
 var resultCache = {};
 
@@ -103,7 +106,40 @@ function parseRequest(req, res){
 
 
     if(req.method == 'GET'){
+      var parsed = urlparser.parse(req.url, true)
+      var query = urlparser.parse(req.url, true).query;
+
+      var headers = {};
+      if(parsed.query.headers){
+          headers = JSON.parse(parsed.query.headers);
+      }
       
+      var path = parsed.path;
+
+      var search_term = parsed.query.term.trim();
+
+      client.search({
+          index: 'c5',
+          type: 'document',
+          body: {
+              query: {
+                  query_string:{
+                     query:"a"
+                  }
+              }
+          }
+      }).then(function (resp) {
+          console.log("got result from search");
+          res.writeHead(200, {'Content-Type': 'application/json', 
+                               'Access-Control-Allow-Origin' : '*'});
+          res.end(JSON.stringify({response : resp}));
+          console.log(JSON.stringify(resp, null, "  "));
+      }, function (err) {
+          console.log(JSON.stringify(err, null, "  "));
+          res.writeHead(200, {'Content-Type': 'application/json', 
+                              'Access-Control-Allow-Origin' : '*'});
+          res.end(JSON.stringify({error : err}));
+      });      
     }
 
     if (req.method == 'POST') {
@@ -120,8 +156,10 @@ function parseRequest(req, res){
 
         req.on('end', function () {
             var post = JSON.parse(body);
+            console.log("adding to index");
             console.log(JSON.stringify(post, null, " "));
-
+            console.log(post.id);
+            console.log(post.type);
             client.index({
               index: 'c5',
               type: post.type,

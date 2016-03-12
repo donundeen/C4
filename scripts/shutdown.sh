@@ -8,4 +8,7 @@ cd ../jsbin_proxy
 forever stop jsbin_proxy.server.js &
 cd ../giphy_proxy
 forever stop giphy_proxy.server.js &
+cd ../elasticsearch_proxy
+forever stop elasticsearch_proxy.server.js &
+kill -9 $(ps aux | grep 'elasticsearch' | awk '{print $2}')
 
