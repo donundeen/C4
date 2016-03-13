@@ -2,14 +2,14 @@ var libraries = [
 
   {
     'url': [
-      'js/jquery.jsonview.min.js',
-      'js/jquery.jsonview.min.css'
+      '/c4libs/jquery.jsonview.min.js',
+      '/c4libs/jquery.jsonview.min.css'
     ],
     'label': 'JSON View',
     'group': 'C5'
   },
   {
-    'url' : 'js/locallib.js',
+    'url' : '/c4libs/locallib.js',
     'label' : 'C5 Libs',
     'group' : 'C5',
   },
