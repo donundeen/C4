@@ -125,7 +125,7 @@ function parseRequest(req, res){
           body: {
               query: query
           }
-      };
+      };  
 
 
       client.search(search).then(function (resp) {
