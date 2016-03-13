@@ -115,20 +115,20 @@ function parseRequest(req, res){
       }
       
       var path = parsed.path;
+      console.log(parsed.query);
+      var query = JSON.parse(parsed.query.query);
+      var type = parsed.query.type;
 
-      var search_term = parsed.query.term.trim();
-
-      client.search({
+      var search = {
           index: 'c5',
-          type: 'document',
+          type: type,
           body: {
-              query: {
-                  query_string:{
-                     query:"a"
-                  }
-              }
+              query: query
           }
-      }).then(function (resp) {
+      };
+
+
+      client.search(search).then(function (resp) {
           console.log("got result from search");
           res.writeHead(200, {'Content-Type': 'application/json', 
                                'Access-Control-Allow-Origin' : '*'});
