@@ -53,6 +53,11 @@ body {
     background: #886;
 }
 
+.widgetBody {
+    margin-top: 13px;
+    margin-bottom: 5px;
+}
+
 .navbar {
     background: #886;
     border: 0px;
