@@ -77,7 +77,7 @@ function parseRequest(req, res){
 
   if(!domain_limiter_functions[domain]){
 
-    domain_limiter_functions[domain] = limit(function(_url, _headers, _res, ){
+    domain_limiter_functions[domain] = limit(function(_url, _headers, _res ){
 
       var options = {url: url, headers: headers};
 
