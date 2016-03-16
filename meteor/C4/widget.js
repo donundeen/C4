@@ -19,11 +19,10 @@ if (Meteor.isClient) {
     iframeElement.oldbintop = $(bin).css("top");
     $(bin).css("top", newbintop);
     $(widgetElement).attr("style", widgetData.usableWidgetStyle);
-    $(widgetElement).css("width", widgetData.displayUsableWidth);
-    $(widgetElement).css("height", widgetData.displayUsableHeight);
-    $(widgetElement).css("border-radius", "20px");
+    $(widgetElement).width(widgetData.displayUsableWidth);
+    $(widgetElement).height(widgetData.displayUsableHeight);
+    $(widgetElement).css("border-radius", "10px");
     $(".widgetDisplayHeader", widgetElement).hide();  
-
 
     if(jsbin && jsbin.panels){
       jsbin.panels.hide("html");
@@ -35,18 +34,24 @@ if (Meteor.isClient) {
     $(".unlock", widgetElement).hide();
     $(widgetElement).data("mode", "display");
 
+    console.log("setting display mode");
+
     $(iframeElement).css("max-height", "");
     $(iframeElement).css("max-width", "");
     $(iframeElement).width($(widgetElement).width());
     $(iframeElement).height($(widgetElement).height());
-    $(iframeElement).css("border-radius", "20px");
+    $(iframeElement).css("border-radius", "10px");
 
     (function(wn, wd, ifr){
       $(wn).resize(function(){
+        console.log("display mode resizing");
         $(ifr).width($(wd).width());
         $(ifr).height($(wd).height());
       });
     })(window, widgetElement, iframeElement);
+
+    console.log($(widgetElement).width() + ", " + $(widgetElement).height());
+    console.log($(iframeElement).width() + ", " + $(iframeElement).height());
 
   }
 
@@ -67,14 +72,26 @@ if (Meteor.isClient) {
     $(".editmodeonly", widgetElement).show();
     $(".displaymodeonly", widgetElement).hide();
     $(bin).css("top", iframeElement.oldbintop);
-    $(widgetElement).css("width",$(window).width());
-    $(widgetElement).css("height",$(window).height());
-    $(widgetElement).css("border-radius", "20px");
+    $(widgetElement).width($(window).width());
+    $(widgetElement).height($(window).height());
+    $(widgetElement).css("border-radius", "10px");
+
+    console.log("setting edit mode");
 
     $(iframeElement).css("max-height", "");
     $(iframeElement).width($(widgetElement).width());
     $(iframeElement).height($(widgetElement).height() - 80);
-    $(iframeElement).css("border-radius", "20px");
+    $(iframeElement).css("border-radius", "10px");
+
+    (function(wn, wd, ifr){
+      $(wn).resize(function(){
+        console.log("edit mode resizing");
+
+        $(ifr).width($(wd).width());
+        $(ifr).height($(wd).height());
+      });
+    })(window, widgetElement, iframeElement);
+
 
   }
 /////// END FUNCTION DEFS
@@ -124,9 +141,12 @@ if (Meteor.isClient) {
                 var theElement = document.getElementById('jsbin_'+_this_id);
                 if(theElement){
                   editors = theElement.contentWindow.editors;
+                  console.log(editors.live.el);
                   jsbin = theElement.contentWindow.jsbin;
+                  console.log(jsbin);
                   menu = theElement.contentWindow.document.getElementById("control");
                   bin = theElement.contentWindow.document.getElementById("bin");
+                  console.log(bin);
                 }else{
                   console.log("no element found for jsbin_"+_this_id);
                 }
@@ -259,15 +279,6 @@ if (Meteor.isClient) {
 
         insert_code(jsbin_id, codeString, codeStringRe, comments);
 
-      /* need to insert something like:
-{
-    id : "vasearch",
-    type :"webservice", 
-    return_type : "JSON" or "HTML"
-    url : "http://www.vam.ac.uk/api/json/museumobject/search?q="+pageid()}
-
-      */
-
       });
 
 
@@ -342,9 +353,7 @@ if (Meteor.isClient) {
 
       setEditModeOn(this, iframeElement, widgetElement, menu, bin, jsbin);
 
-
       return false;
-
     },
 
 

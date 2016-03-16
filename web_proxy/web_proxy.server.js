@@ -1,3 +1,5 @@
+var limit = require("simple-rate-limiter");
+
 var urlparser = require("url");
 
 var fs = require("fs");
@@ -9,6 +11,8 @@ var request = require("request");
 var mysecrets = {port: 3006};
 
 var resultCache = {};
+
+var domain_limiter_functions = {};
 
 var port = mysecrets.port;
 if(process && process.env && process.env.NODE_ENV == "production"){
@@ -65,37 +69,54 @@ function parseRequest(req, res){
 
   }
 
-  var options = {url: url, headers: headers};
+  var matches = url.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+)/im);
+  var domain = matches[1];
+  var split = domain.split("?");
+  domain = split[0];
+  console.log("domain is " + domain);
 
-  if(resultCache[url]){
-    res.writeHead(200, {'Content-Type': 'application/json'});
-    res.end(JSON.stringify(resultCache[url]));
-    return;
+  if(!domain_limiter_functions[domain]){
+
+    domain_limiter_functions[domain] = limit(function(_url, _headers, _res, ){
+
+      var options = {url: url, headers: headers};
+
+      if(resultCache[url]){
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(resultCache[url]));
+        return;
+      }
+
+      request(options, function(error, response, body){
+        if (!error && response.statusCode == 200) {   
+          // console.log("|"+retdata+"|");
+          console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! success");
+          var retdata = JSON.parse(body);
+
+          if(retdata == ''){
+            console.log("no results");
+            retdata = {};
+          }else{
+            resultCache[url] = retdata;
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify(retdata));
+          }
+        }else{
+          console.log("Eeeeeeeeeeeeeeeeeeeeeeeee     returning error");
+          console.log(error);
+    //      console.log(response);
+          console.log(body);
+          res.writeHead(200, {'Content-Type': 'text/html', 
+                            'Access-Control-Allow-Origin' : '*'});
+          res.end("<html><body><pre>not sure what to do \n" + error + "\n </pre></body></html>");
+        }
+      });
+
+    }).to(5).per(1000);
   }
 
-  request(options, function(error, response, body){
-    if (!error && response.statusCode == 200) {   
-      // console.log("|"+retdata+"|");
-      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! success");
-      var retdata = JSON.parse(body);
+  domain_limiter_functions[domain](url, headers, res);
 
-      if(retdata == ''){
-        console.log("no results");
-        retdata = {};
-      }else{
-        resultCache[url] = retdata;
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(retdata));
-      }
-    }else{
-      console.log("Eeeeeeeeeeeeeeeeeeeeeeeee     returning error");
-      console.log(error);
-//      console.log(response);
-      console.log(body);
-      res.writeHead(200, {'Content-Type': 'text/html', 
-                        'Access-Control-Allow-Origin' : '*'});
-      res.end("<html><body><pre>not sure what to do \n" + error + "\n </pre></body></html>");
-    }
-  });
+
 }
 

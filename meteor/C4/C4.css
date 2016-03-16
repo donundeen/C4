@@ -24,7 +24,7 @@ body {
     position: relative;
     background: #886;
     border: none;
-    border-radius: 20px;
+    border-radius: 10px;
     padding: 10px;
     margin: 5px;
 }
@@ -176,19 +176,19 @@ body {
 }
 
 .jsbin {
-    border-radius: 20px;    
+    border-radius: 10px;    
 }
 
 iframe {
-    border-radius: 20px;
+    border-radius: 10px;
 
 }
 
 .stretch {
-    border-radius: 20px;
+    border-radius: 10px;
 
 }
 
 img {
-    border-radius: 20px;
+    border-radius: 10px;
 }
