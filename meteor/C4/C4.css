@@ -46,12 +46,7 @@ body {
     font-size: 1.0em;
 }
 
-.widgetEditHeader .container-item{
-    float: left;
-    padding: 2px;
-    border: 0;
-    background: #886;
-}
+
 
 .widgetBody {
     margin-top: 13px;
@@ -95,7 +90,12 @@ body {
     float: left;
 }
 
-
+.widgetEditHeader .container-item{
+    float: left;
+    padding: 2px;
+    border: 0;
+    background: #886;
+}
 
 
 .widgetMouseOverTarget {
