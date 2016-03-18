@@ -75,17 +75,18 @@ function parseRequest(req, res){
   domain = split[0];
   console.log("domain is " + domain);
 
-  if(!domain_limiter_functions[domain]){
 
+  if(resultCache[url]){
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(resultCache[url]));
+    return;
+  }
+
+
+  if(!domain_limiter_functions[domain]){
     domain_limiter_functions[domain] = limit(function(_url, _headers, _res ){
 
-      var options = {url: url, headers: headers};
-
-      if(resultCache[url]){
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(resultCache[url]));
-        return;
-      }
+      var options = {url: _url, headers: _headers};
 
       request(options, function(error, response, body){
         if (!error && response.statusCode == 200) {   
@@ -96,23 +97,27 @@ function parseRequest(req, res){
           if(retdata == ''){
             console.log("no results");
             retdata = {};
-          }else{
-            resultCache[url] = retdata;
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(retdata));
           }
+          resultCache[url] = retdata;
+          _res.writeHead(200, {'Content-Type': 'application/json'});
+          _res.end(JSON.stringify(retdata));
+          return;      
         }else{
           console.log("Eeeeeeeeeeeeeeeeeeeeeeeee     returning error");
+          var retdata = {error : true, message : error};
           console.log(error);
-    //      console.log(response);
+  //      console.log(response);
           console.log(body);
-          res.writeHead(200, {'Content-Type': 'text/html', 
+          _res.writeHead(200, {'Content-Type': 'application/json', 
                             'Access-Control-Allow-Origin' : '*'});
-          res.end("<html><body><pre>not sure what to do \n" + error + "\n </pre></body></html>");
+          _res.end(JSON.stringify(retdata));
+          return;
         }
       });
+      return;
 
     }).to(5).per(1000);
+  }else{
   }
 
   domain_limiter_functions[domain](url, headers, res);
