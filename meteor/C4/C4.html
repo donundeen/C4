@@ -13,30 +13,19 @@
       <div class="container-item" align="center">
         <h2>{{#if pageurl}}{{pageurl}}{{else}}Home{{/if}}</h2>
       </div>       
-      <!--
-      <div class="container-item tooltipped" align="center" alt="add widget">
-        <li class="headericon addwidget ion-plus-circled" data-pack="ios" data-tags="add, include, new, +" title="add widget" style="display: inline-block;"></li><br>add
-      </div>
-    -->
-    <!--
-      <div class="container-item" align="center">       
-        <li class="headericon test ion-pizza" data-pack="default" data-tags="" title="random testing button, click with caution" style="display: inline-block;"></li><BR>test
-      </div>
-    -->
 
     {{#if currentUser}}
       <div class="container-item tooltip-right" align="center" valign="center">
           <button class="clickable btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="true" style="vertical-align: middle;">
                     <li class="zmdi zmdi-collection-text zmdi-hc-3x"></li><BR><li class="zmdi zmdi-caret-down zmdi-hc-3x"></li>
-<!--
-        <li class="clickable headericon new_from_template ion-paper-airplane" data-pack="default" data-tags="" alt="copy from widget" style="display: inline-block;"></li>-->
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             {{#each widgetTemplates}}
-              <li><!--<i class="icon ion-close-circled deletetemplate"  title="remove this as a template"></i>--><a href="#" class="copy_from_template {{url}}" target="{{url}}" type="data"><i class="widgetIdText">{{url}}:</i> {{name}}</a></li>
+              <li><a href="#" class="copy_from_template {{url}}" target="{{url}}" type="data"><i class="widgetIdText">{{url}}:</i> {{name}}</a></li>
             {{/each}}
+            <li>---Your Library---</li>
             {{#each libraryWidgets}}
-              <li><!--<i class="icon ion-close-circled deletetemplate"  title="remove this as a template"></i>--><a href="#" class="copy_from_template {{url}}" target="{{url}}" type="data"><i class="widgetIdText">{{url}}:</i> {{name}}</a></li>
+              <li><a href="#" class="copy_from_template {{url}}" target="{{url}}" type="data"><i class="widgetIdText">{{url}}:</i> {{name}}</a></li>
             {{/each}}
 
           </ul>

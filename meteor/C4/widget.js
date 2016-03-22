@@ -373,6 +373,21 @@ if (Meteor.isClient) {
     },
 
 
+    // setting visibility on widgets (public or private)
+    "click .setpublic" : function(){
+      console.log("setpublic")
+      this.visibility = "public";
+      Widgets.update(this._id, this);
+      return false;
+    },
+    "click .setprivate" : function(){
+      console.log("setprivate")
+      this.visibility = "private";
+      Widgets.update(this._id, this);
+      return false;
+    },
+
+
     'click .copy' : function(){
       var template = Widgets.findOne({url : this.url}); //.map(setWidgetDefaults);
       var dataobj = {html : template.html, css: template.css, javascript: template.javascript};
@@ -397,6 +412,7 @@ if (Meteor.isClient) {
                     pageid : pageinfo().pageid,
                     url: results.data.url,
                     createdAt: new Date(),
+                    visibility: "private",
                     rand: Math.random() };
         Widgets.insert(newWidget);
       });
@@ -449,7 +465,8 @@ if (Meteor.isClient) {
                     pageid : newpageid,
                     this_page_only : true,
                     url: results.data.url,
-                    createdAt: new Date(),
+                    createdAt: new Date(),                    
+                    visibility: "private",
                     rand: Math.random() };
         Widgets.insert(newWidget);
       });
@@ -492,17 +509,21 @@ if (Meteor.isClient) {
         return Widgets.find({pagetype : pageinfo().pagetype, _id : {$ne : this._id}}, {sort: {createdAt: -1}}).map(setWidgetDefaults); 
     },
 
+    isPublic :  function(){
+      if(this.visibility == "public"){
+        return true;
+      }
+      return false;
+    },
+
     isMyWidget : function (){
       // is this a widget I created?
       if(this.createdBy && Meteor.user()){
-        return this.createdBy.username = Meteor.user().username;
+        return this.createdBy.username == Meteor.user().username;
       }else{
         return false;
       }
     }
   });
-//////// END HELPERS
-
-
-
+  //////// END HELPERS
 }

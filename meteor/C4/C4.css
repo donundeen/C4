@@ -29,6 +29,7 @@ body {
     margin: 5px;
 }
 
+
 .header{
     height: 100px;
 }
@@ -192,4 +193,8 @@ iframe {
 
 img {
     border-radius: 10px;
+}
+
+.container-item.visibility_private {
+    background: #aaa;
 }

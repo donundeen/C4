@@ -86,8 +86,18 @@ if (Meteor.isClient) {
   Template.body.helpers({
     widgets: function () {
         // Otherwise, return all of the tasks
-        var find = {this_page_only: {$in : [false, null]},
-                pagetype : pageinfo().pagetype};
+        var find = {
+                this_page_only: {$in : [false, null]},
+                pagetype : pageinfo().pagetype,
+                $or : [  
+                  {visibility : "public"}, 
+                  { $and : [
+                    {visibility : "private"} , 
+                    {"createdBy.userid" : Meteor.userId() }
+                  ]},
+                  {visibility : null} 
+                ]
+              };
 
         return Widgets.find(find, {sort: {createdAt: -1}}).map(setWidgetDefaults); 
     },
@@ -173,6 +183,7 @@ if (Meteor.isClient) {
                     pageid : pageinfo().pageid,
                     url: results.data.url,
                     createdAt: new Date(),
+                    visibility: "private",
                     rand: Math.random() };
         Widgets.insert(newWidget);
       });
@@ -238,6 +249,7 @@ if (Meteor.isClient) {
                     pageurl : pageinfo().pageurl,
                     pageid : pageinfo().pageid,
                     url: results.data.url,
+                    visibility: "private",
                     createdAt: new Date(),
                     rand: Math.random() };
         Widgets.insert(newWidget);

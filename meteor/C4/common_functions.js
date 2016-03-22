@@ -73,6 +73,12 @@ if (Meteor.isClient) {
       doc.this_page_only = false;
     }
 
+    if(!doc.visibility){
+      doc.visibility = "public";
+    }
+
+
+
     return doc;
   }
 }

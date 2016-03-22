@@ -3,7 +3,7 @@
 
 
 <template name="widget">
-  <div class="widgetContainer container-item"  style="{{usableWidgetStyle}}" id="widgetContainer_{{url}}">
+  <div class="widgetContainer container-item visibility_{{visibility}}"  style="{{usableWidgetStyle}}" id="widgetContainer_{{url}}">
 
     <!-- widget header, the menu -->
     <!-- display-mode header -->
@@ -15,7 +15,7 @@
       <h3>{{name}}</h3>
       </div>
       <div class="widgetCreator">
-          <b>Created By:</b> {{createdBy.username}}
+          <b>Created By:</b> {{createdBy.username}} ({{visibility}})
       </div>
       <div class="widgetDescription">
       <i>{{description}}</i>
@@ -23,7 +23,7 @@
       {{#if isMyWidget}}
       <div class="widgetmenu lock clickable" title="click to unlock widget" >
         <i class="zmdi zmdi-lock zmdi-hc-lg"> Unlock for Editing</i>
-      </div>      
+      </div>
       {{/if}}  
       <div class="widgetmenu copy clickable" title="click to copy widget" >
         <i class="zmdi zmdi-copy zmdi-hc-lg"> Copy Widget On This Page</i>
@@ -76,6 +76,17 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
       </ul> 
 
       <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">
+          {{#if isPublic}}
+          <div class="widgetmenu setprivate editmodeonly" title="click to make widget private" >
+            {{visibility}} <i class="zmdi zmdi-globe-lock"></i>
+          </div>
+          {{else}}
+          <div class="widgetmenu setpublic editmodeonly" title="click to make widget public" >
+            {{visibility}} <i class="zmdi zmdi-globe"></i>
+          </div>
+          {{/if}}
+        </a></li>
         <li><a href="#">
           <div class="widgetmenu unlock editmodeonly" title="click to lock widget" >
             <li class="widgeticon ion-unlocked edit" id="unlock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
