@@ -7,7 +7,7 @@
 
 body {
     background: #333;
-    font-family: 'Droid Sans', sans-serif;
+    font-family: 'Droid Serif', sans-serif;
 }
 
 .mainmenu {
@@ -29,8 +29,6 @@ body {
     margin: 5px;
 }
 
-
-
 .header{
     height: 100px;
 }
@@ -45,8 +43,6 @@ body {
 .dropdown_widgeticon{
     font-size: 1.0em;
 }
-
-
 
 .widgetBody {
     margin-top: 13px;

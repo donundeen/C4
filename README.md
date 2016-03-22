@@ -55,6 +55,7 @@ TODOs:
 CRAZY IDEAS:
 
 - elsticsearch config: https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html
+- Packery: http://packery.metafizzy.co/
 
 COMPLETED
 

@@ -38,4 +38,9 @@ from CJ:
 - ordering widgets, to make more sense.
 - big stumbling block - when it loads, you see all the options, then they are gone, and you don't know how to get to them.
 - drop-down not obvious, don't know to unlock to edit mode to get those options you saw before.
-- 
+
+
+From JD:
+- "add to my library" - "copy" "fork" or "clone"? so it's clear it's not a "favorite"?
+- thinking about "research with this tool" = want to search for objects and "collect" them.
+- would be cool to keep a journal of my experience using the tools that go into this product. Things I wish existed, improvements, etc.
