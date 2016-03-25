@@ -131,8 +131,8 @@ if (Meteor.isClient) {
 
 ////// TEMPLATE ONRENDERED
   Template.body.onRendered(function(){
-    $(".tooltip-right").tooltip({placement: "right"});
-    $("[title]").tooltip({placement: "auto"});
+    //$(".tooltip-right").tooltip({placement: "right"});
+  //  $("[title]").tooltip({placement: "auto"});
   });
 ////// END ONRENDERED
 

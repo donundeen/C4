@@ -103,7 +103,6 @@ if (Meteor.isClient) {
   Template.widget.onRendered(function(){
 
     (function(widget){
-      $("[title]").tooltip({placement: "auto"});
       var thisid = widget.data._id;
       var element = document.getElementById('jsbin_'+thisid);
       var thiselement = document.getElementById('widgetContainer_'+thisid);

@@ -9,13 +9,12 @@
     <!-- display-mode header -->
     <div class="widgetMouseOverTarget displaymodeonly">
       &nbsp;&nbsp; <span class="displayModeHeader"><B>{{name}}</b>  ({{url}})</span>
-        &nbsp;<a href="#myModal" data-toggle="modal" data-target="#comment_modal_{{url}}"><i class="zmdi zmdi-comment opencomments"></i></a>
-        &nbsp;<i class="zmdi zmdi-info openinfo"></i>
-        &nbsp;<i class="zmdi zmdi-copy copy"></i>
-        &nbsp;<i class="zmdi zmdi-collection-plus save_to_library"></i>
+        &nbsp;<i  data-toggle="modal"  data-target="#comment_modal_{{url}}" data-tooltip="Comment on this widget" class="zmdi zmdi-comment opencomments"></i>
+        &nbsp;<i data-tooltip="view widget info" class="zmdi zmdi-info openinfo"></i>
+        &nbsp;<i data-tooltip="copy widget on this page" class="zmdi zmdi-copy copy"></i>
+        &nbsp;<i data-tooltip="copy widget to your library" class="zmdi zmdi-collection-plus save_to_library"></i>
       {{#if isMyWidget}}
-
-        &nbsp;<i class="zmdi zmdi-lock lock"></i>
+        &nbsp;<i data-tooltip="unlock for editing" class="zmdi zmdi-lock lock"></i>
       {{/if}}
     </div>
     
@@ -30,14 +29,14 @@
       <i>{{description}}</i>
       </div>
       {{#if isMyWidget}}
-      <div class="widgetmenu lock clickable" title="click to unlock widget" >
-        <i class="zmdi zmdi-lock zmdi-hc-lg"> Unlock for Editing</i>
+      <div class="widgetmenu lock clickable" data-tooltip="click to unlock widget"  title="click to unlock widget" >
+        <i class="zmdi zmdi-lock zmdi-hc-lg">Unlock for Editing</i>
       </div>
       {{/if}}  
-      <div class="widgetmenu copy clickable" title="click to copy widget" >
+      <div class="widgetmenu copy clickable"  data-tooltip="Copy widget onto this page"  title="click to copy widget" >
         <i class="zmdi zmdi-copy zmdi-hc-lg"> Copy Widget On This Page</i>
       </div>      
-      <div class="widgetmenu save_to_library clickable" title="Add to My Library" >
+      <div class="widgetmenu save_to_library clickable" data-tooltip="Copy to My (your) Library" title="Add to My Library" >
         <i class="zmdi zmdi-collection-plus zmdi-hc-lg"> Add to My Library</i>
       </div>      
     </div>
@@ -45,50 +44,51 @@
 
 
     <div class="modal fade" id="comment_modal_{{url}}">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header" style="text-align: center">Discuss!</div>
-                <div class="modal-body" style="">
-                  <div class="panel-group" id="accordion_{{url}}">
-                    <div class="panel panel-default">
-                      <div class="panel-heading">
-                        <h4 class="panel-title">
-                          <a data-toggle="collapse" data-parent="#accordion_{{url}}" href="#collapse1_{{url}}">
-                          Comments for this widget: "{{name}}" on <B>All</b> pages of type: {{pagetype}} : {{pageTypeAndUrl}} :: {{commentsCount pageTypeAndUrl}}</a>
-                        </h4>
-                      </div>
-                      <div id="collapse1_{{url}}" class="panel-collapse collapse in">
-                        <div class="panel-body">                 
-                          <div class="comment-section">
-                            {{> commentsBox id=pageTypeAndUrl}}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="panel panel-default">
-                      <div class="panel-heading">
-                        <h4 class="panel-title">
-                          <a data-toggle="collapse" data-parent="#accordion_{{url}}" href="#collapse2_{{url}}">
-                          Comments for this widget: "{{name}}" on this <b>SPECIFIC</b> page: {{pageurl}} : {{pageUrlAndUrl}}  </a>
-                        </h4>
-                      </div>
-                      <div id="collapse2_{{url}}" class="panel-collapse collapse">
-                        <div class="panel-body">
-                          <div class="comment-section">
-                            {{> commentsBox id=pageUrlAndUrl}}
-                          </div>
-                        </div>
-                      </div>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header" style="text-align: center">Discuss!</div>
+          <div class="modal-body" style="">
+            <div class="panel-group" id="accordion_{{url}}">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion_{{url}}" href="#collapse1_{{url}}">
+                    Comments for this widget: "{{name}}" on <B>All</b> pages of type: {{pagetype}} : {{pageTypeAndUrl}} :: {{commentsCount pageTypeAndUrl}}</a>
+                  </h4>
+                </div>
+                <div id="collapse1_{{url}}" class="panel-collapse collapse in">
+                  <div class="panel-body">                 
+                    <div class="comment-section">
+                      {{> commentsBox id=pageTypeAndUrl}}
                     </div>
                   </div>
                 </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion_{{url}}" href="#collapse2_{{url}}">
+                    Comments for this widget: "{{name}}" on this <b>SPECIFIC</b> page: {{pageurl}} : {{pageUrlAndUrl}}  </a>
+                  </h4>
+                </div>
+                <div id="collapse2_{{url}}" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <div class="comment-section">
+                      {{> commentsBox id=pageUrlAndUrl}}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <!--
-            <div class="modal-footer">
-                <a href="#" data-dismiss="modal" class="btn">Close</a>
-            </div>
-        -->
+          </div>
+          <div class="modal-footer">
+            <center>
+              <img src="giphy_proxy/discussion" />
+            </center>
+          </div>
         </div>
+        
+      </div>
     </div>      
 
 
@@ -109,7 +109,7 @@
             <li class="divider"></li>
 
             <li class="clickable dropdown_widgeticon save_to_library {{#if isTemplate}}
-isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable template in your library" style="display: inline-block;" title="save this widget as a reusable template in your library."><i class="zmdi zmdi-collection-plus"> Add to My Library</i></li>
+isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable template in your library" style="display: inline-block;" title="save this widget as a reusable template in your library." data-tooltip="save this widget as a reusable template in your library."><i class="zmdi zmdi-collection-plus"> Add to My Library</i></li>
             <li class="divider"></li>
             <li class="clickable dropdown_widgeticon ion-ios-trash-outline delete" id="delete_{{url}}" data-pack="ios" data-tags="delete, remove, dispose, waste, basket, dump, kill" style="display: inline-block;"> Delete Widget</li>
           </ul>
@@ -136,17 +136,17 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#">
           {{#if isPublic}}
-          <div class="widgetmenu setprivate editmodeonly" title="click to make widget private" >
+          <div class="widgetmenu setprivate editmodeonly" title="click to make widget private"  data-tooltip="click to make widget private" >
             {{visibility}} <i class="zmdi zmdi-globe-lock"></i>
           </div>
           {{else}}
-          <div class="widgetmenu setpublic editmodeonly" title="click to make widget public" >
+          <div class="widgetmenu setpublic editmodeonly" title="click to make widget public"  data-tooltip="click to make widget public" >
             {{visibility}} <i class="zmdi zmdi-globe"></i>
           </div>
           {{/if}}
         </a></li>
         <li><a href="#">
-          <div class="widgetmenu unlock editmodeonly" title="click to lock widget" >
+          <div class="widgetmenu unlock editmodeonly" title="click to lock widget" data-tooltip="click to lock widget" >
             <li class="widgeticon ion-unlocked edit" id="unlock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
           </div>
         </a></li>
@@ -164,7 +164,7 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
           <h4 class="modal-title">Widget Info</h4>
         </div>
         <div class="modal-body">
-          <B>Widget Name:</b> {{> editableText collection="widgets" field="name"}}
+          <B>Widget Name:</b>{{> editableText collection="widgets" field="name"}}
           <BR>
           <B>Description:</b> {{> editableText collection="widgets" textarea=true acceptEmpty=true field="description"}}
           <BR>
