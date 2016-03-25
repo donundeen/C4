@@ -476,8 +476,7 @@ if (Meteor.isClient) {
       return false;
     },
 
-
-    "mouseenter .widgetMouseOverTarget" : function(){
+    "click .openinfo" : function(){
         var thiselement = document.getElementById('widgetContainer_'+this._id);
         var mode = $(thiselement).data("mode");
         if(!mode || mode == "display"){
@@ -487,6 +486,7 @@ if (Meteor.isClient) {
           $(".widgetDisplayHeader", thiselement ).css("z-index", 10);
         }
     },
+
 
     "mouseleave .widgetDisplayHeader" : function(){
       var thiselement = document.getElementById('widgetContainer_'+this._id);

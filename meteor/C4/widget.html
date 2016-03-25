@@ -9,10 +9,19 @@
     <!-- display-mode header -->
     <div class="widgetMouseOverTarget displaymodeonly">
       &nbsp;&nbsp; <span class="displayModeHeader"><B>{{name}}</b>  ({{url}})</span>
+        &nbsp;<i class="zmdi zmdi-comment opencomments"></i>
+        &nbsp;<i class="zmdi zmdi-info openinfo"></i>
+        &nbsp;<i class="zmdi zmdi-copy copy"></i>
+        &nbsp;<i class="zmdi zmdi-collection-plus save_to_library"></i>
+      {{#if isMyWidget}}
+
+        &nbsp;<i class="zmdi zmdi-lock lock"></i>
+      {{/if}}
     </div>
+    
     <div class="widgetDisplayHeader container-item displaymodeonly">
       <div class="widgetName">
-      <h3>{{name}}</h3>
+        <h3>{{name}}</h3>
       </div>
       <div class="widgetCreator">
           <b>Created By:</b> {{createdBy.username}} ({{visibility}})
@@ -31,9 +40,8 @@
       <div class="widgetmenu save_to_library clickable" title="Add to My Library" >
         <i class="zmdi zmdi-collection-plus zmdi-hc-lg"> Add to My Library</i>
       </div>      
-
-
     </div>
+
     <!-- end display-mode header -->
 
     <!-- edit-mode header-->
