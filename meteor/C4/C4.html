@@ -61,10 +61,39 @@
     <div class="modal fade" id="comment_modal">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header" style="text-align: center">Comments for {{name}} {{url}} {{pageid}}</div>
+                <div class="modal-header" style="text-align: center">Discuss!</div>
                 <div class="modal-body" style="">
-                  <div class="comment-section">
-                    {{> commentsBox id=pagetype}}
+                  <div class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">
+                          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                          Comments for <B>All</b> pages of type: {{pagetype}}</a>
+                        </h4>
+                      </div>
+                      <div id="collapse1" class="panel-collapse collapse in">
+                        <div class="panel-body">                 
+                          <div class="comment-section">
+                            {{> commentsBox id=pagetype}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">
+                          <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                          Comments for this <b>SPECIFIC</b> page: {{pageurl}}</a>
+                        </h4>
+                      </div>
+                      <div id="collapse2" class="panel-collapse collapse">
+                        <div class="panel-body">
+                          <div class="comment-section">
+                            {{> commentsBox id=pageurl}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
             </div>

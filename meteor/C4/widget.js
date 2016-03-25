@@ -516,6 +516,22 @@ if (Meteor.isClient) {
       return false;
     },
 
+    pageTypeAndUrl : function(){
+
+      return this.pagetype + "/"+ this.url;
+    },
+
+    pageUrlAndUrl : function(){
+      return pageinfo().pageurl + "/" + this.url;
+    },
+
+    commentsCount : function(id){
+      console.log("in commentsCount " + id);
+      var value = Meteor.call("comments/count", id, function(item){console.log("in callbakc" + item);});
+      console.log("value is " + value);
+      return value;
+    },
+
     isMyWidget : function (){
       // is this a widget I created?
       if(this.createdBy && Meteor.user()){

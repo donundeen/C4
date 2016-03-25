@@ -198,3 +198,14 @@ img {
 .container-item.visibility_private {
     background: #aaa;
 }
+
+
+/* overriding some bootstrap stuff */
+.panel-body {
+    padding: 0px;
+}
+
+.comments-box-title {
+    display: none;
+    margin-top: 0px;
+}

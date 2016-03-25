@@ -46,6 +46,11 @@ if (Meteor.isClient) {
   console.log("starting meteor");
 
 
+  /// comments config
+  // On the Client
+  Comments.ui.config({
+     template: 'bootstrap' // or ionic, semantic-ui
+  });
 
 ////// HELPERS
   UI.registerHelper('shortIt', function(stringToShorten, maxCharsAmount){

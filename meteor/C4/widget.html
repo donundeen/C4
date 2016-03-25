@@ -47,10 +47,39 @@
     <div class="modal fade" id="comment_modal_{{url}}">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header" style="text-align: center">Comments for {{name}} {{url}} {{pageid}}</div>
+                <div class="modal-header" style="text-align: center">Discuss!</div>
                 <div class="modal-body" style="">
-                  <div class="comment-section">
-                    {{> commentsBox id=url}}
+                  <div class="panel-group" id="accordion_{{url}}">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">
+                          <a data-toggle="collapse" data-parent="#accordion_{{url}}" href="#collapse1_{{url}}">
+                          Comments for this widget: "{{name}}" on <B>All</b> pages of type: {{pagetype}} : {{pageTypeAndUrl}} :: {{commentsCount pageTypeAndUrl}}</a>
+                        </h4>
+                      </div>
+                      <div id="collapse1_{{url}}" class="panel-collapse collapse in">
+                        <div class="panel-body">                 
+                          <div class="comment-section">
+                            {{> commentsBox id=pageTypeAndUrl}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">
+                          <a data-toggle="collapse" data-parent="#accordion_{{url}}" href="#collapse2_{{url}}">
+                          Comments for this widget: "{{name}}" on this <b>SPECIFIC</b> page: {{pageurl}} : {{pageUrlAndUrl}}  </a>
+                        </h4>
+                      </div>
+                      <div id="collapse2_{{url}}" class="panel-collapse collapse">
+                        <div class="panel-body">
+                          <div class="comment-section">
+                            {{> commentsBox id=pageUrlAndUrl}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
             </div>
