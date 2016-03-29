@@ -17,7 +17,7 @@ using this font library
 
 
 TODOs:
-
+- BUG: there's a BUG when requireWidgetData wants the data and html output of a widget.
 - MVP: functionality for persisting data for a widget on a pageid level. eg, to make a "this object comments" widget, or something like that.
 - MVP: elastisearch integration: proxy and helper functions
 - MVP: insert code: pageid, pagetype, pageurl
