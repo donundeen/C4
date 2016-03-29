@@ -1,5 +1,6 @@
 
 Widgets = new Mongo.Collection("widgets");
+UserXtras = new Mongo.Collection("userxtras");
 
 // set GLOBAL VARS
 //In the client side
@@ -17,6 +18,7 @@ if (Meteor.isClient) {
 
 
 if (Meteor.isServer) {
+
 
    Meteor.methods({
       getServerName: function(){
@@ -38,12 +40,16 @@ if (Meteor.isServer) {
 
 if (Meteor.isClient) {
 
+
   Meteor.startup(function(){
+   console.log("starting meteor");
    $(window).bind('beforeunload', function() {
     $(".save").trigger("click");
     });
+
   });
-  console.log("starting meteor");
+
+
 
 
   /// comments config
@@ -122,8 +128,16 @@ if (Meteor.isClient) {
                 pagetype : pageinfo().pagetype,
                 pageid : pageinfo().pageid};
       return Widgets.find(find, {sort: {createdAt: -1}}).map(setWidgetDefaults);
-    }    
+    },
 
+    userXtras : function(){
+      return getUserXtras();
+    },
+
+    godmode : function(){
+      return getUserXtras().godmode;
+
+    }
 
   });
 ////// END HELPERS
@@ -162,7 +176,14 @@ if (Meteor.isClient) {
       $(e.target).hide();
     },
 
+    "click .godmode_check" : function(e, t){
+      console.log("clicked");
+      console.log(e.target.checked);
+//      console.log(t); 
+console.log("updating  " + Meteor.userId() + " to " + e.target.checked);
+      UserXtras.update({_id : Meteor.userId() }, {$set : {godmode : e.target.checked}});
 
+    },
 
     'click .copy_from_template' : function(){
       var template = Widgets.findOne({url : this.url}); //.map(setWidgetDefaults);

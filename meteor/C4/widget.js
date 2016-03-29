@@ -526,19 +526,31 @@ if (Meteor.isClient) {
 
     commentsCount : function(id){
       console.log("in commentsCount " + id);
-      var value = Meteor.call("comments/count", id, function(item){console.log("in callbakc" + item);});
+      var value = "";
       console.log("value is " + value);
       return value;
     },
 
     isMyWidget : function (){
       // is this a widget I created?
+      if(getUserXtras().godmode){
+        return true;
+      }
       if(this.createdBy && Meteor.user()){
         return this.createdBy.username == Meteor.user().username;
       }else{
         return false;
       }
-    }
+    },
+
+    userXtras : function(){
+      return getUserXtras();
+    },
+
+    godmode : function(){
+      return getUserXtras().godmode;
+
+    }    
   });
   //////// END HELPERS
 }

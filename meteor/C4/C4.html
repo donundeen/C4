@@ -38,7 +38,16 @@
     {{/if}}
       <div class="container-item widgetmenu login" data-tooltip="Login for user things" data-tooltip-direction="s" title="Login for User Things..">
         <h4>{{> loginButtons}}</h4>
-        <span> <a href="/user_libs/{{currentUser.username}}"><i class="zmdi zmdi-collection-text"> Your Library</i></a></span>
+        <span> <a href="/user_libs/{{currentUser.username}}"><i class="zmdi zmdi-collection-text"> Your Library</i></a></span><BR>
+          {{#with userXtras}}
+            {{#if admin}}
+              {{#if godmode}}
+                <input class="godmode_check" type=checkbox checked="true" /> god mode
+              {{else}}
+              <input class="godmode_check" type=checkbox  /> god mode
+              {{/if}}
+            {{/if}}
+          {{/with}}
       </div>
 
 
