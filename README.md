@@ -27,13 +27,14 @@ TODOs:
 - MVP: Make some useful templates and examples
 	- a few culutural APIs
 - BUG sometimes the jsbin doesn't run on page load, sometimes it doesn't even show.
+- MVP: email support:
+-- watching widgets/pages
+-- notifications on comments
 
 
 
-- dynamically resizable divs
+- dynamically resizable divs (drag corners), or masonry implementation, or something to make the boxes tend to fit together better.
 - another layout option: masonry: https://github.com/voodoohop/meteor-masonrify
-- per-widget comments, per-widget instance comments.
- 	- https://atmospherejs.com/arkham/comments-ui
 - confirm delete.
 - functionality for getting/setting user session information
 - user/group/public access levels on widgets
@@ -59,6 +60,9 @@ CRAZY IDEAS:
 
 COMPLETED
 
+- DONE: per-widget comments, per-widget instance comments.
+ 	- https://atmospherejs.com/arkham/comments-ui
+- DONE: Sort Order
 - DONE: MVP: "page-level"" widgets. This is needed for:
 - DONE: MVP: "My Widgets" : "saving" widgets adds them to YOUR users/USERNAME page. And they will also show up in the "add widget" dropdown on every page. 
 - BUG - Widget should vertically maximize when in edit mode. - FIXED

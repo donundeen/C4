@@ -6,7 +6,7 @@
 }
 
 body {
-    background: #333;
+    background: #fbfbfb;
     font-family: 'Droid Serif', sans-serif;
 }
 
@@ -22,10 +22,10 @@ body {
 
 .container-item { 
     position: relative;
-    background: #886;
-    border: none;
+    background: #FFFFF1;
+    border: 1px solid black;
     border-radius: 10px;
-    padding: 10px;
+    padding: 5px;
     margin: 5px;
 }
 
@@ -51,7 +51,7 @@ body {
 }
 
 .navbar {
-    background: #886;
+    background: inherit;
     border: 0px;
     color: black;
 }
@@ -91,7 +91,6 @@ body {
     float: left;
     padding: 2px;
     border: 0;
-    background: #886;
 }
 
 
@@ -116,15 +115,12 @@ body {
 }
 
 .dropdown {
-    background: #886;   
 }
 .dropdown button {
-    background: #886;   
     border: 0;
     padding: 2px;
 }
 .container-item button {
-    background: #886;   
     border: 0;
     padding: 2px;
 }
@@ -134,7 +130,6 @@ body {
 }
 
 .deletewidget {
-    background-color: #ff8888;
     float: right;
 }
 

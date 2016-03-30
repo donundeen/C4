@@ -110,7 +110,7 @@ if (Meteor.isClient) {
                 ]
               };
 
-        return Widgets.find(find, {sort: {createdAt: -1}}).map(setWidgetDefaults); 
+        return Widgets.find(find, {sort: {sort_order : 1, createdAt: -1}}).map(setWidgetDefaults); 
     },
     widgetTemplates: function () {
       // Otherwise, return all of the tasks
@@ -127,7 +127,7 @@ if (Meteor.isClient) {
       var find = {this_page_only: true,
                 pagetype : pageinfo().pagetype,
                 pageid : pageinfo().pageid};
-      return Widgets.find(find, {sort: {createdAt: -1}}).map(setWidgetDefaults);
+      return Widgets.find(find, {sort: {sort_order : 1, createdAt: -1}}).map(setWidgetDefaults);
     },
 
     userXtras : function(){

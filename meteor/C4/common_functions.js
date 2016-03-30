@@ -98,6 +98,10 @@ if (Meteor.isClient) {
       doc.this_page_only = false;
     }
 
+    if(!doc.sort_order){
+      doc.sort_order = 0;
+    }
+
     if(!doc.visibility){
       doc.visibility = "public";
     }

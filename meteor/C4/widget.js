@@ -40,15 +40,15 @@ if (Meteor.isClient) {
     $(iframeElement).css("max-height", "");
     $(iframeElement).css("max-width", "");
     $(iframeElement).width($(widgetElement).width());
-    $(iframeElement).height($(widgetElement).height() - 20);
+    $(iframeElement).height($(widgetElement).height() - 10);
     $(iframeElement).css("border-radius", "10px");
-    $(iframeElement).css("max-height", $(widgetElement).height() - 20 );
+    $(iframeElement).css("max-height", $(widgetElement).height() - 10 );
 
     (function(wn, wd, ifr){
       $(wn).resize(function(){
         console.log("display mode resizing");
         $(ifr).width($(wd).width());
-        $(ifr).height($(wd).height() - 20);
+        $(ifr).height($(wd).height() - 10);
       });
     })(window, widgetElement, iframeElement);
 
@@ -385,6 +385,22 @@ if (Meteor.isClient) {
       console.log("setprivate")
       this.visibility = "private";
       Widgets.update(this._id, this);
+      return false;
+    },
+
+    "click .order_up" : function(){
+      this.sort_order--;
+      Widgets.update(this._id, this);
+      return false;
+    },
+
+    "click .order_down" : function(){
+      this.sort_order++;
+      Widgets.update(this._id, this);
+      return false;
+    },
+
+    "click .nonclickable" : function(){
       return false;
     },
 
