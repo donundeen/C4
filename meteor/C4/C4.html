@@ -6,13 +6,18 @@
 <body>
   <div class="main container">
     <div class="header container mainmenu">
+      <!-- logo link -->
       <div class="container-item">
         <h1 ><a href="/">C5</a></h1>
       </div>
+
+      <!-- page identifier -->
       <div class="container-item" align="center">
         <h2>{{#if pageurl}}<span  data-tooltip-direction="s" data-tooltip="this is the <b>Page Type</b>: <i>{{pagetype}}</i>">{{pagetype}}</span>/<span  data-tooltip-direction="s" data-tooltip="this is the <b>Page ID</b>: <i>{{pageid}}</i>">{{pageid}}</span>{{else}}Home{{/if}}</h2>
       </div>       
 
+
+    <!-- logged-in user options -->
     {{#if currentUser}}
       <div class="container-item tooltip-right" align="center" valign="center" data-tooltip="Add Widgets from Your Library" data-tooltip-direction="s">
           <button class="clickable btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="true" style="vertical-align: middle;">
@@ -30,12 +35,15 @@
           </ul>
       </div>
       <div class="container-item widgetmenu unlockall" data-tooltip="lock all widgets"  data-tooltip-direction="s"  title="click to lock all widgets" style="display:none">
-        <li class=" clickable headericon ion-unlocked edit" id="unlock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
+        <li class=" clickable headericon zmdi zmdi-lock-open zmdi-hc-3x edit" id="unlock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
       </div>
       <div class="container-item widgetmenu lockall" data-tooltip="unlock all widgets"  data-tooltip-direction="s"  title="click to unlock all widgets">
-        <li class=" clickable headericon ion-locked display" id="lock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
+        <li class=" clickable headericon zmdi zmdi-lock zmdi-hc-3x display" id="lock_{{url}}" data-pack="default" data-tags="" style="display: inline-block;"></li>
       </div>
     {{/if}}
+    <!-- end logged-in user options -->
+
+    <!-- login features -->
       <div class="container-item widgetmenu login" data-tooltip="Login for user things" data-tooltip-direction="s" title="Login for User Things..">
         <h4>{{> loginButtons}}</h4>
         <span> <a href="/user_libs/{{currentUser.username}}"><i class="zmdi zmdi-collection-text"> Your Library</i></a></span><BR>
@@ -49,14 +57,14 @@
             {{/if}}
           {{/with}}
       </div>
-
+      <!-- end login features -->
 
       <div class="container-item widgetmenu comments" data-tooltip="comments" data-tooltip-direction="s" >
        <i  data-toggle="modal" data-target="#comment_modal" class="zmdi zmdi-comment zmdi-hc-3x opencomments"></i>
       </div>
 
       <div class="container-item widgetmenu comments" data-tooltip="help" data-tooltip-direction="s">
-        <li class=" clickable headericon ion-help-buoy display" id="help" data-pack="default" data-tags="" style="display: inline-block;" data-toggle="modal" data-target="#help_modal"></li>
+        <li class=" clickable headericon zmdi zmdi-help zmdi-hc-3x  display" id="help" data-pack="default" data-tags="" style="display: inline-block;" data-toggle="modal" data-target="#help_modal"></li>
       </div>
 
 

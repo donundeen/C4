@@ -5,6 +5,7 @@ if (Meteor.isClient) {
   var dix = 0;
   function setDisplayModeOn(widgetData, iframeElement, widgetElement, menu, bin, jsbin, widgetid){
 
+    console.log("setting display mode on");
     dix++;
     var di = dix;
     var newbintop = 0;
@@ -39,14 +40,15 @@ if (Meteor.isClient) {
     $(iframeElement).css("max-height", "");
     $(iframeElement).css("max-width", "");
     $(iframeElement).width($(widgetElement).width());
-    $(iframeElement).height($(widgetElement).height());
+    $(iframeElement).height($(widgetElement).height() - 20);
     $(iframeElement).css("border-radius", "10px");
+    $(iframeElement).css("max-height", $(widgetElement).height() - 20 );
 
     (function(wn, wd, ifr){
       $(wn).resize(function(){
         console.log("display mode resizing");
         $(ifr).width($(wd).width());
-        $(ifr).height($(wd).height());
+        $(ifr).height($(wd).height() - 20);
       });
     })(window, widgetElement, iframeElement);
 

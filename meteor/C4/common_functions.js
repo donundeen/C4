@@ -65,14 +65,14 @@ if (Meteor.isClient) {
 
   setWidgetDefaults = function(doc){
     if(typeof doc.displayWidth === "undefined" || !doc.displayWidth || doc.displayWidth.trim() == "" || doc.displayWidth == "width" || doc.displayWidth == "default"){
-      doc.displayWidth = "default";
-      doc.displayUsableWidth = "";
+      doc.displayWidth = "320px";
+      doc.displayUsableWidth = "320px";
     }else{
       doc.displayUsableWidth = doc.displayWidth;
     }
     if(typeof doc.displayHeight === "undefined" || !doc.displayHeight || doc.displayHeight.trim() == "" || doc.displayHeight == "height"  || doc.displayHeight == "default"){
-      doc.displayHeight = "default";
-      doc.displayUsableHeight = "";
+      doc.displayHeight = "400px";
+      doc.displayUsableHeight = "400px";
     }else{
       doc.displayUsableHeight = doc.displayHeight;
     }
