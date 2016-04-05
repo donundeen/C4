@@ -17,13 +17,17 @@ using this font library
 
 
 TODOs:
-- BUG: there's a BUG when requireWidgetData wants the data and html output of a widget.
+
+- Comment Replies broken?
+- "code snippets" - not a great term for what it's doing right now.
+- Bug: "copy" and "save to library" icons appear even when user is not logged in.
 - MVP: functionality for persisting data for a widget on a pageid level. eg, to make a "this object comments" widget, or something like that.
+-- requires a "persistence proxy" - store to mongo
+- BUG: there's a BUG when requireWidgetData wants the data and html output of a widget.
 - MVP: elastisearch integration: proxy and helper functions
 - MVP: insert code: pageid, pagetype, pageurl
 - MVP: Help Text
 	- MVP: "How to use this app" - bare minimum
-- MVP need an image proxy as well.
 - MVP: Make some useful templates and examples
 	- a few culutural APIs
 - BUG sometimes the jsbin doesn't run on page load, sometimes it doesn't even show.
@@ -33,14 +37,12 @@ TODOs:
 
 
 
+- creating and sharing "code snippets" as well as entire widgets
 - dynamically resizable divs (drag corners), or masonry implementation, or something to make the boxes tend to fit together better.
 - another layout option: masonry: https://github.com/voodoohop/meteor-masonrify
 - confirm delete.
 - functionality for getting/setting user session information
 - user/group/public access levels on widgets
-- re-ordering widgets
-- Comments section for each widget.
-- "super-minimized widgets" : for widgets that you need to do stuff, but mostly just want hidden.
 - in general, need to really ace the way the widget looks in both edit and display modes, and in switching between those modes.
 - need a consistent approach to UI for menu. 
 - need lots of styling help, so it's veru comfortable to use.
@@ -53,12 +55,21 @@ TODOs:
 - WYSIWYG HTML Editor, that works in JSBIN
 
 
+Widget Ideas
+
+- WYSIWYG text widget
+- freehand drawing 
+- keyword/vocabulary creation/editing
+
+
 CRAZY IDEAS:
 
 - elsticsearch config: https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html
 - Packery: http://packery.metafizzy.co/
 
 COMPLETED
+
+- DONE: MVP need an image proxy as well.
 
 - DONE: per-widget comments, per-widget instance comments.
  	- https://atmospherejs.com/arkham/comments-ui

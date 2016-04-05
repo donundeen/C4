@@ -41,6 +41,17 @@ from CJ:
 
 
 From JD:
+
 - "add to my library" - "copy" "fork" or "clone"? so it's clear it's not a "favorite"?
 - thinking about "research with this tool" = want to search for objects and "collect" them.
 - would be cool to keep a journal of my experience using the tools that go into this product. Things I wish existed, improvements, etc.
+
+From SK
+
+- good to have things that people can "drop in to." eliminate setup time
+- short windows to do something
+- getting used to how things work - seems pretty easy
+- making a short video, tutorial.
+- crowdsource tutorial?
+- show to Johann next
+- Dan Phiffer - used to work at MOMA
