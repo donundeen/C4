@@ -117,12 +117,12 @@ return;
         if(format == "json"){
           res.writeHead(200, {'Content-Type': 'application/json', 
                               'Access-Control-Allow-Origin' : '*'});
-          res.end(json_text);
+          res.end(resultCache[format][reqUrl]);
         }
         if(format == "html"){
           res.writeHead(200, {'Content-Type': 'text/html', 
                               'Access-Control-Allow-Origin' : '*'});
-          res.end(html_text);
+          res.end(resultCache[format][reqUrl]);
         }
         return;
       }
