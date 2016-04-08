@@ -24,7 +24,7 @@ if(process && process.env && process.env.NODE_ENV == "production"){
   port = mysecrets.prod_port;
 }
 
-var cacheOn = true;
+var cacheOn = false;
 var resultCache = {json : {}, html :{}};
 
 startServer();
