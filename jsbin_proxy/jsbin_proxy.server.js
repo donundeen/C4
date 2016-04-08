@@ -24,6 +24,7 @@ if(process && process.env && process.env.NODE_ENV == "production"){
   port = mysecrets.prod_port;
 }
 
+var cacheOn = true;
 var resultCache = {json : {}, html :{}};
 
 startServer();
@@ -111,18 +112,20 @@ return;
     var reqUrl = 'http://localhost/jsbin/'+jsbin_id+'/latest?pagetype='+pagetype+'&pageid='+pageid+'&headless=true';
     console.log("zombie calling url " + reqUrl);
 
-    if(resultCache[format][reqUrl]){
-      if(format == "json"){
-        res.writeHead(200, {'Content-Type': 'application/json', 
-                            'Access-Control-Allow-Origin' : '*'});
-        res.end(json_text);
+    if(cacheOn){
+      if(resultCache[format][reqUrl]){
+        if(format == "json"){
+          res.writeHead(200, {'Content-Type': 'application/json', 
+                              'Access-Control-Allow-Origin' : '*'});
+          res.end(json_text);
+        }
+        if(format == "html"){
+          res.writeHead(200, {'Content-Type': 'text/html', 
+                              'Access-Control-Allow-Origin' : '*'});
+          res.end(html_text);
+        }
+        return;
       }
-      if(format == "html"){
-        res.writeHead(200, {'Content-Type': 'text/html', 
-                            'Access-Control-Allow-Origin' : '*'});
-        res.end(html_text);
-      }
-      return;
     }
 
     var Browser = require('zombie');
