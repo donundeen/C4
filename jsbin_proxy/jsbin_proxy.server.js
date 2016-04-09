@@ -228,6 +228,22 @@ return;
       console.log(" browser  on  error");
       console.log(reqUrl);            
       console.log(error);
+
+
+      if(resultCache[format][reqUrl]){
+        console.log("using cached data instead");
+        if(format == "json"){
+          res.writeHead(200, {'Content-Type': 'application/json', 
+                              'Access-Control-Allow-Origin' : '*'});
+        }
+        if(format == "html"){
+          res.writeHead(200, {'Content-Type': 'text/html', 
+                              'Access-Control-Allow-Origin' : '*'});
+        }
+        res.end(resultCache[format][reqUrl]);
+        return;
+      }
+
 //      browser.dump();
       var stack = new Error().stack;
       console.log(stack);
@@ -257,9 +273,25 @@ return;
             console.log(error);
             console.log(browser);
             console.log(status);
+
             var stack = new Error().stack;
             console.log(stack);
 //            browser.dump();
+        if(resultCache[format][reqUrl]){
+          console.log("using cached data instead");
+          if(format == "json"){
+            res.writeHead(200, {'Content-Type': 'application/json', 
+                                'Access-Control-Allow-Origin' : '*'});
+          }
+          if(format == "html"){
+            res.writeHead(200, {'Content-Type': 'text/html', 
+                                'Access-Control-Allow-Origin' : '*'});
+          }
+          res.end(resultCache[format][reqUrl]);
+          return;
+        }
+
+
 
             res.writeHead(200, {'Content-Type': 'text/html', 
                                 'Access-Control-Allow-Origin' : '*'});
