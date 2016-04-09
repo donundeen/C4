@@ -79,21 +79,35 @@ function parseRequest(req, res){
   split.shift();
   console.log(split);
   var jsbin_id = split.shift();
-  console.log(split);
+  console.log(jsbin_id);
   var pagetype = split.shift();
   var pageid= split.join("/");
 
   console.log(pagetype);
   console.log(pageid);
 
-  if ((pageid == "" || pageid) && jsbin_id){
-    runJSBin(jsbin_id, pagetype, pageid, req, res, format);
-  }else{
-   res.writeHead(200, {'Content-Type': 'text/html', 
-                        'Access-Control-Allow-Origin' : '*'});
-   res.end("<html><body><pre>not sure what to do</pre></body></html>");
-  }
+  var MongoClient = require('mongodb').MongoClient;
+  MongoClient.connect("mongodb://localhost:27017/meteor", function(err, db) {
+      console.log("connected");
+      console.log("error : " +  err);
 
+      db.collection("widgets").findOne({_id :jsbin_id  }, function(err, doc){
+	  var widgetDoc = {};
+	  if(err){
+	      console.log(err);
+	  }else{
+	      widgetDoc = doc;
+	  }
+	  if ((pageid == "" || pageid) && jsbin_id){
+	      runJSBin(jsbin_id, pagetype, pageid, req, res, format, widgetDoc);
+	  }else{
+	      res.writeHead(200, {'Content-Type': 'text/html', 
+				  'Access-Control-Allow-Origin' : '*'});
+	      res.end("<html><body><pre>not sure what to do</pre></body></html>");
+	  }
+	  // got doc, do things here.
+      }); //.map(setWidgetDefaults);
+  });
 }
 
 
@@ -101,7 +115,7 @@ function parseRequest(req, res){
 
 
 
-function runJSBin(jsbin_id, pagetype, pageid, req, res, format){
+function runJSBin(jsbin_id, pagetype, pageid, req, res, format, widgetDoc){
 
 /*
    res.writeHead(200, {'Content-Type': 'text/html', 
@@ -112,7 +126,11 @@ return;
     var reqUrl = 'http://localhost/jsbin/'+jsbin_id+'/latest?pagetype='+pagetype+'&pageid='+pageid+'&headless=true';
     console.log("zombie calling url " + reqUrl);
 
-    if(cacheOn){
+    if(!widgetDoc.cacheConfig){
+	widgetDoc.cacheConfig = {};
+    }
+
+    if(widgetDoc.cacheConfig.cacheOn){
       if(resultCache[format][reqUrl]){
         if(format == "json"){
           res.writeHead(200, {'Content-Type': 'application/json', 
