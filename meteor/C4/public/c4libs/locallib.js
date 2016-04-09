@@ -1,4 +1,4 @@
-var c4_widget_cache = {};
+var c4_widget_cache = {json :{} , html : {}};
 
 
 function pageId(){
@@ -78,7 +78,7 @@ function c4_done(){
 }
 
 function widgetData(widgetName, callback){
-    getOutputFromWidget(widgetName, function(result){
+    getOutputFromWidget(widgetName, "json", function(result){
         if(!result){
             callback(false);
             return false;
@@ -99,7 +99,7 @@ function widgetData(widgetName, callback){
 }
 
 function widgetHtml(widgetName, callback){
-    getOutputFromWidget(widgetName, function(result){
+    getOutputFromWidget(widgetName, "html", function(result){
         if(!result){
             callback(false);
             return false;
@@ -112,10 +112,10 @@ function widgetHtml(widgetName, callback){
 }
 
 
-function getOutputFromWidget(widgetName, callback){
+function getOutputFromWidget(widgetName, format, callback){
 
-    if(c4_widget_cache[widgetName]){
-        callback(c4_widget_cache[widgetName]);
+    if(c4_widget_cache[format][widgetName]){
+        callback(c4_widget_cache[format][widgetName]);
         return true;
     }
     var reqUrl = '/headless/'+widgetName+'/'+pageType()+"/"+pageId();
@@ -123,7 +123,7 @@ function getOutputFromWidget(widgetName, callback){
         url: reqUrl,
         dataType: 'html',
         success : function(result){
-            c4_widget_cache[widgetName] = result;
+            c4_widget_cache[format][widgetName] = result;
             callback(result);
         },
         error : function (xhr, status, error) {
