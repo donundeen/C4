@@ -90,6 +90,7 @@ function widgetData(widgetName, callback){
             console.log("going to parse data");
             var newObj = JSON.parse(datastring);
             console.log("got data, calling callback");
+            console.log(callback);
             callback(newObj);
         }catch(e){
             console.log("error parsing data");
@@ -240,9 +241,13 @@ function requireWidgetData(requiresList, callback){
                 }
                 resultsSet[item.from].data = response;
                 forJsonView[item.from].data = response;
+                console.log("checking if " + funcscomplete + " == " + length);
                 if(++funcscomplete == length){
+                    console.log("we're done with calls");
                     removeWaitingGif();
                     dataIntoJsonView(forJsonView);
+                    console.log("xx calling callback");
+                    console.log(callback);
                     callback(resultsSet);
                 }            
             });
