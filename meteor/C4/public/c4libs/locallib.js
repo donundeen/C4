@@ -86,18 +86,17 @@ function widgetData(widgetName, callback){
         var newdiv = $("<div>");
         $(newdiv).append(result);
         var datastring = $(".c4_data", newdiv).text().trim();
+        var newObj = false;
         try{
             console.log("going to parse data");
             var newObj = JSON.parse(datastring);
             console.log("got data, calling callback");
-            console.log(callback);
-            callback(newObj);
         }catch(e){
             console.log("error parsing data");
             console.log(datastring);
             console.log(e);
-            callback(false);
         }
+        callback(newObj);
     });
 }
 
