@@ -18,8 +18,9 @@ using this font library
 
 TODOs:
 
+- implement caching : https://www.npmjs.com/package/cache-manager
 - Comment Replies broken?
-- "code snippets" - not a great term for what it's doing right now.
+- "code snippets" - not a great term for what it's doing right now. - how about "get data" - and a separate dropdown for "code "
 - Bug: "copy" and "save to library" icons appear even when user is not logged in.
 - MVP: functionality for persisting data for a widget on a pageid level. eg, to make a "this object comments" widget, or something like that.
 -- requires a "persistence proxy" - store to mongo
