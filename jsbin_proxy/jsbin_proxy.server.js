@@ -135,15 +135,21 @@ function parseRequest(req, res){
 		    if(result){
 			console.log("using cache");
 			if(format == "json"){
-			    res.writeHead(200, {'Content-Type': 'application/json', 
-						'Access-Control-Allow-Origin' : '*'});
-			    res.end(result);
+			    if(res){
+				res.writeHead(200, {'Content-Type': 'application/json', 
+						    'Access-Control-Allow-Origin' : '*'});
+				res.end(result);
+				delete res;
+			    }
 			    return;
 			}
 			if(format == "html" || format == "page"){
-			    res.writeHead(200, {'Content-Type': 'text/html', 
-						'Access-Control-Allow-Origin' : '*'});
-			    res.end(result);
+			    if(res){
+				res.writeHead(200, {'Content-Type': 'text/html', 
+						    'Access-Control-Allow-Origin' : '*'});
+				res.end(result);
+				delete res;
+			    }
 			    return;
 			    
 			}
@@ -152,9 +158,12 @@ function parseRequest(req, res){
 		    runJSBin(jsbin_id, pagetype, pageid, req, res, format, widgetDoc, cacheID);
 		}); 
 	    }else{
-		res.writeHead(200, {'Content-Type': 'text/html', 
-				    'Access-Control-Allow-Origin' : '*'});
-		res.end("<html><body><pre>not sure what to do</pre></body></html>");
+		if(res){
+		    res.writeHead(200, {'Content-Type': 'text/html', 
+					'Access-Control-Allow-Origin' : '*'});
+		    res.end("<html><body><pre>not sure what to do</pre></body></html>");
+		    delete res;
+		}
 	    }
 	}); 
     });
@@ -177,7 +186,7 @@ return;
     console.log("zombie calling url " + reqUrl);
 
     var Browser = require('zombie');
-    var browser = Browser.create();
+    var browser = new Browser();
 
     var consoleMessages = [];
 
@@ -227,21 +236,26 @@ return;
 	    // use "last known good" version, or send back error messages
 	    var cmsgs = consoleMessages.join("\n");
 	    var stack = new Error().stack;
-
+	    
 	    if (format == "json"){
 		var json_text= JSON.stringify({error : "error processing widget",
 					       messages : consoleMessages,
-					      stack : stack});
-
-		res.writeHead(200, {'Content-Type': 'application/json', 
-				    'Access-Control-Allow-Origin' : '*'});
-		res.end(json_text);
-            }else if (format == "html"){
+					       stack : stack});
+		if(res){
+		    res.writeHead(200, {'Content-Type': 'application/json', 
+					'Access-Control-Allow-Origin' : '*'});
+		    res.end(json_text);
+		    delete res;
+		}
+	    }else if (format == "html" || format == "page"){
 		var html_text = "<div>ERROR Processing widget: <pre>"+cmsgs+"\nstack:\n"+stack+"</pre></div>";
-		res.writeHead(200, {'Content-Type': 'text/html', 
-				    'Access-Control-Allow-Origin' : '*'});
-		res.end(html_text);
-            }
+		if(res){
+		    res.writeHead(200, {'Content-Type': 'text/html', 
+					'Access-Control-Allow-Origin' : '*'});
+		    res.end(html_text);
+		    delete res;
+		}
+	    }
             browser.tabs.closeAll();
             delete browser;
 	}
@@ -262,9 +276,13 @@ return;
 	    
             if(format == "page"){
 		mongoCache.set(cacheID, htmlstring, {ttl : widgetDoc.cacheConfig.ttl});
-		res.writeHead(200, {'Content-Type': 'text/html', 
-				    'Access-Control-Allow-Origin' : '*'});
-		res.end(htmlstring);
+		if(res){
+		    res.writeHead(200, {'Content-Type': 'text/html', 
+					'Access-Control-Allow-Origin' : '*'});
+		    res.end(htmlstring);
+		    delete res;
+		}
+
             }else if (format == "json"){
 		var json_text= "{}";
 		var json_element = browser.document.getElementsByClassName("c4_data").item(0);
@@ -273,19 +291,25 @@ return;
 		}
 		
 		mongoCache.set(cacheID, json_text, {ttl : widgetDoc.cacheConfig.ttl});
-		res.writeHead(200, {'Content-Type': 'application/json', 
-				    'Access-Control-Allow-Origin' : '*'});
-		res.end(json_text);
-            }else if (format == "html"){
+		if(res){
+		    res.writeHead(200, {'Content-Type': 'application/json', 
+					'Access-Control-Allow-Origin' : '*'});
+		    res.end(json_text);
+		    delete res;
+		}
+	    }else if (format == "html"){
 		var html_text = "";
 		var html_element = browser.document.getElementsByClassName("c4_html").item(0);
 		if(html_element){
 		    html_text = html_element.outerHTML;
 		}		
 		mongoCache.set(cacheID, html_text, {ttl : widgetDoc.cacheConfig.ttl});
-		res.writeHead(200, {'Content-Type': 'text/html', 
-				    'Access-Control-Allow-Origin' : '*'});
-		res.end(html_text);
+		if(res){
+		    res.writeHead(200, {'Content-Type': 'text/html', 
+					'Access-Control-Allow-Origin' : '*'});
+		    res.end(html_text);
+		    delete res;
+		}
             }
             browser.tabs.closeAll();
             delete browser;
@@ -294,15 +318,21 @@ return;
     
     browser.on("error", function(error){
 	console.log(" EEEEEEEEEEEEEEEEEEEEEEEEE browser  on  error");
+	var cmsgs = consoleMessages.join("\n");
+	var stack = new Error().stack;
+
 	console.log(reqUrl);            
 	console.log(error);
 	
 	//      browser.dump();
 	var stack = new Error().stack;
 	console.log(stack);
-	res.writeHead(200, {'Content-Type': 'text/html', 
-                            'Access-Control-Allow-Origin' : '*'});
-	res.end("<html><body>Browser on visit error <BR>" + error + "  <BR> " + reqUrl + " <BR><pre>"+ stack + "</pre></body></html>");
+	if(res){
+	    res.writeHead(200, {'Content-Type': 'text/html', 
+				'Access-Control-Allow-Origin' : '*'});
+	    res.end("<html><body>Browser on visit error <BR>" + error + "  <BR> " + reqUrl + " <BR><pre>"+ stack + "</pre><BR>Console messages:<pre>\n"+cmsgs+"\n</pre></body></html>");
+	    delete res;
+	}
 	browser.tabs.closeAll();
 	delete browser;
     });
@@ -318,6 +348,7 @@ return;
         console.log(error);
         console.log(browser);
         console.log(status);
+/*
         if(error){
             console.log(" browser visit error");
             console.log(reqUrl);            
@@ -328,13 +359,17 @@ return;
             var stack = new Error().stack;
             console.log(stack);
 	    //            browser.dump();
-            res.writeHead(200, {'Content-Type': 'text/html', 
-                                'Access-Control-Allow-Origin' : '*'});
-            res.end("<html><body>Browser visit error <BR>" + error + " <BR> " + reqUrl + "  <BR> " + status + "<BR><pre>"+ stack + "</pre></body></html>");
+	    if(res){
+		res.writeHead(200, {'Content-Type': 'text/html', 
+                                    'Access-Control-Allow-Origin' : '*'});
+		res.end("<html><body>Browser visit error <BR>" + error + " <BR> " + reqUrl + "  <BR> " + status + "<BR><pre>"+ stack + "</pre></body></html>");
+		delete res;
+	    }
             browser.tabs.closeAll();
             delete browser;
 	    
         }
+*/
     });
     
     console.log("done");
