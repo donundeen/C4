@@ -113,7 +113,6 @@ function widgetHtml(widgetName, callback){
     });
 }
 
-
 function getOutputFromWidget(widgetName, format, callback){
 
     if(c4_widget_cache[format][widgetName]){
