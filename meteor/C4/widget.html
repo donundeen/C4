@@ -11,8 +11,10 @@
       &nbsp;&nbsp; <span class="displayModeHeader"><B>{{name}}</b>  ({{url}})</span>
         &nbsp;<i  data-toggle="modal"  data-target="#comment_modal_{{url}}" data-tooltip="Comment on this widget" class="zmdi zmdi-comment opencomments"></i>
         &nbsp;<i data-tooltip="view widget info" class="zmdi zmdi-info openinfo"></i>
+        {{#if currentUser}}
         &nbsp;<i data-tooltip="copy widget on this page" class="zmdi zmdi-copy copy"></i>
         &nbsp;<i data-tooltip="copy widget to your library" class="zmdi zmdi-collection-plus save_to_library"></i>
+        {{/if}}
       {{#if isMyWidget}}
         &nbsp;<i data-tooltip="unlock for editing" class="zmdi zmdi-lock lock"></i>
       {{/if}}
@@ -33,12 +35,14 @@
         <i class="zmdi zmdi-lock zmdi-hc-lg">Unlock for Editing</i>
       </div>
       {{/if}}  
+      {{#if currentUser}}
       <div class="widgetmenu copy clickable"  data-tooltip="Copy widget onto this page"  title="click to copy widget" >
         <i class="zmdi zmdi-copy zmdi-hc-lg"> Copy Widget On This Page</i>
       </div>      
       <div class="widgetmenu save_to_library clickable" data-tooltip="Copy to My (your) Library" title="Add to My Library" >
         <i class="zmdi zmdi-collection-plus zmdi-hc-lg"> Add to My Library</i>
       </div> 
+      {{/if}}
       <div>
           <b>JSON Output:</b><a href="/headless/{{url}}/{{pagetype}}/{{pageid}}.json" target="_blank">/headless/{{url}}/{{pagetype}}/{{pageid}}.json</a>
           <br>
@@ -172,9 +176,9 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
           <h4 class="modal-title">Widget Info</h4>
         </div>
         <div class="modal-body">
-          <B>Widget Name:</b>{{> editableText collection="widgets" field="name"}}
+          <B>Widget Name:</b>{{#if isMyWidget}}{{> editableText collection="widgets" field="name"}}{{else}}{{name}}{{/if}}
           <BR>
-          <B>Description:</b> {{> editableText collection="widgets" textarea=true acceptEmpty=true field="description"}}
+          <B>Description:</b> {{#if isMyWidget}}{{> editableText collection="widgets" textarea=true acceptEmpty=true field="description"}}{{else}}{{description}}{{/if}}
           <BR>
           <b>Created By:</b> {{createdBy.username}}
           <HR>
