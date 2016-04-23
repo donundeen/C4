@@ -18,7 +18,8 @@ using this font library
 
 TODOs:
 
-- implement caching : https://www.npmjs.com/package/cache-manager
+- BUG: Caching error in calls to webservices. Wrong data being cached.
+- BUG: problems with multiple nested jsbin_proxy calls - or maybe just hard-to-debug problems in the widget code?
 - Comment Replies broken?
 - "code snippets" - not a great term for what it's doing right now. - how about "get data" - and a separate dropdown for "code "
 - Bug: "copy" and "save to library" icons appear even when user is not logged in.
@@ -35,6 +36,7 @@ TODOs:
 - MVP: email support:
 -- watching widgets/pages
 -- notifications on comments
+- Twitter Cards
 
 
 
@@ -71,6 +73,7 @@ CRAZY IDEAS:
 COMPLETED
 
 - DONE: MVP need an image proxy as well.
+- DONE: implement caching : https://www.npmjs.com/package/cache-manager
 
 - DONE: per-widget comments, per-widget instance comments.
  	- https://atmospherejs.com/arkham/comments-ui
