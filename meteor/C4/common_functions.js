@@ -106,6 +106,13 @@ if (Meteor.isClient) {
       doc.visibility = "public";
     }
 
+    if(!doc.cacheConfig){
+      doc.cacheConfig = {};
+    }
+
+    if(!doc.cacheConfig.ttl){
+      doc.cacheConfig.ttl = 60;
+    }
 
 
     return doc;

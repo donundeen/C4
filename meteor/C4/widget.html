@@ -127,9 +127,9 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
         </li>
 
         <li class="dropdown">
-          <a href="#" data-toggle="dropdown" class="dropdown-toggle">Code Snippets<b class="caret"></b></a>
+          <a href="#" data-toggle="dropdown" class="dropdown-toggle">Get Data<b class="caret"></b></a>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1_{{url}}">
-            <li>Pull Data from:</li>
+            <li>Pull Data from Widget:</li>
             {{#each otherwidgets}}
               <li><a href="#" class="add_code {{url}} clickable" data-pullfrom="{{url}}" data-pulltype="data"><i class="widgetIDText" data-pullfrom="{{url}}" data-pulltype="data">{{url}}</i>: {{name}} (data)</a></li>
               <li><a href="#" class="add_code {{url}} clickable" data-pullfrom="{{url}}" data-pulltype="html"><i class="widgetIDText" data-pullfrom="{{url}}" data-pulltype="html">{{url}}</i>: {{name}} (html)</a></li>
@@ -138,7 +138,8 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
             <li><a href="#" class="call_webservice_url clickable">Call Webservice Url...</a></li>
           </ul>
         </li>
-        <li><a href="#myConfigModal" data-toggle="modal" data-target="#config_modal_{{_id}}">Settings</a></li>
+        <li><a href="#myConfigModal" data-toggle="modal" data-target="#config_modal_{{_id}}">Style Settings</a></li>
+        <li><a href="#myCacheModal" data-toggle="modal" data-target="#cache_modal_{{_id}}">Caching</a></li>
         <li><a href="#" class="nonclickable"><i class="zmdi zmdi-triangle-up order_up"></i>Order: {{sort_order}}<i class="zmdi zmdi-triangle-down order_down"></i></a></li>
 
 
@@ -220,6 +221,27 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
       </div>
     </div>
 </div>
+
+<div class="modal fade" id="cache_modal_{{_id}}">
+  <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">Cache Settings</h4>
+        </div>
+        <div class="modal-body">
+          <B>Cache TTL (in seconds):</b> {{> editableText textarea=true acceptEmpty=true collection="widgets" field="cacheConfig.ttl" placeholder="Enter Cache Time in Seconds"}}
+        </div>
+        <div class="modal-footer">
+          <a href="#" data-dismiss="modal" class="btn">Close</a>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+
     </div>
     <!-- edit-mode header-->
 
