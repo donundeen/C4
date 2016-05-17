@@ -12,7 +12,7 @@ https://github.com/assaf/zombie
 
     
 var urlparser = require("url");
-
+const Browser = require('zombie');
 var fs = require("fs");
 var pathparser = require("path");
 var http = require("http");
@@ -27,8 +27,6 @@ if(process && process.env && process.env.NODE_ENV == "production"){
 
 var cacheManager = require('cache-manager');
 var mongoStore = require('cache-manager-mongodb');
-
-
 var mongoCache = cacheManager.caching({
     store : mongoStore,
     uri : "mongodb://localhost:27017/nodeCacheDb",
@@ -173,7 +171,7 @@ function parseRequest(req, res){
 
 
 
-
+var browserNum = 0;
 function runJSBin(jsbin_id, pagetype, pageid, req, res, format, widgetDoc, cacheID){
 
 /*
@@ -182,20 +180,39 @@ function runJSBin(jsbin_id, pagetype, pageid, req, res, format, widgetDoc, cache
    res.end("<html><body><pre>going ok " + jsbin_id+ ", " + format+ "</pre></body></html>");
 return;
 */
+
+    var thisNum = browserNum++;
     var reqUrl = 'http://localhost/jsbin/'+jsbin_id+'/latest?pagetype='+pagetype+'&pageid='+pageid+'&headless=true';
     console.log("zombie calling url " + reqUrl);
 
-    var Browser = require('zombie');
+
     var browser = new Browser();
 
     var consoleMessages = [];
 
+    console.log("defining browser things");
     browser.on("done", function(){
-      console.log("jsbin browser done");
+      console.log(thisNum + " " + "jsbin browser done");
+    });
+
+    browser.on("closed", function(window){
+	console.log(thisNum + " " + "window closed");
+    });
+
+    browser.on("done", function(){
+	console.log(thisNum + " " + "event loop done");
+    });
+
+    browser.on("idle", function(){
+	console.log(thisNum + " " + "event loop idle");
+    });
+
+    browser.on("inactite", function(){
+	console.log(thisNum + " " + "inactive");
     });
 
     browser.on("evaluated", function(code, result, filename){
-      console.log("code evaluated");
+      console.log(thisNum + " " + "code evaluated");
       /*
       console.log(filename);
       console.log(code);
@@ -203,12 +220,12 @@ return;
 */
     });
     browser.on("loaded", function(doc){
-      console.log("loaded");
+      console.log(thisNum + " " + "loaded");
  //     console.log(doc);
  //     doc.addEventListener('DOMContentLoaded', function(){console.log("^^^^^^^^^^^^^^^^^^^^^^^^^DOMContentLoaded")}, false);
     });
     browser.on("request", function(request){
-//      console.log("...........request");
+      console.log(thisNum + " " + "...........request");
  //     console.log(request);
     });
 
@@ -221,14 +238,14 @@ return;
     
     
     browser.on("loading", function(doc){
-	console.log("!!!!!!!loading");
+	console.log(thisNum + " " + "!!!!!!!loading");
 	doc.addEventListener('DOMContentLoaded', function(){console.log("2^^^^^^^^^^^^^^^^^^^^^^^^^DOMContentLoaded")}, false);
 	
     });
     
     browser.on("console", function(level, message){
 	consoleMessages.push(message);
-	console.log("++++++++++ console message level "+ level + " : "  + message);
+	console.log(thisNum + " " + "++++++++++ console message level "+ level + " : "  + message);
 	if(message.match(/\[SyntaxError/) || message.match (/\[[a-zA-Z]+Error/)){
             console.log(new Error().stack);
             var htmlstring = browser.document.documentElement.outerHTML;
@@ -261,7 +278,7 @@ return;
 	}
 
 	if(message == "c4_done"){
-            console.log("Zzzzzzzzzzzzzzzzzzzzzzzombie done");
+            console.log(thisNum + " " + "Zzzzzzzzzzzzzzzzzzzzzzzombie done");
             var htmlstring = browser.document.documentElement.outerHTML;
             console.log("got htmlstring");
             htmlstring = htmlstring.replace(/<!--[^>]+Created using [^>]+Source[^>]+edit[^>]-->/i,"");
@@ -317,7 +334,7 @@ return;
     });
     
     browser.on("error", function(error){
-	console.log(" EEEEEEEEEEEEEEEEEEEEEEEEE browser  on  error");
+	console.log(thisNum + " " + " EEEEEEEEEEEEEEEEEEEEEEEEE browser  on  error");
 	var cmsgs = consoleMessages.join("\n");
 	var stack = new Error().stack;
 
@@ -341,13 +358,13 @@ return;
       browser.open(reqUrl);
     */
     
-    
+    console.log("calling url now " + reqUrl);
     browser.visit(reqUrl, function(error, browser, status){
-        console.log("visited");
-        console.log(reqUrl);            
-        console.log(error);
-        console.log(browser);
-        console.log(status);
+        console.log(thisNum + " " + "visited");
+        console.log(thisNum + " " + reqUrl);            
+        console.log(thisNum + " " + error);
+        console.log(thisNum + " " + browser);
+        console.log(thisNum + " " + status);
 /*
         if(error){
             console.log(" browser visit error");
