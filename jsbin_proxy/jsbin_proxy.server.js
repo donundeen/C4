@@ -13,7 +13,7 @@ https://github.com/assaf/zombie
     
 var urlparser = require("url");
 const Browser = require('zombie');
-const phantom = require("phantom");
+
 
 var fs = require("fs");
 var pathparser = require("path");
@@ -68,7 +68,7 @@ function startServer(){
 
 function parseRequest(req, res){
 
-    var format = "page";
+    var format = "json";
 
     var rand = Math.random() * 100;
     if(req.headers["access-control-request-headers"]){
@@ -81,11 +81,15 @@ function parseRequest(req, res){
     
     var url = req.url;
     var split_p = url.split(".");
+    var split_p1 = split_p;
     console.log(split_p);
     var last = split_p[split_p.length - 1];
     if(last == "html" || last == "page" || last == "json"){
 	format = split_p.pop();
 	console.log( "format is " + format);
+    }else{
+	console.log("not sure of format, guessing json" );
+	console.log(split_p1);
     }
     url = split_p.join(".");
     
@@ -193,6 +197,8 @@ return;
     var c4_error = false;
     var c4_done = false;
     var document = false;
+
+    var phantom = require("phantom");
     
     phantom.create()
 	.then(instance => {
@@ -243,18 +249,12 @@ return;
 		    if(format == "page"){
 			
 			sitepage.evaluate(function(){
-			    return document;
-			}).then(function(document){
+			    return document.documentElement.outerHTML;
+			}).then(function(htmlstring){
 			    console.log(thisNum + " " + "11111111 Zzzzzzzzzzzzzzzzzzzzzzzombie done");
-			    //            var htmlstring = sitepage.property("content");
-			    //            var htmlstring = sitepage.document.documentElement.outerHTML;
-			    //		    console.log(document);
-			    var htmlstring = document.all[0].outerHTML;
 			    console.log("got htmlstring");
-			    //		    console.log(htmlstring);
 			    htmlstring = htmlstring.replace(/<!--[^>]+Created using [^>]+Source[^>]+edit[^>]-->/i,"");
 			    htmlstring = htmlstring.replace(/<a id="edit-with-js-bin" href="[^"]+" style="top: -60px;">Edit in JS Bin <img src="http:[^"]+"><\/a>/i,"");
-			    //        htmlstring = htmlstring.replace(/<a id="edit-with-js-bin" href="[^"]+" style="top: -60px;">Edit in JS Bin <img src="http:[^"]+"><\/a>/i,"");
 			    htmlstring = htmlstring.replace(/<link rel="stylesheet" href="http:\/\/localhost\/jbstatic\/css\/edit.css">/,"");
 			    htmlstring = htmlstring.replace(/<style id="jsbin-css">[\s]+<\/style>/,"");
 			    // at this point, we just want the contents of the body
@@ -288,6 +288,7 @@ return;
 			    console.log("have json_element");
 			    if(_json_text){
 				json_text = _json_text;
+				console.log("writing cache to " + cacheID);
 				mongoCache.set(cacheID, json_text, {ttl : widgetDoc.cacheConfig.ttl});
 			    }
 			    
