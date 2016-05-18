@@ -13,6 +13,8 @@ https://github.com/assaf/zombie
     
 var urlparser = require("url");
 const Browser = require('zombie');
+const phantom = require("phantom");
+
 var fs = require("fs");
 var pathparser = require("path");
 var http = require("http");
@@ -183,157 +185,150 @@ return;
 
     var thisNum = browserNum++;
     var reqUrl = 'http://localhost/jsbin/'+jsbin_id+'/latest?pagetype='+pagetype+'&pageid='+pageid+'&headless=true';
-    console.log("zombie calling url " + reqUrl);
-
-
-    var browser = new Browser();
 
     var consoleMessages = [];
 
-    console.log("defining browser things");
-    browser.on("done", function(){
-      console.log(thisNum + " " + "jsbin browser done");
-    });
+var sitepage = null;
+var phInstance = null;
+var c4_error = false;
+var c4_done = false;
+var document = false;
 
-    browser.on("closed", function(window){
-	console.log(thisNum + " " + "window closed");
-    });
-
-    browser.on("done", function(){
-	console.log(thisNum + " " + "event loop done");
-    });
-
-    browser.on("idle", function(){
-	console.log(thisNum + " " + "event loop idle");
-    });
-
-    browser.on("inactite", function(){
-	console.log(thisNum + " " + "inactive");
-    });
-
-    browser.on("evaluated", function(code, result, filename){
-      console.log(thisNum + " " + "code evaluated");
-      /*
-      console.log(filename);
-      console.log(code);
-      console.log(result);
-*/
-    });
-    browser.on("loaded", function(doc){
-      console.log(thisNum + " " + "loaded");
- //     console.log(doc);
- //     doc.addEventListener('DOMContentLoaded', function(){console.log("^^^^^^^^^^^^^^^^^^^^^^^^^DOMContentLoaded")}, false);
-    });
-    browser.on("request", function(request){
-      console.log(thisNum + " " + "...........request");
- //     console.log(request);
-    });
-
-    browser.on("xhr", function(event, url){
-	console.log("xhr");
-	console.log(event);
-	console.log(url);
-    });
-    
-    
-    
-    browser.on("loading", function(doc){
-	console.log(thisNum + " " + "!!!!!!!loading");
-	doc.addEventListener('DOMContentLoaded', function(){console.log("2^^^^^^^^^^^^^^^^^^^^^^^^^DOMContentLoaded")}, false);
+phantom.create()
+    .then(instance => {
+	phInstance = instance;
+	return instance.createPage();
+    })
+    .then(page => {
+	sitepage = page;
+	//   return page.open('https://stackoverflow.com/');
 	
-    });
-    
-    browser.on("console", function(level, message){
-	consoleMessages.push(message);
-	console.log(thisNum + " " + "++++++++++ console message level "+ level + " : "  + message);
-	if(message.match(/\[SyntaxError/) || message.match (/\[[a-zA-Z]+Error/)){
-            console.log(new Error().stack);
-            var htmlstring = browser.document.documentElement.outerHTML;
-	    //        console.log(htmlstring);
-	    // use "last known good" version, or send back error messages
-	    var cmsgs = consoleMessages.join("\n");
-	    var stack = new Error().stack;
+	sitepage.on("onConsoleMessage", function(message, line, src){
+            console.log("got message" + message);
 	    
-	    if (format == "json"){
-		var json_text= JSON.stringify({error : "error processing widget",
-					       messages : consoleMessages,
-					       stack : stack});
-		if(res){
-		    res.writeHead(200, {'Content-Type': 'application/json', 
-					'Access-Control-Allow-Origin' : '*'});
-		    res.end(json_text);
-		    delete res;
-		}
-	    }else if (format == "html" || format == "page"){
-		var html_text = "<div>ERROR Processing widget: <pre>"+cmsgs+"\nstack:\n"+stack+"</pre></div>";
-		if(res){
-		    res.writeHead(200, {'Content-Type': 'text/html', 
-					'Access-Control-Allow-Origin' : '*'});
-		    res.end(html_text);
-		    delete res;
-		}
-	    }
-            browser.tabs.closeAll();
-            delete browser;
-	}
-
-	if(message == "c4_done"){
-            console.log(thisNum + " " + "Zzzzzzzzzzzzzzzzzzzzzzzombie done");
-            var htmlstring = browser.document.documentElement.outerHTML;
-            console.log("got htmlstring");
-            htmlstring = htmlstring.replace(/<!--[^>]+Created using [^>]+Source[^>]+edit[^>]-->/i,"");
-            htmlstring = htmlstring.replace(/<a id="edit-with-js-bin" href="[^"]+" style="top: -60px;">Edit in JS Bin <img src="http:[^"]+"><\/a>/i,"");
-	    //        htmlstring = htmlstring.replace(/<a id="edit-with-js-bin" href="[^"]+" style="top: -60px;">Edit in JS Bin <img src="http:[^"]+"><\/a>/i,"");
-            htmlstring = htmlstring.replace(/<link rel="stylesheet" href="http:\/\/localhost\/jbstatic\/css\/edit.css">/,"");
-            htmlstring = htmlstring.replace(/<style id="jsbin-css">[\s]+<\/style>/,"");
-            // at this point, we just want the contents of the body
-	    
-	    // console.log(htmlstring);
-	    
-	    
-            if(format == "page"){
-		mongoCache.set(cacheID, htmlstring, {ttl : widgetDoc.cacheConfig.ttl});
-		if(res){
-		    res.writeHead(200, {'Content-Type': 'text/html', 
-					'Access-Control-Allow-Origin' : '*'});
-		    res.end(htmlstring);
-		    delete res;
-		}
-
-            }else if (format == "json"){
-		var json_text= "{}";
-		var json_element = browser.document.getElementsByClassName("c4_data").item(0);
-		if(json_element){
-		    json_text = json_element.textContent;
-		}
+	    consoleMessages.push(message);
+	    console.log(thisNum + " " + "++++++++++ console message line "+ line + " : "  + message);
+	    if(message.match(/\[SyntaxError/) || message.match (/\[[a-zA-Z]+Error/)){
+		console.log(new Error().stack);
+		var cmsgs = consoleMessages.join("\n");
+		var stack = new Error().stack;
 		
-		mongoCache.set(cacheID, json_text, {ttl : widgetDoc.cacheConfig.ttl});
-		if(res){
-		    res.writeHead(200, {'Content-Type': 'application/json', 
-					'Access-Control-Allow-Origin' : '*'});
-		    res.end(json_text);
-		    delete res;
+		if (format == "json"){
+		    var json_text= JSON.stringify({error : "error processing widget",
+						   messages : consoleMessages,
+						   stack : stack});
+		    if(res){
+			res.writeHead(200, {'Content-Type': 'application/json', 
+					    'Access-Control-Allow-Origin' : '*'});
+			res.end(json_text);
+			delete res;
+		    }
+		}else if (format == "html" || format == "page"){
+		    var html_text = "<div>ERROR Processing widget: <pre>"+cmsgs+"\nstack:\n"+stack+"</pre></div>";
+		    if(res){
+			res.writeHead(200, {'Content-Type': 'text/html', 
+					    'Access-Control-Allow-Origin' : '*'});
+			res.end(html_text);
+			delete res;
+		    }
 		}
-	    }else if (format == "html"){
-		var html_text = "";
-		var html_element = browser.document.getElementsByClassName("c4_html").item(0);
-		if(html_element){
-		    html_text = html_element.outerHTML;
-		}		
-		mongoCache.set(cacheID, html_text, {ttl : widgetDoc.cacheConfig.ttl});
-		if(res){
-		    res.writeHead(200, {'Content-Type': 'text/html', 
-					'Access-Control-Allow-Origin' : '*'});
-		    res.end(html_text);
-		    delete res;
-		}
-            }
-            browser.tabs.closeAll();
-            delete browser;
-	}
-    });
-    
-    browser.on("error", function(error){
+		sitepage.close();
+		phInstance.exit();
+	    }
+	    
+	    if(message == "c4_done"){
+		
+		sitepage.evaluate(function(){
+		    return document;
+		}).then(function(document){
+		    console.log(thisNum + " " + "11111111 Zzzzzzzzzzzzzzzzzzzzzzzombie done");
+		    //            var htmlstring = sitepage.property("content");
+		    //            var htmlstring = sitepage.document.documentElement.outerHTML;
+//		    console.log(document);
+		    var htmlstring = document.all[0].outerHTML;
+		    console.log("got htmlstring");
+//		    console.log(htmlstring);
+		    htmlstring = htmlstring.replace(/<!--[^>]+Created using [^>]+Source[^>]+edit[^>]-->/i,"");
+		    htmlstring = htmlstring.replace(/<a id="edit-with-js-bin" href="[^"]+" style="top: -60px;">Edit in JS Bin <img src="http:[^"]+"><\/a>/i,"");
+		    //        htmlstring = htmlstring.replace(/<a id="edit-with-js-bin" href="[^"]+" style="top: -60px;">Edit in JS Bin <img src="http:[^"]+"><\/a>/i,"");
+		    htmlstring = htmlstring.replace(/<link rel="stylesheet" href="http:\/\/localhost\/jbstatic\/css\/edit.css">/,"");
+		    htmlstring = htmlstring.replace(/<style id="jsbin-css">[\s]+<\/style>/,"");
+		    // at this point, we just want the contents of the body
+		    
+//		     console.log(htmlstring);
+		    console.log("format is " + format);
+		    
+		    if(format == "page"){
+			mongoCache.set(cacheID, htmlstring, {ttl : widgetDoc.cacheConfig.ttl});
+			if(res){
+			    res.writeHead(200, {'Content-Type': 'text/html', 
+						'Access-Control-Allow-Origin' : '*'});
+			    res.end(htmlstring);
+			    delete res;
+			    sitepage.close();
+			    phInstance.exit();
+			}
+		    }else if (format == "json"){
+			var json_text= "{}";
+			sitepage.evaluate(function(){
+			    return document.getElementsByClassName("c4_data").item(0);
+			}).then(function(json_element){
+			    
+			    if(json_element){
+				json_text = json_element.textContent;
+			    }
+			    
+			    mongoCache.set(cacheID, json_text, {ttl : widgetDoc.cacheConfig.ttl});
+			    if(res){
+				console.log("writing res");
+				res.writeHead(200, {'Content-Type': 'application/json', 
+						    'Access-Control-Allow-Origin' : '*'});
+				res.end(json_text);
+				delete res;
+				sitepage.close();
+				phInstance.exit();
+			    }
+			});
+		    }else if (format == "html"){
+			var html_text = "";
+			sitepage.evaluate(function(){
+			    return document.getElementsByClassName("c4_html").item(0);
+			}).then(function("html_element"){
+			    if(html_element){
+				html_text = html_element.outerHTML;
+			    }		
+			    mongoCache.set(cacheID, html_text, {ttl : widgetDoc.cacheConfig.ttl});
+			    if(res){
+				res.writeHead(200, {'Content-Type': 'text/html', 
+						'Access-Control-Allow-Origin' : '*'});
+				res.end(html_text);
+				delete res;
+				sitepage.close();
+				phInstance.exit();
+			    }
+			});
+		    }
+		    console.log("closing");
+		});
+	    }
+        });
+        return page.open(reqUrl);
+    })
+    .then(status => {
+	console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSStatus");
+        console.log(status);
+	return sitepage.property('content');
+//      return sitepage.property('document');
+    })
+    .then(content => {
+//        console.log(content);
+	console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC Content");
+
+//        sitepage.close();
+//        phInstance.exit();
+    })
+    .catch(error => {
+        console.log(error);
 	console.log(thisNum + " " + " EEEEEEEEEEEEEEEEEEEEEEEEE browser  on  error");
 	var cmsgs = consoleMessages.join("\n");
 	var stack = new Error().stack;
@@ -350,44 +345,11 @@ return;
 	    res.end("<html><body>Browser on visit error <BR>" + error + "  <BR> " + reqUrl + " <BR><pre>"+ stack + "</pre><BR>Console messages:<pre>\n"+cmsgs+"\n</pre></body></html>");
 	    delete res;
 	}
-	browser.tabs.closeAll();
-	delete browser;
+        phInstance.exit();
     });
-    
-    /*
-      browser.open(reqUrl);
-    */
-    
-    console.log("calling url now " + reqUrl);
-    browser.visit(reqUrl, function(error, browser, status){
-        console.log(thisNum + " " + "visited");
-        console.log(thisNum + " " + reqUrl);            
-        console.log(thisNum + " " + error);
-        console.log(thisNum + " " + browser);
-        console.log(thisNum + " " + status);
-/*
-        if(error){
-            console.log(" browser visit error");
-            console.log(reqUrl);            
-            console.log(error);
-            console.log(browser);
-            console.log(status);
-	    
-            var stack = new Error().stack;
-            console.log(stack);
-	    //            browser.dump();
-	    if(res){
-		res.writeHead(200, {'Content-Type': 'text/html', 
-                                    'Access-Control-Allow-Origin' : '*'});
-		res.end("<html><body>Browser visit error <BR>" + error + " <BR> " + reqUrl + "  <BR> " + status + "<BR><pre>"+ stack + "</pre></body></html>");
-		delete res;
-	    }
-            browser.tabs.closeAll();
-            delete browser;
-	    
-        }
-*/
-    });
+
+
+
     
     console.log("done");
 }
