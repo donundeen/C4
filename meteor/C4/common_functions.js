@@ -6,9 +6,11 @@ if (Meteor.isClient) {
     var userxtras = false;
     var user = Meteor.user();
     if(user){
+      /*
       console.log(user.username);
       console.log(user._id);
       console.log("getting for " + user._id);
+      */
       var userxtras = UserXtras.findOne({_id : user._id });
       if(!userxtras || !userxtras.foo){
         console.log("userxtras " + userxtras);

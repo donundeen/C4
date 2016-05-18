@@ -119,7 +119,7 @@ function getOutputFromWidget(widgetName, format, callback){
         callback(c4_widget_cache[format][widgetName]);
         return true;
     }
-    var reqUrl = '/headless/'+widgetName+'/'+pageType()+"/"+pageId()+"."+format;
+    var reqUrl = '/headless/'+widgetName+'/'+pageType()+"/"+pageId();
     $.ajax({
         url: reqUrl,
         dataType: 'html',
@@ -244,8 +244,6 @@ function requireWidgetData(requiresList, callback){
                     console.log("we're done with calls");
                     removeWaitingGif();
                     dataIntoJsonView(forJsonView);
-                    console.log("xx calling callback");
-                    console.log(callback);
                     callback(resultsSet);
                 }            
             });
