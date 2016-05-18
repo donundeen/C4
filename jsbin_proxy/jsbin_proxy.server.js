@@ -188,97 +188,109 @@ return;
 
     var consoleMessages = [];
 
-var sitepage = null;
-var phInstance = null;
-var c4_error = false;
-var c4_done = false;
-var document = false;
-
-phantom.create()
-    .then(instance => {
-	phInstance = instance;
-	return instance.createPage();
-    })
-    .then(page => {
-	sitepage = page;
-	//   return page.open('https://stackoverflow.com/');
-	
-	sitepage.on("onConsoleMessage", function(message, line, src){
-            console.log("got message" + message);
+    var sitepage = null;
+    var phInstance = null;
+    var c4_error = false;
+    var c4_done = false;
+    var document = false;
+    
+    phantom.create()
+	.then(instance => {
+	    phInstance = instance;
+	    return instance.createPage();
+	})
+	.then(page => {
+	    sitepage = page;
+	    //   return page.open('https://stackoverflow.com/');
 	    
-	    consoleMessages.push(message);
-	    console.log(thisNum + " " + "++++++++++ console message line "+ line + " : "  + message);
-	    if(message.match(/\[SyntaxError/) || message.match (/\[[a-zA-Z]+Error/)){
-		console.log(new Error().stack);
-		var cmsgs = consoleMessages.join("\n");
-		var stack = new Error().stack;
+	    sitepage.on("onConsoleMessage", function(message, line, src){
+		console.log("got message" + message);
 		
-		if (format == "json"){
-		    var json_text= JSON.stringify({error : "error processing widget",
-						   messages : consoleMessages,
-						   stack : stack});
-		    if(res){
-			res.writeHead(200, {'Content-Type': 'application/json', 
-					    'Access-Control-Allow-Origin' : '*'});
-			res.end(json_text);
-			delete res;
-		    }
-		}else if (format == "html" || format == "page"){
-		    var html_text = "<div>ERROR Processing widget: <pre>"+cmsgs+"\nstack:\n"+stack+"</pre></div>";
-		    if(res){
-			res.writeHead(200, {'Content-Type': 'text/html', 
-					    'Access-Control-Allow-Origin' : '*'});
-			res.end(html_text);
-			delete res;
-		    }
-		}
-		sitepage.close();
-		phInstance.exit();
-	    }
-	    
-	    if(message == "c4_done"){
-		
-		sitepage.evaluate(function(){
-		    return document;
-		}).then(function(document){
-		    console.log(thisNum + " " + "11111111 Zzzzzzzzzzzzzzzzzzzzzzzombie done");
-		    //            var htmlstring = sitepage.property("content");
-		    //            var htmlstring = sitepage.document.documentElement.outerHTML;
-//		    console.log(document);
-		    var htmlstring = document.all[0].outerHTML;
-		    console.log("got htmlstring");
-//		    console.log(htmlstring);
-		    htmlstring = htmlstring.replace(/<!--[^>]+Created using [^>]+Source[^>]+edit[^>]-->/i,"");
-		    htmlstring = htmlstring.replace(/<a id="edit-with-js-bin" href="[^"]+" style="top: -60px;">Edit in JS Bin <img src="http:[^"]+"><\/a>/i,"");
-		    //        htmlstring = htmlstring.replace(/<a id="edit-with-js-bin" href="[^"]+" style="top: -60px;">Edit in JS Bin <img src="http:[^"]+"><\/a>/i,"");
-		    htmlstring = htmlstring.replace(/<link rel="stylesheet" href="http:\/\/localhost\/jbstatic\/css\/edit.css">/,"");
-		    htmlstring = htmlstring.replace(/<style id="jsbin-css">[\s]+<\/style>/,"");
-		    // at this point, we just want the contents of the body
+		consoleMessages.push(message);
+		console.log(thisNum + " " + "++++++++++ console message line "+ line + " : "  + message);
+		if(message.match(/\[SyntaxError/) || message.match (/\[[a-zA-Z]+Error/)){
+		    console.log(new Error().stack);
+		    var cmsgs = consoleMessages.join("\n");
+		    var stack = new Error().stack;
 		    
-//		     console.log(htmlstring);
-		    console.log("format is " + format);
-		    
-		    if(format == "page"){
-			mongoCache.set(cacheID, htmlstring, {ttl : widgetDoc.cacheConfig.ttl});
+		    if (format == "json"){
+			var json_text= JSON.stringify({error : "error processing widget",
+						       messages : consoleMessages,
+						       stack : stack});
+			if(res){
+			    res.writeHead(200, {'Content-Type': 'application/json', 
+						'Access-Control-Allow-Origin' : '*'});
+			    res.end(json_text);
+			    delete res;
+			}
+		    }else if (format == "html" || format == "page"){
+			var html_text = "<div>ERROR Processing widget: <pre>"+cmsgs+"\nstack:\n"+stack+"</pre></div>";
 			if(res){
 			    res.writeHead(200, {'Content-Type': 'text/html', 
 						'Access-Control-Allow-Origin' : '*'});
-			    res.end(htmlstring);
+			    res.end(html_text);
 			    delete res;
-			    sitepage.close();
-			    phInstance.exit();
 			}
+		    }
+		    sitepage.close();
+		    phInstance.exit();
+		}
+		
+		if(message == "c4_done"){
+		    
+		    console.log("c4_done: format is " + format);
+		    
+		    if(format == "page"){
+			
+			sitepage.evaluate(function(){
+			    return document;
+			}).then(function(document){
+			    console.log(thisNum + " " + "11111111 Zzzzzzzzzzzzzzzzzzzzzzzombie done");
+			    //            var htmlstring = sitepage.property("content");
+			    //            var htmlstring = sitepage.document.documentElement.outerHTML;
+			    //		    console.log(document);
+			    var htmlstring = document.all[0].outerHTML;
+			    console.log("got htmlstring");
+			    //		    console.log(htmlstring);
+			    htmlstring = htmlstring.replace(/<!--[^>]+Created using [^>]+Source[^>]+edit[^>]-->/i,"");
+			    htmlstring = htmlstring.replace(/<a id="edit-with-js-bin" href="[^"]+" style="top: -60px;">Edit in JS Bin <img src="http:[^"]+"><\/a>/i,"");
+			    //        htmlstring = htmlstring.replace(/<a id="edit-with-js-bin" href="[^"]+" style="top: -60px;">Edit in JS Bin <img src="http:[^"]+"><\/a>/i,"");
+			    htmlstring = htmlstring.replace(/<link rel="stylesheet" href="http:\/\/localhost\/jbstatic\/css\/edit.css">/,"");
+			    htmlstring = htmlstring.replace(/<style id="jsbin-css">[\s]+<\/style>/,"");
+			    // at this point, we just want the contents of the body
+			    
+			    //		     console.log(htmlstring);
+			    
+			    
+			    mongoCache.set(cacheID, htmlstring, {ttl : widgetDoc.cacheConfig.ttl});
+			    if(res){
+				res.writeHead(200, {'Content-Type': 'text/html', 
+						    'Access-Control-Allow-Origin' : '*'});
+				res.end(htmlstring);
+				delete res;
+				sitepage.close();
+				phInstance.exit();
+			    }
+			});
 		    }else if (format == "json"){
 			var json_text= "{}";
+			console.log("getting json element");
 			sitepage.evaluate(function(){
-			    return document.getElementsByClassName("c4_data").item(0);
-			}).then(function(json_element){
-			    
-			    if(json_element){
-				json_text = json_element.textContent;
+			    console.log("in inner funtion");
+			    try{
+				return document.getElementsByClassName("c4_data").item(0).textContent;
+			    }catch(e){
+				console.log("ERRROR");
+				console.log(e);
+				return false;
+		 	    }
+			}).then(function(_json_text){
+			    console.log("have json_element");
+			    if(_json_text){
+				json_text = _json_text;
+				mongoCache.set(cacheID, json_text, {ttl : widgetDoc.cacheConfig.ttl});
 			    }
 			    
-			    mongoCache.set(cacheID, json_text, {ttl : widgetDoc.cacheConfig.ttl});
 			    if(res){
 				console.log("writing res");
 				res.writeHead(200, {'Content-Type': 'application/json', 
@@ -292,15 +304,15 @@ phantom.create()
 		    }else if (format == "html"){
 			var html_text = "";
 			sitepage.evaluate(function(){
-			    return document.getElementsByClassName("c4_html").item(0);
-			}).then(function("html_element"){
-			    if(html_element){
-				html_text = html_element.outerHTML;
-			    }		
-			    mongoCache.set(cacheID, html_text, {ttl : widgetDoc.cacheConfig.ttl});
+			    return document.getElementsByClassName("c4_html").item(0).outerHTML;
+			}).then(function(_html_text){
+			    if(_html_text){
+				html_text= _html_text;
+				mongoCache.set(cacheID, html_text, {ttl : widgetDoc.cacheConfig.ttl});
+			    }
 			    if(res){
 				res.writeHead(200, {'Content-Type': 'text/html', 
-						'Access-Control-Allow-Origin' : '*'});
+						    'Access-Control-Allow-Origin' : '*'});
 				res.end(html_text);
 				delete res;
 				sitepage.close();
@@ -308,48 +320,46 @@ phantom.create()
 			    }
 			});
 		    }
-		    console.log("closing");
-		});
+		}
+            });
+            return page.open(reqUrl);
+	})
+	.then(status => {
+	    console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSStatus");
+            console.log(status);
+	    return sitepage.property('content');
+	    //      return sitepage.property('document');
+	})
+	.then(content => {
+	    //        console.log(content);
+	    console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC Content");
+	    
+	    //        sitepage.close();
+	    //        phInstance.exit();
+	})
+	.catch(error => {
+            console.log(error);
+	    console.log(thisNum + " " + " EEEEEEEEEEEEEEEEEEEEEEEEE browser  on  error");
+	    var cmsgs = consoleMessages.join("\n");
+	    var stack = new Error().stack;
+	    
+	    console.log(reqUrl);            
+	    console.log(error);
+	    
+	    //      browser.dump();
+	    var stack = new Error().stack;
+	    console.log(stack);
+	    if(res){
+		res.writeHead(200, {'Content-Type': 'text/html', 
+				    'Access-Control-Allow-Origin' : '*'});
+		res.end("<html><body>Browser on visit error <BR>" + error + "  <BR> " + reqUrl + " <BR><pre>"+ stack + "</pre><BR>Console messages:<pre>\n"+cmsgs+"\n</pre></body></html>");
+		delete res;
 	    }
-        });
-        return page.open(reqUrl);
-    })
-    .then(status => {
-	console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSStatus");
-        console.log(status);
-	return sitepage.property('content');
-//      return sitepage.property('document');
-    })
-    .then(content => {
-//        console.log(content);
-	console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC Content");
-
-//        sitepage.close();
-//        phInstance.exit();
-    })
-    .catch(error => {
-        console.log(error);
-	console.log(thisNum + " " + " EEEEEEEEEEEEEEEEEEEEEEEEE browser  on  error");
-	var cmsgs = consoleMessages.join("\n");
-	var stack = new Error().stack;
-
-	console.log(reqUrl);            
-	console.log(error);
-	
-	//      browser.dump();
-	var stack = new Error().stack;
-	console.log(stack);
-	if(res){
-	    res.writeHead(200, {'Content-Type': 'text/html', 
-				'Access-Control-Allow-Origin' : '*'});
-	    res.end("<html><body>Browser on visit error <BR>" + error + "  <BR> " + reqUrl + " <BR><pre>"+ stack + "</pre><BR>Console messages:<pre>\n"+cmsgs+"\n</pre></body></html>");
-	    delete res;
-	}
-        phInstance.exit();
-    });
-
-
-
+            phInstance.exit();
+	});
+    
+    
+    
     
     console.log("done");
 }
