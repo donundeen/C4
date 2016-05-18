@@ -12,7 +12,7 @@ https://github.com/assaf/zombie
 
     
 var urlparser = require("url");
-const Browser = require('zombie');
+var phantom = require("phantom");
 
 
 var fs = require("fs");
@@ -27,6 +27,8 @@ if(process && process.env && process.env.NODE_ENV == "production"){
 }
 
 
+
+var useCache = false;
 var cacheManager = require('cache-manager');
 var mongoStore = require('cache-manager-mongodb');
 var mongoCache = cacheManager.caching({
@@ -136,7 +138,7 @@ function parseRequest(req, res){
 			res.end("<html><body><pre>not sure what to do</pre></body></html>");
 			return;
 		    }
-		    if(result){
+		    if(result && useCache){
 			console.log("using cache");
 			if(format == "json"){
 			    if(res){
@@ -198,7 +200,6 @@ return;
     var c4_done = false;
     var document = false;
 
-    var phantom = require("phantom");
     
     phantom.create()
 	.then(instance => {
