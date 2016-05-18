@@ -119,7 +119,7 @@ function getOutputFromWidget(widgetName, format, callback){
         callback(c4_widget_cache[format][widgetName]);
         return true;
     }
-    var reqUrl = '/headless/'+widgetName+'/'+pageType()+"/"+pageId();
+    var reqUrl = '/headless/'+widgetName+'/'+pageType()+"/"+pageId()+"."+format;
     $.ajax({
         url: reqUrl,
         dataType: 'html',

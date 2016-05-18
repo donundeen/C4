@@ -17,7 +17,7 @@ using this font library
 
 
 TODOs:
-
+- MVP: Make a How-To Video
 - BUG: Caching error in calls to webservices. Wrong data being cached.
 - BUG: problems with multiple nested jsbin_proxy calls - or maybe just hard-to-debug problems in the widget code?
 - Comment Replies broken?
