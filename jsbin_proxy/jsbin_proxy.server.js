@@ -25,7 +25,11 @@ var port = mysecrets.port;
 if(process && process.env && process.env.NODE_ENV == "production"){
     port = mysecrets.prod_port;
 }
-
+var mongoport = 27017;
+if(process.env.MONGOPORT){
+    console.log("overriding MONGOPORT to " + process.env.MONGOPORT);
+    mongoport = process.env.MONGOPORT;
+}
 
 
 var useCache = true;
@@ -33,10 +37,10 @@ var cacheManager = require('cache-manager');
 var mongoStore = require('cache-manager-mongodb');
 var mongoCache = cacheManager.caching({
     store : mongoStore,
-    uri : "mongodb://localhost:27017/nodeCacheDb",
+    uri : "mongodb://localhost:"+mongoport+"/nodeCacheDb",
     options : {
 	host : '127.0.0.1',
-	port : '27017',
+	port : mongoport,
 	database : "nodeCacheDb",
 	collection : "cacheManager",
 	compression : false,
@@ -113,7 +117,7 @@ function parseRequest(req, res){
     var lastKnownGoodTTL = 9999999;
 
     var MongoClient = require('mongodb').MongoClient;
-    MongoClient.connect("mongodb://localhost:27017/meteor", function(err, db) {
+    MongoClient.connect("mongodb://localhost:"+mongoport+"/meteor", function(err, db) {
 	console.log("connected");
 	console.log("error : " +  err);
 	
