@@ -20,11 +20,6 @@ var pathparser = require("path");
 var http = require("http");
 
 var mysecrets = {port: 3005, prod_port: 3005};
-var mongoport = 27017;
-if(process.env.MONGOPORT){
-    console.log("overriding MONGOPORT to " + process.env.MONGOPORT);
-    mongoport = process.env.MONGOPORT;
-}
 
 var port = mysecrets.port;
 if(process && process.env && process.env.NODE_ENV == "production"){
@@ -33,15 +28,15 @@ if(process && process.env && process.env.NODE_ENV == "production"){
 
 
 
-var useCache = false;
+var useCache = true;
 var cacheManager = require('cache-manager');
 var mongoStore = require('cache-manager-mongodb');
 var mongoCache = cacheManager.caching({
     store : mongoStore,
-    uri : "mongodb://localhost:"+mongoport+"/nodeCacheDb",
+    uri : "mongodb://localhost:27017/nodeCacheDb",
     options : {
 	host : '127.0.0.1',
-	port : mongoport,
+	port : '27017',
 	database : "nodeCacheDb",
 	collection : "cacheManager",
 	compression : false,
@@ -67,7 +62,7 @@ function startServer(){
     }
     var http = require('http');
     http.createServer(function (req, res) {
-	   parseRequest(req, res);	
+	parseRequest(req, res);	
     }).listen(port);
     console.log('Server running at port ' + port);
 }
@@ -75,7 +70,7 @@ function startServer(){
 
 function parseRequest(req, res){
 
-    var format = "json";
+    var format = "page";
 
     var rand = Math.random() * 100;
     if(req.headers["access-control-request-headers"]){
@@ -95,15 +90,18 @@ function parseRequest(req, res){
 	format = split_p.pop();
 	console.log( "format is " + format);
     }else{
-	console.log("not sure of format, guessing json" );
+	console.log("not sure of format, guessing page" );
 	console.log(split_p1);
     }
     url = split_p.join(".");
     
     var split = url.split("/");
+    console.log(split);
     split.shift();
     split.shift();
+    console.log(split);
     var jsbin_id = split.shift();
+    console.log(jsbin_id);
     var pagetype = split.shift();
     var pageid= split.join("/");
     
@@ -115,8 +113,7 @@ function parseRequest(req, res){
     var lastKnownGoodTTL = 9999999;
 
     var MongoClient = require('mongodb').MongoClient;
-    console.log("connecting to mongo meteor");
-    MongoClient.connect("mongodb://localhost:"+mongoport+"/meteor", function(err, db) {
+    MongoClient.connect("mongodb://localhost:27017/meteor", function(err, db) {
 	console.log("connected");
 	console.log("error : " +  err);
 	
@@ -262,10 +259,6 @@ return;
 			    htmlstring = htmlstring.replace(/<link rel="stylesheet" href="http:\/\/localhost\/jbstatic\/css\/edit.css">/,"");
 			    htmlstring = htmlstring.replace(/<style id="jsbin-css">[\s]+<\/style>/,"");
 			    // at this point, we just want the contents of the body
-			    
-			    //		     console.log(htmlstring);
-			    
-			    
 			    mongoCache.set(cacheID, htmlstring, {ttl : widgetDoc.cacheConfig.ttl});
 			    if(res){
 				res.writeHead(200, {'Content-Type': 'text/html', 
