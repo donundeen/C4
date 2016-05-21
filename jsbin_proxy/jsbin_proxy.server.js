@@ -20,6 +20,11 @@ var pathparser = require("path");
 var http = require("http");
 
 var mysecrets = {port: 3005, prod_port: 3005};
+var mongoport = 27017;
+if(process.env.MONGOPORT){
+    console.log("overriding MONGOPORT to " + process.env.MONGOPORT);
+    mongoport = process.env.MONGOPORT;
+}
 
 var port = mysecrets.port;
 if(process && process.env && process.env.NODE_ENV == "production"){
@@ -33,10 +38,10 @@ var cacheManager = require('cache-manager');
 var mongoStore = require('cache-manager-mongodb');
 var mongoCache = cacheManager.caching({
     store : mongoStore,
-    uri : "mongodb://localhost:27017/nodeCacheDb",
+    uri : "mongodb://localhost:"+mongoport+"/nodeCacheDb",
     options : {
 	host : '127.0.0.1',
-	port : '27017',
+	port : mongoport,
 	database : "nodeCacheDb",
 	collection : "cacheManager",
 	compression : false,
@@ -62,7 +67,7 @@ function startServer(){
     }
     var http = require('http');
     http.createServer(function (req, res) {
-	parseRequest(req, res);	
+	   parseRequest(req, res);	
     }).listen(port);
     console.log('Server running at port ' + port);
 }
@@ -96,12 +101,9 @@ function parseRequest(req, res){
     url = split_p.join(".");
     
     var split = url.split("/");
-    console.log(split);
     split.shift();
     split.shift();
-    console.log(split);
     var jsbin_id = split.shift();
-    console.log(jsbin_id);
     var pagetype = split.shift();
     var pageid= split.join("/");
     
@@ -113,7 +115,8 @@ function parseRequest(req, res){
     var lastKnownGoodTTL = 9999999;
 
     var MongoClient = require('mongodb').MongoClient;
-    MongoClient.connect("mongodb://localhost:27017/meteor", function(err, db) {
+    console.log("connecting to mongo meteor");
+    MongoClient.connect("mongodb://localhost:"+mongoport+"/meteor", function(err, db) {
 	console.log("connected");
 	console.log("error : " +  err);
 	

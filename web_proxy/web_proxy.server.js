@@ -19,15 +19,20 @@ var port = mysecrets.port;
 if(process && process.env && process.env.NODE_ENV == "production"){
     port = mysecrets.prod_port;
 }
+var mongoport = 27017;
+if(process.env.MONGOPORT){
+    console.log("overriding MONGOPORT to " + process.env.MONGOPORT);
+    mongoport = process.env.MONGOPORT;
+}
 
 var cacheManager = require('cache-manager');
 var mongoStore = require('cache-manager-mongodb');
 var mongoCache = cacheManager.caching({
     store : mongoStore,
-    uri : "mongodb://localhost:27017/nodeCacheDbWSP",
+    uri : "mongodb://localhost:"+mongoport+"/nodeCacheDbWSP",
     options : {
         host : '127.0.0.1',
-        port : '27017',
+        port : mongoport,
         database : "nodeCacheDbWSP",
         collection : "cacheManager",
         compression : false,
