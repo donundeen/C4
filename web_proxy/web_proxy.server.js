@@ -86,18 +86,19 @@ function parseRequest(req, res){
     
     var headers = {};
     if(parsed.query.headers){
-	headers = JSON.parse(parsed.query.headers);
+	   headers = JSON.parse(parsed.query.headers);
     }
     
     var path = parsed.path;
     
-    var url = parsed.query.url.trim();
+    var url = req.url.replace("/web_proxy/?url=","");
+
+    console.log("url is "+ url);
     
     if(url == ""){
-	res.writeHead(200, {'Content-Type': 'application/json'});
-	res.end(JSON.stringify({}));
-	return;
-	
+    	res.writeHead(200, {'Content-Type': 'application/json'});
+	   res.end(JSON.stringify({}));
+	   return;
     }
     
     var cacheID = url;
@@ -158,13 +159,13 @@ function parseRequest(req, res){
 		return;
             }
             if(result){
-		console.log("using cache");
+		console.log("got cache data for " + cacheID);
 		res.writeHead(200, {'Content-Type': 'application/json',
                                      'Access-Control-Allow-Origin' : '*'});
 		res.end(JSON.stringify(result));
 		return;
             }
-            console.log("not using cache");
+            console.log("not using cache for  " + cacheID);
 	    domain_limiter_functions[domain](url, headers, res, cacheID); 
 	});
 	
