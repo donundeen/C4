@@ -14,6 +14,6 @@ cd ../giphy_proxy
 forever start giphy_proxy.server.js &
 cd ../elasticsearch_proxy
 forever start elasticsearch_proxy.server.js &
-/usr/local/bin/elasticsearch -Des.path.conf=/Users/donundeen/htdocs/C4/server_configs/elasticsearch &
-cd ../meteor/C4
+/usr/local/bin/elasticsearch -Des.path.conf=/Users/donundeen/htdocs/C5/server_configs/elasticsearch &
+cd ../meteor/C5
 meteor

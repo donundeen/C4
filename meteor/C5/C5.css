@@ -1,0 +1,222 @@
+/* CSS declarations go here */
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+    background: #fbfbfb;
+    font-family: 'Droid Serif', sans-serif;
+}
+
+.mainmenu {
+    font-family: 'Droid Serif', serif;
+
+}
+
+.navbar-brand {
+    color: inherit;
+}
+
+
+.container-item { 
+    position: relative;
+    background: #FFFFF1;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 5px;
+}
+
+
+.header{
+    height: 100px;
+}
+
+.headericon {
+    font-size: 3em;
+}
+
+.widgeticon{
+    font-size: 1.5em;
+}
+.dropdown_widgeticon{
+    font-size: 1.0em;
+}
+
+.widgetBody {
+    margin-top: 13px;
+    margin-bottom: 5px;
+}
+
+.navbar {
+    background: inherit;
+    border: 0px;
+    color: black;
+}
+.navbar-brand {
+    color: black;
+}
+.navbar-default {
+    color: black;
+}
+.navbar-default .navbar-brand {
+    color: black;
+}
+
+.navbar-default .navbar-nav {
+    color: black;
+}
+
+.navbar-default .navbar-nav > li > a{
+    color: black;
+}
+
+.navbar-default .navbar-nav > li > a:hover{
+    color: purple;
+}
+
+
+.widgetDisplayHeader {
+    width: 100%;
+    position: absolute;
+    z-index: 5;
+    top: -5px;
+    left: -5px;
+    float: left;
+}
+
+.widgetEditHeader .container-item{
+    float: left;
+    padding: 2px;
+    border: 0;
+}
+
+
+.widgetMouseOverTarget {
+    width: 100%;
+    height: 15px;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+}
+
+
+.dropdown_widgeticon {
+    margin-left: 3px;
+
+}
+.header  .container-item{
+    float:left;
+    height: 100px;
+    vertical-align: middle;
+}
+
+.dropdown {
+}
+.dropdown button {
+    border: 0;
+    padding: 2px;
+}
+.container-item button {
+    border: 0;
+    padding: 2px;
+}
+
+.widgeticon.isWidget {
+    color: green;
+}
+
+.deletewidget {
+    float: right;
+}
+
+.widgetContainer {
+    float: left;
+
+}
+
+
+.clickable:hover {
+    color: purple;
+    background: inherit;
+}
+
+.widgetName h3{
+    margin-top:0px;
+}
+
+.widgetDescription{
+}
+
+
+.menuspacer{ 
+    width: 25px;
+}
+
+
+.widgetIdText{
+    font-size: .8em;
+
+}
+
+.widgets .container {
+    margin-top: 100px;
+    float: left;
+    width: 100%;
+}
+
+.container {
+    width: 100%;
+}
+
+.jsbin {
+    border-radius: 10px;    
+}
+
+iframe {
+    border-radius: 10px;
+
+}
+
+.stretch {
+    border-radius: 10px;
+
+}
+
+img {
+    border-radius: 10px;
+}
+
+.container-item.visibility_private {
+    background: #aaa;
+}
+
+
+/* overriding some bootstrap stuff */
+.panel-body {
+    padding: 0px;
+}
+
+.comments-box-title {
+    display: none;
+    margin-top: 0px;
+}
+
+/*
+.tooltip {
+  z-index: 1001;
+  pointer-events: none;
+  transition: opacity .1s ease-out;
+  opacity: 0;
+}
+.tooltip.hide {
+    opacity: 0;
+}
+
+.tooltip.show {
+    opacity: 1;
+}*/
+

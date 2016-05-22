@@ -83,52 +83,5 @@ function addJsBin(jsbin_id){
 </div>
 
 <script src="http://localhost/jsbin/js/embed.js"></script>
-<!--
-
-	 curl --data "html=<html>hi</html>&javascript=&css=" http://localhost/jsbapi/api/save
-{
-  "html": "<html>hi</html>",
-  "settings": "{ processors: {} }",
-  "length": 7,
-  "url": "jop",
-  "revision": 1,
-  "streamingKey": "41ae2c47b6bf52027b24d15943128752",
-  "id": 12,
-  "summary": "hi"
-  }
-
-     curl -X POST -H "Content-Type: application/json" -d  '{ "html": "<html>hi</html>", "settings": "{ processors: {} }", "length": 7, "url": "jop", "revision": 1, "streamingKey": "41ae2c47b6bf52027b24d15943128752", "id": 12, "summary": "hi"}' http://localhost:3100/api/save  
-
-          curl -X POST -H "Content-Type: application/json" -d  '{ "html": "<html>hi</html>"}' http://localhost:3100/api/save  
-
-
-127.0.0.1 - - [Mon, 10 Nov 2014 03:49:15 GMT] "POST /api/save HTTP/1.1" 200 200 "-" "curl/7.30.0"
-
-  "url": {
-    "host": "localhost:3100",
-    "prefix": "/",
-    "ssl": false,
-    "static": false,
-    "runner": false
-  },
-
-  nginx config for api
-          location /api {
-            proxy_pass http://localhost:3100;
-        }
-# this word "api" in location needs to match the word api in the jsbin path. I'd like to fix this, need to learn how to configure this in nginx
-
-
-
-added this in embed.js
-  // this part added by donundeen, to support dynamic insertion of jsbins
-  doc.addEventListener("DOMNodeInserted", function(evt, item){
-    if(evt.target.className.indexOf("jsbin-embed") > 0 && evt.target.className.indexOf("jsbin-embed-dyn") > 0){
-      embed(evt.target);
-    }
-  })
-
-
--->
 </body>
 </html>

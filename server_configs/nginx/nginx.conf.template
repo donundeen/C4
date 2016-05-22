@@ -64,8 +64,8 @@ http {
       alias /usr/local/lib/node_modules/jsbin/public/js;
     }
 
-    location /jsbin/c4libs {
-        proxy_pass http://localhost:3000/c4libs;
+    location /jsbin/c5libs {
+        proxy_pass http://localhost:3000/c5libs;
     }
 
     location /jsbin {

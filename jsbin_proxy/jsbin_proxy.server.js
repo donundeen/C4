@@ -200,8 +200,8 @@ return;
 
     var sitepage = null;
     var phInstance = null;
-    var c4_error = false;
-    var c4_done = false;
+    var c5_error = false;
+    var c5_done = false;
     var document = false;
 
     
@@ -247,9 +247,9 @@ return;
 		    phInstance.exit();
 		}
 		
-		if(message == "c4_done"){
+		if(message == "c5_done"){
 		    
-		    console.log("c4_done: format is " + format);
+		    console.log("c5_done: format is " + format);
 		    
 		    if(format == "page"){
 			
@@ -279,7 +279,7 @@ return;
 			sitepage.evaluate(function(){
 			    console.log("in inner funtion");
 			    try{
-				return document.getElementsByClassName("c4_data").item(0).textContent;
+				return document.getElementsByClassName("c5_data").item(0).textContent;
 			    }catch(e){
 				console.log("ERRROR");
 				console.log(e);
@@ -306,7 +306,7 @@ return;
 		    }else if (format == "html"){
 			var html_text = "";
 			sitepage.evaluate(function(){
-			    return document.getElementsByClassName("c4_html").item(0).outerHTML;
+			    return document.getElementsByClassName("c5_html").item(0).outerHTML;
 			}).then(function(_html_text){
 			    if(_html_text){
 				html_text= _html_text;
