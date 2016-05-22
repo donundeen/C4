@@ -18,11 +18,8 @@ using this font library
 
 TODOs:
 - MVP: Make a How-To Video
-- BUG: Caching error in calls to webservices. Wrong data being cached.
 - BUG: problems with multiple nested jsbin_proxy calls - or maybe just hard-to-debug problems in the widget code?
 - Comment Replies broken?
-- "code snippets" - not a great term for what it's doing right now. - how about "get data" - and a separate dropdown for "code "
-- Bug: "copy" and "save to library" icons appear even when user is not logged in.
 - MVP: functionality for persisting data for a widget on a pageid level. eg, to make a "this object comments" widget, or something like that.
 -- requires a "persistence proxy" - store to mongo
 - BUG: there's a BUG when requireWidgetData wants the data and html output of a widget.
@@ -71,7 +68,9 @@ CRAZY IDEAS:
 - Packery: http://packery.metafizzy.co/
 
 COMPLETED
+- FIXED Bug: "copy" and "save to library" icons appear even when user is not logged in.
 
+- FIXED "code snippets" - not a great term for what it's doing right now. - how about "get data" - and a separate dropdown for "code "
 - DONE: MVP need an image proxy as well.
 - DONE: implement caching : https://www.npmjs.com/package/cache-manager
 
