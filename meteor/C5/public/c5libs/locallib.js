@@ -149,7 +149,7 @@ function getOutputFromWidget(widgetName, format, callback){
 
 function webserviceData(url, callback, item){
     var theurl = "/web_proxy/?url="+encodeURI(url);
-    var data = {lookatme :  "kanye"};
+    var data = {};
     if(item.authentication_token){
         data.headers = JSON.stringify({'Authorization':'Token token=' + item.authentication_token});
     }
