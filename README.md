@@ -16,7 +16,11 @@ Each __WIDGET__ is an embedded JsBin, in which the HTML, CSS, and Javascript can
 
 Once logged in, anyone can add a widget to a page, or copy an existing widget to the same page. Users can edit only the widgets they create.
 
-A C5 __PAGE__ has two main identifiers:
+A Widget has a __NAME__, which can be anything. 
+
+It also has a three-letter __SCRIPT_NAME__, which is generated automatically.
+
+A C5 __PAGE__ has three main identifiers:
 
 - the __PAGE_TYPE__ : all pages with the same page type have the same widgets. An example of a page type is "MetArtObject" or "DonsSearch". You can create a new Page type just by typing in the url, eg. http://c5domain.com/MetArtObject/ 
 - The __PAGE_ID__ : the PAGE_ID is the unique identifier for that page, within that type. For example, 1992.a.1-3 an accession number for a Met Art Object. That would be at url: http://c5domain.com/MetArtObject/1992.a.1-3 . 
@@ -24,9 +28,13 @@ A C5 __PAGE__ has two main identifiers:
   - pagetype() 
   - pageid()
 
+
 The other clever thing that Widgets can do is get data or html from each other. 
 
 Each widget has a special script tag with the class "c5_data". JSON placed in this tag is "this widget's data," which is accessible via a special url, and also from a special function in the javascript (more details on this available in the HOWTOs).
+
+eg: http://c5domain.com/headless/maj/search/cats.json
+returns the json data from the widget with the __SCRIPT_NAME__ "maj" on the page with __PAGE_TYPE__ "search" with the __PAGE_ID__ "cats".
 
 Similarly, each widget has a special div with the class "c5_html". Anything in this widget is available at a special url, or via a special function in the javascript.
 
