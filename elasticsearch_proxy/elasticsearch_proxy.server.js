@@ -106,8 +106,14 @@ function parseRequest(req, res){
 
 
     if(req.method == 'GET'){
+      console.log("got GET");
+
+      console.log(req);
+      console.log(req.url);
       var parsed = urlparser.parse(req.url, true)
       var query = urlparser.parse(req.url, true).query;
+
+      console.log(parsed);
 
       var headers = {};
       if(parsed.query.headers){
@@ -116,16 +122,25 @@ function parseRequest(req, res){
       
       var path = parsed.path;
       console.log(parsed.query);
-      var query = JSON.parse(parsed.query.query);
+
+          res.writeHead(200, {'Content-Type': 'application/json', 
+                              'Access-Control-Allow-Origin' : '*'});
+          res.end(JSON.stringify({error : "testing"}));
+    return;      
+
+      var elastic_query = JSON.parse(parsed.query.query);
       var type = parsed.query.type;
 
       var search = {
           index: 'c5',
           type: type,
           body: {
-              query: query
+              query: elastic_query
           }
       };  
+
+console.log("searching");
+console.log(search);
 
 
       client.search(search).then(function (resp) {

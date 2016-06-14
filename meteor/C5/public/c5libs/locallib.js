@@ -165,7 +165,7 @@ function webserviceData(url, callback, item){
             console.log("webserviceData  got error");
             console.log(error);
             console.log(status);
-            callback(false);            
+            callback({error: true, message : error, status : status});            
         }
     });
 }
@@ -211,6 +211,39 @@ function elasticsearchInsert(pagetype, pageid, data, callback){
             callback(false, error, status);            
         }
     });
+}
+
+
+
+
+function elasticsearchRequest(_query, callback){
+    var url = "/elasticsearch_proxy";
+
+    var data =  {query : _query};
+
+    console.log("sending data");
+    console.log(data);
+
+    $.ajax({
+        method: "GET",
+//        data : JSON.stringify(data),
+        data : data,
+        contentType: "application/json; charset=utf-8",        
+        url : url,
+        success : function(result){
+            console.log("got result for elasticsearchRequest call to " + url);
+            callback(result, false, false);
+        },
+        error : function (xhr, status, error) {
+            console.log("elascticsearchInsert  got error");
+            console.log(error);
+            console.log(xhr);
+            console.log(status);
+            callback(false, error, status);            
+        }
+
+    });
+
 }
 
 
