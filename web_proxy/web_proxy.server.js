@@ -131,13 +131,13 @@ function parseRequest(req, res){
 		    return;      
 		}else{
 		    console.log("Eeeeeeeeeeeeeeeeeeeeeeeee     returning error");
-		    var retdata = {error : true, message : error};
+		    var retdata = {error : true, message : error, response : response};
 		    console.log(error);
 		    //      console.log(response);
 		    console.log(body);
 		    _res.writeHead(200, {'Content-Type': 'application/json', 
 					 'Access-Control-Allow-Origin' : '*'});
-		    _res.end(JSON.stringify(_retdata));
+		    _res.end(JSON.stringify(retdata));
 		    return;
 		}
 	    });
