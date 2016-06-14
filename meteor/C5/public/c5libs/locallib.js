@@ -140,7 +140,7 @@ function getOutputFromWidget(widgetName, format, callback){
             console.log("got error");
             console.log(error);
             console.log(status);
-            callback(false);
+            callback({error: true, message : error, status : status});            
         }
     });
     return true;
@@ -148,6 +148,11 @@ function getOutputFromWidget(widgetName, format, callback){
 
 
 function webserviceData(url, callback, item){
+
+    if(!url.match(/\?/)){
+        url += "?";
+    }
+
     var theurl = "/web_proxy/?url="+encodeURI(url);
     var data = {};
     if(item.authentication_token){
