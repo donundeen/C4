@@ -27,7 +27,7 @@ if (Meteor.isServer) {
 	      SERVER_NAME = "localhost";
 	  }
           return SERVER_NAME;
-      },
+      }, 
        getServerIP :  function(){
 	   SERVER_IP = process.env.SERVER_IP;
 	   if(typeof(SERVER_IP)==="undefined"){
