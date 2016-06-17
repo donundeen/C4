@@ -31,8 +31,15 @@
               </h4>
             </div>
             <div id="collapseTour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTour">
-              <div class="panel-body clickForIntroTour"  data-dismiss="modal" >
-                Take an Introductory Tour of C5
+              <div class="panel-body"  data-dismiss="modal" >
+                <ul>
+                  <li class="clickForIntroTour  clickable">Take an Introductory Tour of C5</li>
+                  {{#if currentUser}}
+                  <li class="clickForLoggedInTour clickable">I've logged in, show me what I can do.</li>
+                  {{else}}
+                  <li ><i>Log in to access more in-depth tutorials</i></li>
+                  {{/if}}
+                </ul>
               </div>
             </div>
           </div>

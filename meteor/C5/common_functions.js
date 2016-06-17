@@ -11,7 +11,7 @@ if (Meteor.isClient) {
       console.log(user._id);
       console.log("getting for " + user._id);
       */
-      var userxtras = UserXtras.findOne({_id : user._id });
+      userxtras = UserXtras.findOne({_id : user._id });
       if(!userxtras || !userxtras.foo){
         console.log("userxtras " + userxtras);
         userxtras = {_id : user._id, admin : false, godmode : false, foo : "var"};

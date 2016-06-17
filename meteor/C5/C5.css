@@ -77,6 +77,10 @@ body {
     color: purple;
 }
 
+.clickable:hover {
+    color : purple;
+}
+
 
 .widgetDisplayHeader {
     width: 100%;
