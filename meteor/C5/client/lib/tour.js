@@ -95,15 +95,89 @@ var tours = {
                 title : "The Widget Library",
                 content : "Now that you've logged in, you'll notice there's some new features available." +
                 "<BR><BR>This is the <b>Widget Library</b>"+
-                "<BR><BR>We start you out with a few basics, but you can build up your own library by copying any other widget to it."++
-                "<BR><br>Then you can add widgets from your library to any Page";
+                "<BR>Select a widget from here, and it appears on the page, initially as a 'private widget' that only you can see."+
+                "<BR><BR>We start you out with a few basics, but you can build up your own library by copying any other widget to it."+
+                "<BR><br>Then you can add widgets from your library to any Page",
+                onNext : function(tour){console.log("next clicked"); tour.goTo(1);}
             },
             {
-                element : ".save_to_library",
-                title : "Copy a Widget to Your Library",
+                element : ".save_to_library:first",
+                title : "Copy this Widget to Your Library",
                 content : "Click this icon to add this widget to your library",
+            },
+            {
+                element : ".copy:first",
+                title : "Copy a widget to this page",
+                content : "Click this icon to create a new version of this widget on the same page",
+            },
+            {
+                element : ".link_to_library",
+                title : "link to your library",
+                content : "click here to go to a special page that holds all the widgets in your library."
             }
 
+        ]
+    },
+
+    widgetEditing : {
+        steps : [
+            {
+                element : ".help",
+                title : "Creating your first widget",
+                content : "Now that you've learned a bit about what C5 can do, let's go create a new page and put some widgets on it."+
+                "<Br><BR>We're going to go to a new page now, hold tight!"
+            },
+            {
+                path : "/testvaobject/O89553?tour=widgetEditing&step=1",
+                element : ".page_id_div",
+                title : "A New Page",
+                content : "Now we're on a New Page!"+
+                "<BR><BR>This section holds the PAGE NAME, which is made of two parts:"+
+                "<BR>1. The <B>Page Type</b>, in this case 'testvaobject.' All pages of the same type have the SAME WIDGETS. So if you add a widget here, it will appear on every page of the same type."+
+                "<BR>2. The <b>Page ID</b>, in this case O89553, which happens to the the unique identifier for an object from the Victoria &amp; Albert Museum."+
+                "<BR><BR>Every widget has access to these value, through the functions pageType() and pageId().<BR><BR>"+
+                "<BR><BR>Note: We CREATED this page Type just by going to the URL testvaobject/something. Just start adding widgets, and you're good to go!",
+                onNext : function(tour){console.log("next clicked"); tour.goTo(2);}
+
+            },
+            {
+                element : ".widgetlibrary",
+                title : "Add a Widget to this page",
+                content : "The first thing we want to do is add a widget to this page, by copying a basic widget example from the Library." +
+                "<BR><BR>Let's grab the 'Webservice Search Example,' that's a good starting point."+
+                "<BR><BR>",
+                onNext : function(tour){
+                    tour.end();
+                    $(".addFromWidgetLibraryUL").toggle();
+                    setTimeout(function(){
+                        $(".copy_from_template.ciy").mouseover();
+                        setTimeout(function(){
+                            copyWidgetToPage("ciy", pageinfo().pagetype, pageinfo().pageurl, pageinfo().pageid );
+                            $(".addFromWidgetLibraryUL").toggle();
+                            setTimeout(function(){
+                               // document.location.href= "/testvaobject/O89553?tour=widgetEditing&step=3";
+                               console.log("going to 3");
+                                tour.start(true);
+                                tour.goTo(3);
+                            }, 2000);
+                        }, 2000);
+                    }, 2000);
+                    //return (new jQuery.Deferred()).promise();
+                }
+            },
+            {
+             //   path : "/testvaobject/O89553?tour=widgetEditing&step=3",
+                element : ".widgetUnlock:first",
+                title : "Your First Widget",
+                content : "Congrats! You've created a widget of your very own!"+
+                "<Br><BR>You'll notice it's grey, which means it's private; only you can see it right now." +
+                "<BR><BR>If you click on the little lock icon here, you'll open it for editing."+
+                "<BR><BR>Right now, just click 'next' and we'll do it for you (make sure your browser window is maximized first, please).",
+                onNext: function(tour){
+                    $(".widgetUnlock:first").trigger("click");
+                    tour.next();
+                }
+            }
         ]
     }
 }
@@ -115,9 +189,22 @@ Template.widget.onRendered(function(){
 
     if(!this.rendered){
         setupTour(".clickForIntroTour", tours["intro"]);
+        setupTour(".clickForUserFeaturesTour", tours["userFeatures"]);
+        setupTour(".clickForWidgetEditingTour", tours["widgetEditing"]);
+    }else{
+        console.log("not attaching");
+    }
+});
+
+
+Template.body.onRendered(function(){
+    if(!this.rendered){
+        console.log("attaching for body");
+        setupTour(".clickForWidgetEditingTour", tours["widgetEditing"]);
         console.log("attaching");
         var uri = parseUri(window.location.href);
         if(uri.queryKey && uri.queryKey.tour){
+            console.log("loading tour, gonna run " + uri.queryKey.tour)
             var tourname = uri.queryKey.tour;
             var step = uri.queryKey.step;
             runTour(tours[tourname], step);
@@ -128,22 +215,30 @@ Template.widget.onRendered(function(){
 });
 
 
+
+
+
 function runTour(tourdata, step){
-    (function(_tourdata, _step){
+    console.log("running tour ");
+    console.log(tourdata);
+    (function(_tourdata, _step, _jquery){
         $(document).ready(function(){
+            console.log("starting");
             var tour = new Tour(_tourdata);
+            tour.jquery = _jquery;
             tour.init();
             tour.start(true);
             tour.goTo(step);
         });
-    })(tourdata, step);
+    })(tourdata, step, $);
 }
 
 
 function setupTour(element, tourdata){
-    (function(_tourdata, _element){
+    (function(_tourdata, _element, _jquery){
         $(document).ready(function(){
             var tour = new Tour(_tourdata);
+            tour.jquery = _jquery;
             tour.init();
             (function(_tour, __element){
                 $(__element).click(function(){
@@ -152,7 +247,7 @@ function setupTour(element, tourdata){
                 });
             })(tour, _element);
         });
-    })(tourdata, element);
+    })(tourdata, element, $);
 }
 
 

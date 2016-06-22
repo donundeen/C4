@@ -186,36 +186,10 @@ console.log("updating  " + Meteor.userId() + " to " + e.target.checked);
     },
 
     'click .copy_from_template' : function(){
-      var template = Widgets.findOne({url : this.url}); //.map(setWidgetDefaults);
-      var dataobj = {html : template.html, css: template.css, javascript: template.javascript};
-      var url = "/api/save";//?js="+jsstring+"&html="+htmlstring+"&css="+csstring,
-      var options = {data: dataobj};
-      
-      HTTP.post(url, options, function(error, results){
-        newWidget = {_id: results.data.url,
-                    createdBy : { username : Meteor.user().username,
-                      userid : Meteor.userId() },
-                    isTemplate : false,
-                    html : results.data.html,
-                    javascript : results.data.javascript,
-                    css: results.data.css,
-                    displayWidth: results.data.displayWidth,
-                    displayHeight: results.data.displayHeight,
-                    description: "(copied from " + template.name +") " + template.description,
-                    widgetStyle : results.data.widgetStyle,
-                    name : "copy of " + template.name,
-                    pagetype : pageinfo().pagetype,
-                    pageurl : pageinfo().pageurl,
-                    pageid : pageinfo().pageid,
-                    url: results.data.url,
-                    createdAt: new Date(),
-                    visibility: "private",
-                    rand: Math.random() };
-        Widgets.insert(newWidget);
-      });
+
+      copyWidgetToPage(this.url, pageinfo().pagetype, pageinfo().pageurl, pageinfo().pageid);
 
       giphy_modal("copy", "New Widget Copied From Template");
-
 
       return false;
     },
