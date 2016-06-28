@@ -57,6 +57,7 @@ if (Meteor.isClient) {
 
   }
 
+
   function setEditModeOn(widgetData, iframeElement, widgetElement, menu, bin, jsbin){
 
     if(jsbin){
@@ -342,7 +343,7 @@ if (Meteor.isClient) {
     */
 
     // this sets it to EDIT mode
-    "click .lock": function () {
+    "click .widgetUnlock": function () {
 
       var widgetElement = document.getElementById('widgetContainer_'+this._id);
       var iframeElement = document.getElementById('jsbin_'+this._id)
@@ -359,7 +360,7 @@ if (Meteor.isClient) {
 
 
     // this sets it to DISPLAY mode
-    "click .unlock": function () {
+    "click .widgetLock": function () {
 
       var widgetElement = document.getElementById('widgetContainer_'+this._id);
       var iframeElement = document.getElementById('jsbin_'+this._id)

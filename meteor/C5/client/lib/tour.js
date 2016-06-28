@@ -17,7 +17,7 @@ function parseUri (str) {
         if ($1) uri[o.q.name][$1] = $2;
     });
 
-    return uri;
+    return uri; 
 };
 
 parseUri.options = {
@@ -128,15 +128,15 @@ var tours = {
                 "<Br><BR>We're going to go to a new page now, hold tight!"
             },
             {
-                path : "/testvaobject/O89553?tour=widgetEditing&step=1",
+                path : "/testvaobject_/O89553?tour=widgetEditing&step=1",
                 element : ".page_id_div",
                 title : "A New Page",
                 content : "Now we're on a New Page!"+
                 "<BR><BR>This section holds the PAGE NAME, which is made of two parts:"+
-                "<BR>1. The <B>Page Type</b>, in this case 'testvaobject.' All pages of the same type have the SAME WIDGETS. So if you add a widget here, it will appear on every page of the same type."+
+                "<BR>1. The <B>Page Type</b>, in this case 'testvaobject_' All pages of the same type have the SAME WIDGETS. So if you add a widget here, it will appear on every page of the same type."+
                 "<BR>2. The <b>Page ID</b>, in this case O89553, which happens to the the unique identifier for an object from the Victoria &amp; Albert Museum."+
-                "<BR><BR>Every widget has access to these value, through the functions pageType() and pageId().<BR><BR>"+
-                "<BR><BR>Note: We CREATED this page Type just by going to the URL testvaobject/something. Just start adding widgets, and you're good to go!",
+                "<BR><BR>Every widget has access to these values, through the functions pageType() and pageId()."+
+                "<BR><BR>Note: We CREATED this page Type just by going to the URL testvaobject_/something. Just start adding widgets, and you're good to go!",
                 onNext : function(tour){console.log("next clicked"); tour.goTo(2);}
 
             },
@@ -144,8 +144,8 @@ var tours = {
                 element : ".widgetlibrary",
                 title : "Add a Widget to this page",
                 content : "The first thing we want to do is add a widget to this page, by copying a basic widget example from the Library." +
-                "<BR><BR>Let's grab the 'Webservice Search Example,' that's a good starting point."+
-                "<BR><BR>",
+                "<BR><BR>Let's grab the 'Webservice Search Example.' That's a good starting point."+
+                "<BR><BR><i>Just click 'next', and we'll select it for you<i>",
                 onNext : function(tour){
                     tour.end();
                     $(".addFromWidgetLibraryUL").toggle();
@@ -162,21 +162,33 @@ var tours = {
                             }, 2000);
                         }, 2000);
                     }, 2000);
-                    //return (new jQuery.Deferred()).promise();
+//                    return (new jQuery.Deferred()).promise();
                 }
             },
+            /*
+            
             {
              //   path : "/testvaobject/O89553?tour=widgetEditing&step=3",
-                element : ".widgetUnlock:first",
+                element : ".widget-name-editmode:first",
                 title : "Your First Widget",
-                content : "Congrats! You've created a widget of your very own!"+
+                content : "Congrats ! You've created a widget of your very own!"+
                 "<Br><BR>You'll notice it's grey, which means it's private; only you can see it right now." +
                 "<BR><BR>If you click on the little lock icon here, you'll open it for editing."+
-                "<BR><BR>Right now, just click 'next' and we'll do it for you (make sure your browser window is maximized first, please).",
+                "<BR><BR><i>Right now, just click 'next' and we'll do it for you (make sure your browser window is maximized first, please).</i>",
                 onNext: function(tour){
+                    tour.end();
                     $(".widgetUnlock:first").trigger("click");
-                    tour.next();
+                    tour.start();
+                    tour.goTo(4);
                 }
+            },
+            */
+            
+            {
+                element : ".navbar-brand:first",
+                title : "Edit Mode!",
+                content : "Welcome to Edit Mode!"+
+                "<BR><BR>"
             }
         ]
     }
