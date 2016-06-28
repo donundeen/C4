@@ -87,7 +87,7 @@ var tours = {
         ]
     },
 
-    userFeatures : {
+    "userFeatures" : {
         steps : [
             {
                 path : "/?tour=userFeatures&step=0",
@@ -119,7 +119,7 @@ var tours = {
         ]
     },
 
-    widgetEditing : {
+    "widgetEditing" : {
         steps : [
             {
                 element : ".help",
@@ -152,11 +152,10 @@ var tours = {
                     setTimeout(function(){
                         $(".copy_from_template.ciy").mouseover();
                         setTimeout(function(){
+                            $(".copy_from_template.ciy").mouseout();
                             copyWidgetToPage("ciy", pageinfo().pagetype, pageinfo().pageurl, pageinfo().pageid );
                             $(".addFromWidgetLibraryUL").toggle();
                             setTimeout(function(){
-                               // document.location.href= "/testvaobject/O89553?tour=widgetEditing&step=3";
-                               console.log("going to 3");
                                 tour.start(true);
                                 tour.goTo(3);
                             }, 2000);
@@ -165,38 +164,52 @@ var tours = {
 //                    return (new jQuery.Deferred()).promise();
                 }
             },
-            /*
-            
             {
              //   path : "/testvaobject/O89553?tour=widgetEditing&step=3",
-                element : ".widget-name-editmode:first",
+                element : ".widgetUnlock:first",
                 title : "Your First Widget",
                 content : "Congrats ! You've created a widget of your very own!"+
                 "<Br><BR>You'll notice it's grey, which means it's private; only you can see it right now." +
                 "<BR><BR>If you click on the little lock icon here, you'll open it for editing."+
                 "<BR><BR><i>Right now, just click 'next' and we'll do it for you (make sure your browser window is maximized first, please).</i>",
-                onNext: function(tour){
+                onNext : function(tour){
                     tour.end();
                     $(".widgetUnlock:first").trigger("click");
+                    console.log("going to next");
                     tour.start();
+                    console.log("started");
                     tour.goTo(4);
+                    console.log("went");
+                },
+                onShow : function(tour){
+                    console.log("shwoing 1");
                 }
             },
-            */
-            
             {
-                element : ".navbar-brand:first",
-                title : "Edit Mode!",
-                content : "Welcome to Edit Mode!"+
-                "<BR><BR>"
+                element : ".page_id_div",
+                title : "Edit Mode",
+                content : "Welcome to Edit Mode<BR><BR>",
+                onShow : function(tour){
+                    console.log("showing 2");
+                }
+            },
+            {
+                element : ".page_id_div",
+                title : "end of tour",
+                content : "thanks for playing",
+                onShow : function(tour){ 
+                    onsole.log("showing last");
+                    tour.next();
+                }
             }
+            
         ]
     }
 }
 
 
 
-
+/*
 Template.widget.onRendered(function(){
 
     if(!this.rendered){
@@ -207,12 +220,27 @@ Template.widget.onRendered(function(){
         console.log("not attaching");
     }
 });
+*/
 
+Template.help.onRendered(function(){
+    if(!this.rendered){
+        console.log("attaching for help");
+
+        setupTour(".clickForUserFeaturesTour", tours["userFeatures"]);
+        this.rendered = true;
+    }
+
+});
 
 Template.body.onRendered(function(){
+
     if(!this.rendered){
         console.log("attaching for body");
+        setupTour(".clickForIntroTour", tours["intro"]);
+        
         setupTour(".clickForWidgetEditingTour", tours["widgetEditing"]);
+//        setupTour(".clickForUserFeaturesTour", tours["userFeatures"]);
+        
         console.log("attaching");
         var uri = parseUri(window.location.href);
         if(uri.queryKey && uri.queryKey.tour){
@@ -221,10 +249,12 @@ Template.body.onRendered(function(){
             var step = uri.queryKey.step;
             runTour(tours[tourname], step);
         }
+        this.rendered = true;
     }else{
         console.log("not attaching");
     }
 });
+
 
 
 
@@ -247,6 +277,24 @@ function runTour(tourdata, step){
 
 
 function setupTour(element, tourdata){
+    console.log("seeting up tour " + element);
+    console.log(tourdata);
+    console.log($(element));
+    (function(_tourdata, _element, _jquery){
+        $(_element).click(function(){
+            console.log("running tour");
+            var tour = new Tour(_tourdata);
+            tour.jquery = _jquery;
+            tour.init();
+            tour.start(true);
+            tour.goTo(0);
+        });
+    })(tourdata, element, $);
+}
+
+
+/*
+function setupTour(element, tourdata){
     (function(_tourdata, _element, _jquery){
         $(document).ready(function(){
             var tour = new Tour(_tourdata);
@@ -261,6 +309,6 @@ function setupTour(element, tourdata){
         });
     })(tourdata, element, $);
 }
-
+*/
 
 

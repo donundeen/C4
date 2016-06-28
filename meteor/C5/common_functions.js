@@ -22,7 +22,6 @@ if (Meteor.isClient) {
         UserXtras.upsert({_id : user._id}, userxtras);
         var userxtras2 = UserXtras.findOne({_id : user._id });
       }
-      console.log(userxtras);
     }
     return userxtras;
 
