@@ -175,32 +175,22 @@ var tours = {
                 onNext : function(tour){
                     tour.end();
                     $(".widgetUnlock:first").trigger("click");
-                    console.log("going to next");
-                    tour.start();
-                    console.log("started");
-                    tour.goTo(4);
-                    console.log("went");
-                },
-                onShow : function(tour){
-                    console.log("shwoing 1");
+                    setTimeout(function(){
+                        tour.start(true);
+                        tour.goTo(4);
+                        console.log("went");
+                    }, 2000);
                 }
             },
             {
                 element : ".page_id_div",
                 title : "Edit Mode",
                 content : "Welcome to Edit Mode<BR><BR>",
-                onShow : function(tour){
-                    console.log("showing 2");
-                }
             },
             {
                 element : ".page_id_div",
                 title : "end of tour",
                 content : "thanks for playing",
-                onShow : function(tour){ 
-                    onsole.log("showing last");
-                    tour.next();
-                }
             }
             
         ]
