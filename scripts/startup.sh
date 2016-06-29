@@ -16,4 +16,5 @@ cd ../elasticsearch_proxy
 forever start elasticsearch_proxy.server.js &
 /usr/local/bin/elasticsearch -Des.path.conf=/Users/donundeen/htdocs/C5/server_configs/elasticsearch &
 cd ../meteor/C5
-meteor
+export METEOR_OFFLINE_CATALOG=1
+METEOR_OFFLINE_CATALOG=1 meteor

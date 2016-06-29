@@ -171,7 +171,8 @@ var tours = {
                 content : "Congrats ! You've created a widget of your very own!"+
                 "<Br><BR>You'll notice it's grey, which means it's private; only you can see it right now." +
                 "<BR><BR>If you click on the little lock icon here, you'll open it for editing."+
-                "<BR><BR><i>Right now, just click 'next' and we'll do it for you (make sure your browser window is maximized first, please).</i>",
+                "<BR><BR>Now, click the Lock Icon, then click 'Next' below.</i>",
+                /*
                 onNext : function(tour){
                     tour.end();
                     $(".widgetUnlock:first").trigger("click");
@@ -181,9 +182,10 @@ var tours = {
                         console.log("went");
                     }, 2000);
                 }
+                */
             },
             {
-                element : ".page_id_div",
+                element : ".widgetLock.editmodeonly:first",
                 title : "Edit Mode",
                 content : "Welcome to Edit Mode<BR><BR>",
             },
