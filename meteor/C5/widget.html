@@ -112,8 +112,8 @@
     <div class="navbar-header widget-name-editmode"><a class="navbar-brand" href="#">{{name}} ({{url}})</a></div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-{{_id}}">    
       <ul class="nav navbar-nav">
-        <li><a href="#myModal" data-toggle="modal" data-target="#info_modal_{{_id}}">Info</a></li>
-        <li class="dropdown">
+        <li class="widgetinfo-editmode"><a href="#myModal" data-toggle="modal" data-target="#info_modal_{{_id}}">Info</a></li>
+        <li class="dropdown widgetactions">
           <a href="#" data-toggle="dropdown" class="dropdown-toggle">Actions <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li class="dropdown_widgeticon save ion-ios-upload clickable " data-pack="default" data-tags="" alt="save widget" style="display: inline-block;"> Save</li>
@@ -126,7 +126,7 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
           </ul>
         </li>
 
-        <li class="dropdown">
+        <li class="dropdown widgetpulldata">
           <a href="#" data-toggle="dropdown" class="dropdown-toggle">Get Data<b class="caret"></b></a>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1_{{url}}">
             <li>Pull Data from Widget:</li>
@@ -138,9 +138,9 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
             <li><a href="#" class="call_webservice_url clickable">Call Webservice Url...</a></li>
           </ul>
         </li>
-        <li><a href="#myConfigModal" data-toggle="modal" data-target="#config_modal_{{_id}}">Style Settings</a></li>
-        <li><a href="#myCacheModal" data-toggle="modal" data-target="#cache_modal_{{_id}}">Caching</a></li>
-        <li><a href="#" class="nonclickable"><i class="zmdi zmdi-triangle-up order_up"></i>Order: {{sort_order}}<i class="zmdi zmdi-triangle-down order_down"></i></a></li>
+        <li class="widgetstylesettings"><a href="#myConfigModal" data-toggle="modal" data-target="#config_modal_{{_id}}">Style Settings</a></li>
+        <li class="widgetcachesettings"><a href="#myCacheModal" data-toggle="modal" data-target="#cache_modal_{{_id}}">Caching</a></li>
+        <li class="widgetorder"><a href="#" class="nonclickable"><i class="zmdi zmdi-triangle-up order_up"></i>Order: {{sort_order}}<i class="zmdi zmdi-triangle-down order_down"></i></a></li>
 
 
 

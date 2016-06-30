@@ -34,8 +34,11 @@ parseUri.options = {
 };
 
 
-
-
+var testPageType = "testvaobject";
+if(Meteor.userId()){
+    testPageType += "_"+Meteor.userId();
+}
+var testPageId = "O89553";
 
 var tours = {
     "intro" : {
@@ -120,6 +123,7 @@ var tours = {
     },
 
     "widgetEditing" : {
+        orphan : true,
         steps : [
             {
                 element : ".help",
@@ -128,20 +132,25 @@ var tours = {
                 "<Br><BR>We're going to go to a new page now, hold tight!"
             },
             {
-                path : "/testvaobject_/O89553?tour=widgetEditing&step=1",
+                path : "/"+testPageType+"/"+testPageId+"?tour=widgetEditing&step=1",
                 element : ".page_id_div",
                 title : "A New Page",
                 content : "Now we're on a New Page!"+
                 "<BR><BR>This section holds the PAGE NAME, which is made of two parts:"+
-                "<BR>1. The <B>Page Type</b>, in this case 'testvaobject_' All pages of the same type have the SAME WIDGETS. So if you add a widget here, it will appear on every page of the same type."+
-                "<BR>2. The <b>Page ID</b>, in this case O89553, which happens to the the unique identifier for an object from the Victoria &amp; Albert Museum."+
-                "<BR><BR>Every widget has access to these values, through the functions pageType() and pageId()."+
-                "<BR><BR>Note: We CREATED this page Type just by going to the URL testvaobject_/something. Just start adding widgets, and you're good to go!",
-                onNext : function(tour){console.log("next clicked"); tour.goTo(2);}
+                "<BR><BR>1. The <B>Page Type</b>, in this case '"+testPageType+"' All pages of the same type have the SAME WIDGETS. So if you add a widget here, it will appear on every page of the same type."+
+                "<BR><BR>2. The <b>Page ID</b>, in this case '"+testPageId+"', which happens to the the unique identifier for an object from the Victoria &amp; Albert Museum."+
+                "<BR><BR>Put another way, the Page Type is like the 'class' in Object-oriented programming. The PageType + PageID is like the 'instance' of that class."+
+                "<BR><BR>Or putting it another way: you make a PageType for a set of objects that you get from the same API. Like V&amp;A API."+
+                "<BR><BR>Note: We CREATED this page Type just by going to the URL '"+testPageType+"/something'. Just start adding widgets, and you're good to go!",
+                onNext : function(tour){
+                    console.log("next clicked"); 
+                    tour.goTo(2);
+                }
 
             },
             {
                 element : ".widgetlibrary",
+                placement : "left",
                 title : "Add a Widget to this page",
                 content : "The first thing we want to do is add a widget to this page, by copying a basic widget example from the Library." +
                 "<BR><BR>Let's grab the 'Webservice Search Example.' That's a good starting point."+
@@ -171,7 +180,7 @@ var tours = {
                 content : "Congrats ! You've created a widget of your very own!"+
                 "<Br><BR>You'll notice it's grey, which means it's private; only you can see it right now." +
                 "<BR><BR>If you click on the little lock icon here, you'll open it for editing."+
-                "<BR><BR>Now, click the Lock Icon, then click 'Next' below.</i>",
+                "<BR><BR>Now, <B>Click the Lock Icon to the Left</b>, THEN click 'Next' below.",
                 /*
                 onNext : function(tour){
                     tour.end();
@@ -184,16 +193,86 @@ var tours = {
                 }
                 */
             },
+            
             {
                 element : ".widgetLock.editmodeonly:first",
                 title : "Edit Mode",
-                content : "Welcome to Edit Mode<BR><BR>",
+                placement : "left",
+                content : "<B>Welcome to Edit Mode</b>"+
+                "<BR><BR>Now we're cooking"+
+                "<BR><BR>If you've ever used <a href='http://jsbin.com'>JsBIN</a>, <a href='http://jsfiddle.net'>JsFiddle</a>, or <a href='http://codepen.io'>CodePen</a>, this should look familiar."+
+                "<br>In fact, a widget is just an embedded JsBin, with come helpful glue to make the widgets talk to each other."+
+                "<BR><BR>Try editing the html panel on the left, and you'll see the output code on the right update in real time."
+            },
+
+            {
+                element : ".setpublic:first",
+                title : "Private Widget",
+                placement : "left",
+                content : "Right now this widget is PRIVATE, meaning only you can see it."+
+                "<BR><BR>So feel free to muck about."+
+                "<BR><BR>When you're ready to share it with the world, click the icon to make it public."
+            },
+
+            {
+                element : ".widgetinfo-editmode:first",
+                title : "Widget Info",
+                content : "Click this to get info about the Widget, such as:"+
+                "<BR>- Editable name and description" +
+                "<BR>- Data and HTML Urls"
+            },
+            
+            {
+                element : ".widgetactions:first",
+                title : "Widget Actions",
+                content : "Click this to perform actions like Save, Delete, and Adding to your Library."
+
             },
             {
+                element : ".widgetpulldata:first",
+                title : "Pull Data",
+                content : "This section has super useful helper functions that help you access data from other widgets on this page"+
+                "<BR><BR>More on this in a bit!"
+            },
+            
+            {
+                element : ".widgetstylesettings:first",
+                title : "Widget Style",
+                content : "Using this menu item, you can edit the style of the widget container, like the width and height of the widget, border color, etc",
+            },
+
+            {
+                element : ".widgetcachesettings:first",
+                title : "Cache Settings",
+                content : "Here you can set how long you want to cache the output of this widget"+
+                "<BR><BR>If your input doesn't change very often, it's good to set this pretty high,"+
+                "it will really help with performance."
+            },
+
+
+            {
+                element : ".widgetorder:first",
+                title : "Widget Order",
+                content : "Edit this value to re-order your widget on the page."
+            },
+
+/*            
+
+
+            {
+                element : ".widgetorder:first",
+                title : "Widget Order",
+                content : "Edit this value to re-order your widget on the page."
+            },
+         
+            {
                 element : ".page_id_div",
-                title : "end of tour",
-                content : "thanks for playing",
+                title : "End of tour",
+                content : "Thanks for taking the tour."+
+                "<BR><BR>Please send questions to donundeen@gmail.com,"+
+                "or post them a <a href='http://github.com/donundeen/C5'>On our github page</a>",
             }
+        */
             
         ]
     }
@@ -239,7 +318,7 @@ Template.body.onRendered(function(){
             console.log("loading tour, gonna run " + uri.queryKey.tour)
             var tourname = uri.queryKey.tour;
             var step = uri.queryKey.step;
-            runTour(tours[tourname], step);
+            runTour(tours[tourname], parseInt(step, 10));
         }
         this.rendered = true;
     }else{

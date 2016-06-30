@@ -209,6 +209,10 @@ img {
     margin-top: 0px;
 }
 
+.popover {
+    max-width: 400px;
+}
+
 /*
 .tooltip {
   z-index: 1001;
