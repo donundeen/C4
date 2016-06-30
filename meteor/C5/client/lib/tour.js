@@ -117,6 +117,13 @@ var tours = {
                 element : ".link_to_library",
                 title : "link to your library",
                 content : "click here to go to a special page that holds all the widgets in your library."
+            },
+            {
+                element : ".link_to_library",
+                title : "Thanks!",
+                content : "Hope you like being a member of C5!"+
+                "<BR><BR>Please send questions to donundeen@gmail.com,"+
+                "or post them a <a href='http://github.com/donundeen/C5'>On our github page</a>",
             }
 
         ]
@@ -201,7 +208,7 @@ var tours = {
                 content : "<B>Welcome to Edit Mode</b>"+
                 "<BR><BR>Now we're cooking"+
                 "<BR><BR>If you've ever used <a href='http://jsbin.com'>JsBIN</a>, <a href='http://jsfiddle.net'>JsFiddle</a>, or <a href='http://codepen.io'>CodePen</a>, this should look familiar."+
-                "<br>In fact, a widget is just an embedded JsBin, with come helpful glue to make the widgets talk to each other."+
+                "<br>In fact, a widget is just an embedded JsBin, with some helpful glue to make the widgets talk to each other."+
                 "<BR><BR>Try editing the html panel on the left, and you'll see the output code on the right update in real time."
             },
 
@@ -264,15 +271,16 @@ var tours = {
                 title : "Widget Order",
                 content : "Edit this value to re-order your widget on the page."
             },
-         
+        */ 
             {
                 element : ".page_id_div",
                 title : "End of tour",
                 content : "Thanks for taking the tour."+
+                "<BR><BR>Now clean up after yourself by deleting this widget  (Actions ->  Delete)."+
                 "<BR><BR>Please send questions to donundeen@gmail.com,"+
                 "or post them a <a href='http://github.com/donundeen/C5'>On our github page</a>",
             }
-        */
+        
             
         ]
     }
