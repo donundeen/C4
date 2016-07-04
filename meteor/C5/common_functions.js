@@ -66,6 +66,7 @@ if (Meteor.isClient) {
 
 
   copyWidgetToPage = function(origID, pagetype, pageid, pageurl){
+    console.log("calling CopyWidgetToPage for " +origID)
       var template = Widgets.findOne({url : origID}); //.map(setWidgetDefaults);
       var dataobj = {html : template.html, css: template.css, javascript: template.javascript};
       var url = "/api/save";//?js="+jsstring+"&html="+htmlstring+"&css="+csstring,

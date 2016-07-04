@@ -243,11 +243,8 @@ console.log("updating  " + Meteor.userId() + " to " + e.target.checked);
     },
 
     'click .copy_from_template' : function(){
-
-      copyWidgetToPage(this.url, pageinfo().pagetype, pageinfo().pageurl, pageinfo().pageid);
-
+      copyWidgetToPage($(this).attr("target"), pageinfo().pagetype, pageinfo().pageurl, pageinfo().pageid);
       giphy_modal("copy", "New Widget Copied From Template");
-
       return false;
     },
 
