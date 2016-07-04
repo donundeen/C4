@@ -536,11 +536,11 @@ if (Meteor.isClient) {
 
     pageTypeAndUrl : function(){
 
-      return this.pagetype + "/"+ this.url;
+      return "_pt_"+this.pagetype + "/"+ this.url;
     },
 
     pageUrlAndUrl : function(){
-      return pageinfo().pageurl + "/" + this.url;
+      return "_pu_"+pageinfo().pageurl + "/" + this.url;
     },
 
     commentsCount : function(id){

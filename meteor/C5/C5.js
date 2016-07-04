@@ -85,9 +85,66 @@ if (Meteor.isClient) {
   Template.registerHelper("pageurl", function(){  
     return pageinfo().pageurl;
   });
+
+
   Template.registerHelper("pagetype", function(){  
     return pageinfo().pagetype;
   });
+
+  Template.registerHelper("pageid_neverblank", function(){  
+    return "_pi_"+pageinfo().pageid;
+  });
+
+  Template.registerHelper("pageurl_neverblank", function(){  
+    return "_pu_"+pageinfo().pageurl;
+  });
+  Template.registerHelper("pagetype_neverblank", function(){  
+    return "_pt_"+pageinfo().pagetype;
+  });
+
+  Template.registerHelper("numComments", function(commentId){
+
+    var instance = Template.instance;
+
+    if(!instance.commentCounters){
+      instance.commentCounters = {};
+    }
+    if(!instance.commentCounters[commentId]){
+      instance.commentCounters[commentId] = new ReactiveVar();
+    }
+    Comments.getCount(commentId, function(error, count){
+      instance.commentCounters[commentId].set(count);
+    });
+    return instance.commentCounters[commentId].get();
+  });
+
+  Template.registerHelper("commentIcon", function(commentId){
+
+    var instance = Template.instance;
+
+    var noComments = "zmdi-comment";
+    var hasComments = "zmdi-comment-alert";
+
+    if(!instance.commentIcons){
+      instance.commentIcons = {};
+    }
+    if(!instance.commentIcons[commentId]){
+      instance.commentIcons[commentId] = new ReactiveVar();
+    }
+    Comments.getCount(commentId, function(error, count){
+      if(count > 0){
+        console.log(commentId + " has comments");
+        instance.commentCounters[commentId].set("zmdi-comment-alert");
+      }else{
+        console.log(commentId + " no comments");
+        instance.commentIcons[commentId].set("zmdi-comment");
+      }
+    });
+    return instance.commentIcons[commentId].get();
+  });
+
+
+
   Template.registerHelper("SERVER_NAME",function(){
       return SERVER_NAME;
   });

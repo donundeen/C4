@@ -38,6 +38,11 @@ body {
     font-size: 3em;
 }
 
+
+.numComments {
+    text-align: center;
+}
+
 .widgeticon{
     font-size: 1.5em;
 }

@@ -60,7 +60,7 @@
       <!-- end login features -->
 
       <div class="container-item widgetmenu comments pagecomments" data-tooltip="comments" data-tooltip-direction="s" >
-       <i  data-toggle="modal" data-target="#comment_modal" class="zmdi zmdi-comment zmdi-hc-3x opencomments"></i>
+       <i  data-toggle="modal" data-target="#comment_modal" class="zmdi zmdi-comment zmdi-hc-3x opencomments"></i><br><span class="numComments">{{numComments pagetype_neverblank}}/{{numComments pageurl_neverblank}}</span>
       </div>
 
       <div class="container-item widgetmenu help" data-tooltip="help" data-tooltip-direction="s">
@@ -84,13 +84,13 @@
                       <div class="panel-heading">
                         <h4 class="panel-title">
                           <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                          Comments for <B>All</b> pages of type: {{pagetype}}</a>
+                          Comments for <B>All</b> pages of type: {{pagetype}}</a> {{numComments pagetype_neverblank}}
                         </h4>
                       </div>
                       <div id="collapse1" class="panel-collapse collapse in">
                         <div class="panel-body">                 
                           <div class="comment-section">
-                            {{> commentsBox id=pagetype}}
+                            {{> commentsBox id=pagetype_neverblank}}
                           </div>
                         </div>
                       </div>
@@ -99,13 +99,13 @@
                       <div class="panel-heading">
                         <h4 class="panel-title">
                           <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-                          Comments for this <b>SPECIFIC</b> page: {{pageurl}}</a>
+                          Comments for this <b>SPECIFIC</b> page: {{pageurl}} {{numComments pageurl_neverblank}}</a>
                         </h4>
                       </div>
                       <div id="collapse2" class="panel-collapse collapse">
                         <div class="panel-body">
                           <div class="comment-section">
-                            {{> commentsBox id=pageurl}}
+                            {{> commentsBox id=pageurl_neverblank}}
                           </div>
                         </div>
                       </div>

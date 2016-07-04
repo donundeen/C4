@@ -9,7 +9,7 @@
     <!-- display-mode header -->
     <div class="widgetMouseOverTarget displaymodeonly">
       &nbsp;&nbsp; <span class="displayModeHeader widgetname-display-mode"><B>{{name}}</b>  ({{url}})</span>
-        &nbsp;<i  data-toggle="modal"  data-target="#comment_modal_{{url}}" data-tooltip="Comment on this widget" class="zmdi zmdi-comment opencomments widgetcomments"></i>
+        &nbsp;<i  data-toggle="modal"  data-target="#comment_modal_{{url}}" data-tooltip="Comment on this widget" class="zmdi zmdi-comment opencomments widgetcomments">{{numComments pageTypeAndUrl}}/{{numComments pageUrlAndUrl}}</i>
         &nbsp;<i data-tooltip="view widget info" class="zmdi zmdi-info openinfo widgetinfo"></i>
         {{#if currentUser}}
         &nbsp;<i data-tooltip="copy widget on this page" class="zmdi zmdi-copy copy"></i>
@@ -64,7 +64,7 @@
                 <div class="panel-heading">
                   <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion_{{url}}" href="#collapse1_{{url}}">
-                    Comments for this widget: "{{name}} ({{url}})" on <B>All</b> pages of type: {{pagetype}} : {{pageTypeAndUrl}} :: {{commentsCount pageTypeAndUrl}}</a>
+                    Comments for this widget: "{{name}} ({{url}})" on <B>All</b> pages of type: {{pagetype}} : {{pageTypeAndUrl}} ({{numComments pageTypeAndUrl}})</a>
                   </h4>
                 </div>
                 <div id="collapse1_{{url}}" class="panel-collapse collapse in">
@@ -79,7 +79,7 @@
                 <div class="panel-heading">
                   <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion_{{url}}" href="#collapse2_{{url}}">
-                    Comments for this widget: "{{name}} ({{url}})" on this <b>SPECIFIC</b> page: {{pageurl}} : {{pageUrlAndUrl}}  </a>
+                    Comments for this widget: "{{name}} ({{url}})" on this <b>SPECIFIC</b> page: {{pageurl}} : {{pageUrlAndUrl}}  ({{numComments pageUrlAndUrl}})</a>
                   </h4>
                 </div>
                 <div id="collapse2_{{url}}" class="panel-collapse collapse">
