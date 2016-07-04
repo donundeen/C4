@@ -1,9 +1,10 @@
 var elasticsearch = require('elasticsearch');
 var client = new elasticsearch.Client({
+//  host: 'localhost:9200',
   host: 'localhost:3010',
   log: 'trace'
 });
-
+ 
 /*
 
 // https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html
@@ -107,13 +108,8 @@ function parseRequest(req, res){
 
     if(req.method == 'GET'){
       console.log("got GET");
-
-      console.log(req);
-      console.log(req.url);
       var parsed = urlparser.parse(req.url, true)
       var query = urlparser.parse(req.url, true).query;
-
-      console.log(parsed);
 
       var headers = {};
       if(parsed.query.headers){
@@ -121,24 +117,21 @@ function parseRequest(req, res){
       }
       
       var path = parsed.path;
-      console.log(parsed.query);
-
-          res.writeHead(200, {'Content-Type': 'application/json', 
-                              'Access-Control-Allow-Origin' : '*'});
-          res.end(JSON.stringify({error : "testing"}));
-    return;      
-
       var elastic_query = JSON.parse(parsed.query.query);
       var type = parsed.query.type;
 
+      elastic_query.index = 'c5';
+   //   elastic_query.type = type;
+
+      var search = elastic_query;
+/*
       var search = {
           index: 'c5',
           type: type,
-          body: {
-              query: elastic_query
-          }
+          query : elastic_query
       };  
 
+*/
 console.log("searching");
 console.log(search);
 

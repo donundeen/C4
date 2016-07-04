@@ -222,7 +222,7 @@ function elasticsearchInsert(pagetype, pageid, data, callback){
 
 
 function elasticsearchRequest(_query, callback){
-    var url = "/elasticsearch_proxy";
+    var url = "/elasticsearch_proxy?query="+encodeURIComponent(JSON.stringify(_query));
 
     var data =  {query : _query};
 
@@ -232,7 +232,7 @@ function elasticsearchRequest(_query, callback){
     $.ajax({
         method: "GET",
 //        data : JSON.stringify(data),
-        data : data,
+//        data : data,
         contentType: "application/json; charset=utf-8",        
         url : url,
         success : function(result){
@@ -246,9 +246,7 @@ function elasticsearchRequest(_query, callback){
             console.log(status);
             callback(false, error, status);            
         }
-
     });
-
 }
 
 
