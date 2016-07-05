@@ -64,6 +64,48 @@ function pagetype(){
     return pageType();
 }
 
+
+function widgetId(){
+    // .widgetContainer : id
+    var container = $(window.parent.parent.frameElement.parentNode).parent();
+    var id = $(container).attr("id");
+    var split = id.split("_");
+    return split.pop();
+
+}
+
+function widgetid(){
+    return widgetId();
+}
+
+function userId(){
+    var container = $(window.parent.parent.frameElement.parentNode).parent();
+    var id = $(container).attr("data-userid");
+    var split = id.split("_");
+    id = split.pop();
+    return id;
+
+}
+
+function userid(){
+    return userId();
+}
+
+
+
+function userName(){
+    var container = $(window.parent.parent.frameElement.parentNode).parent();
+    var id = $(container).attr("data-username");
+    var split = id.split("_");
+    id = split.pop();
+    return id;
+}
+function username(){
+    return userName();
+}
+
+
+
 function purgeWidgetCache(widgetName, callback){
     if(!widgetName){
         c5_widget_cache = {};
@@ -197,7 +239,7 @@ function elasticsearchInsert(pagetype, pageid, data, callback){
                 data: data
                 }
     console.log("inserting doc");
-    console.log(doc);
+//    console.log(doc);
     $.ajax({
         method : "POST",
         data : JSON.stringify(doc),
@@ -227,7 +269,7 @@ function elasticsearchRequest(_query, callback){
     var data =  {query : _query};
 
     console.log("sending data");
-    console.log(data);
+//    console.log(data);
 
     $.ajax({
         method: "GET",
@@ -250,8 +292,66 @@ function elasticsearchRequest(_query, callback){
 }
 
 
+function saveC5Data(options, data, callback){
+
+    var id = "_wi_"+widgetId() + "_pt_"+pageType();
+    if(options.thisUserOnly){
+        id += "_ui_"+userId();
+    }else{
+    }
+    if(typeof options.thisPageIdOnly == "undefined" || options.thisPageIdOnly == true){
+        id += "_pi_"+ pageId();
+    }else{
+    
+    var reqUrl = "/persistence_proxy/"+encodeURIComponent(id);
+
+    data.version = "2";
+
+    $.ajax({
+        method : "POST",
+        url: reqUrl,
+        data: JSON.stringify(data),
+        traditional : false,
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+        success : function(result){
+            callback(result);
+        },
+        error : function (xhr, status, error) {
+            callback({error: true, message : error, status : status});            
+        }
+    });
+}
+
+function getC5Data(options, callback){
+    var id = "_wi_"+widgetId() + "_pt_"+pageType();
+    if(options.thisUserOnly){
+        id += "_ui_"+userId();
+    }else{
+    }
+    if(typeof options.thisPageIdOnly == "undefined" || options.thisPageIdOnly == true){
+        id += "_pi_"+ pageId();
+    }else{
+    }
+    var reqUrl = "/persistence_proxy/"+encodeURIComponent(id);
+
+    $.ajax({
+        method : "GET",
+        url: reqUrl,
+        dataType: 'json',
+        success : function(result){
+            callback(result);
+        },
+        error : function (xhr, status, error) {
+            callback({error: true, message : error, status : status});            
+        }
+    });
+
+}
+
 function dataIntoJsonView(data){
     try{
+        // .widgetContainer : id
         console.log(window.parent.parent.frameElement.parentNode);
         var container = $(window.parent.parent.frameElement.parentNode).parent();
         var editHeader = $(".widgetEditHeader",container);
