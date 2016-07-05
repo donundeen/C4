@@ -239,7 +239,7 @@ function elasticsearchInsert(pagetype, pageid, data, callback){
                 data: data
                 }
     console.log("inserting doc");
-//    console.log(doc);
+    console.log(doc);
     $.ajax({
         method : "POST",
         data : JSON.stringify(doc),
@@ -269,7 +269,7 @@ function elasticsearchRequest(_query, callback){
     var data =  {query : _query};
 
     console.log("sending data");
-//    console.log(data);
+    console.log(data);
 
     $.ajax({
         method: "GET",
@@ -302,7 +302,8 @@ function saveC5Data(options, data, callback){
     if(typeof options.thisPageIdOnly == "undefined" || options.thisPageIdOnly == true){
         id += "_pi_"+ pageId();
     }else{
-    
+    }
+
     var reqUrl = "/persistence_proxy/"+encodeURIComponent(id);
 
     data.version = "2";
