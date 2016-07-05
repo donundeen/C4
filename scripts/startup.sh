@@ -12,6 +12,8 @@ cd ../jsbin_proxy
 MONGOPORT=3001 forever start --minUptime=1 -c /Users/donundeen/.nvm/versions/node/v5.7.1/bin/node jsbin_proxy.server.js &
 cd ../giphy_proxy
 forever start giphy_proxy.server.js &
+cd ../persistence_proxy
+MONGOPORT=3001 forever start persistence_proxy.server.js &
 cd ../elasticsearch_proxy
 forever start elasticsearch_proxy.server.js &
 /usr/local/bin/elasticsearch -Des.path.conf=/Users/donundeen/htdocs/C5/server_configs/elasticsearch &
