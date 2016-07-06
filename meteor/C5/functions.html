@@ -1,0 +1,253 @@
+<template name="functions">
+<BR>
+<P>In your jsbin edit window, in the upper left, is a button that says "Add Library"<BR>
+    This provides access to a LOT of javascript libraries you can ue in your widget. <BR>
+    Selecting one adds it to your html &lt;head&gt; tag. <BR>
+    Most of these libraries are popular third-party packages, standard with JSBin. Explore them at your leisure.<BR><BR>
+Some of them have been created or added by the C5 team, to make your C5 coding experience more awesome. <BR>
+The useful functions from those libraries are described here.<BR>
+<BR>
+    <B>Note: when you add libraries, make sure that jQuery comes BEFORE the other libraries, as some Libraries require jQuery and don't work if they don't see it. You might have to move the code around after it's been imported.</b>
+</p>
+
+
+
+<p class="functionDef">
+<span class="functionname">requireWidgetData({requiresList}, callback)</span>
+<br>
+<span class="functionargs"><B>Parameters:</b>
+    <span class="functionarg">requiresList[
+    Array of request objects (a few different types):
+    widget data request
+    {
+        from : String: 3-letter unique widgetId
+        type : 'data' or 'html' returns JSON or HTML respectively
+    }
+    webservice data request:
+    {
+        id : unique (to this call to requireWidgetData) id (you make it up), 
+            used to index the returned data 
+            into the 'data' array in the callback
+        type :"webservice",
+        authentication_token : String: apikey, if you need it,
+            we'll try to sort out the authentication protocols
+        url : url for the webservice call. 
+    }
+]</span> 
+
+   <span class="functionarg">callback(data){
+    data includes all the results from the calls listed in requiresList, indexed by name.
+}</span> 
+</span>
+<span class="functionreturns"><b>Returns: null, use callback</b></span>
+<br>
+<span class="functioninlibrary"><B>In Library:</b> /c5libs/locallib.js</span><br>
+<span class="functionDescription">This function is the magic sauce of C5. It's how you call widget data from one widget to another. It's also how you call webservice data from any API. <BR>
+    A good way to start playing with it is to look at the search examples, and the widgets on individual art object pages. 
+    <BR>You can also use the "Get Data" menu item to automagically add the code snippets to your javascript.
+    <BR><b>Note:</b> Currently we only support GET requests. 
+</span>
+</p>
+
+
+
+
+<p class="functionDef">
+<span class="functionname">pageType()</span>
+<br>
+<span class="functionreturns"><b>Returns:</b> String</span>
+<br>
+<span class="functioninlibrary"><b>In Library:</b>  /c5libs/locallib.js</span><br>
+<span class="functionDescription">Returns the <b>Page Type</b> for this page.<BR>
+Returns empty string if this page has no type (like the home page for example)
+On this page, the page type is "{{pagetype}}"
+</span>
+</p>
+
+<p class="functionDef">
+<span class="functionname">pageId()</span>
+<br>
+<span class="functionreturns"><b>Returns:</b> String</span>
+<br>
+<span class="functioninlibrary"><b>In Library:</b>  /c5libs/locallib.js</span><br>
+<span class="functionDescription">Returns the <b>Page ID</b> for this page.<BR>
+Returns empty string if this page has no ID (like the home page for example)
+On this page, the page type is "{{pageid}}"
+</span>
+</p>
+
+<p class="functionDef">
+<span class="functionname">userName()</span>
+<br>
+<span class="functionreturns"><b>Returns:</b> String</span><BR>
+<span class="functioninlibrary"><b>In Library:</b>  /c5libs/locallib.js</span><br>
+<span class="functionDescription">Returns the <b>User Name</b> of the logged-in user.<BR>
+Returns empty string if there is no logged in user
+For example, right now the userId is {{currentUser.username}}
+</span>
+</p>
+
+<p class="functionDef">
+<span class="functionname">userId()</span>
+<br>
+<span class="functionreturns"><b>Returns:</b> String</span><br>
+<span class="functioninlibrary"><b>In Library:</b>  /c5libs/locallib.js</span><br>
+
+<span class="functionDescription">Returns the <b>User Id</b> of the logged-in user.<BR>
+Returns empty string if there is no logged in user
+</span>
+</p>
+
+<p class="functionDef">
+<span class="functionname">widgetId()</span>
+<br>
+<span class="functionreturns"><b>Returns:</b> String</span>
+<br>
+<span class="functioninlibrary"><b>In Library:</b> /c5libs/locallib.js</span><br>
+<span class="functionDescription">Returns the <b>3-Letter Unique ID</b> of the widget.
+</span>
+</p>
+
+<p class="functionDef">
+<span class="functionname">c5_done()</span>
+<br>
+<span class="functionreturns"><b>Returns:</b> Null</span>
+<br>
+<span class="functioninlibrary"><B>In Library:</b> /c5libs/locallib.js</span><br>
+<span class="functionDescription">Calling this function announces to the system that your code is 'done'<BR>
+    This is necessary for your widget output to be included in other widgets, used as an API, etc.<BR>
+    Sometimes this can go at the bottom of your javascript code, but often it needs to go inside a callback.
+</span>
+</p>
+
+<p class="functionDef">
+<span class="functionname">saveC5data({options}, data, callback)</span>
+<br>
+<span class="functionargs"><b>Parameters:</b>
+    <span class="functionarg">options: {
+    thisUserOnly : true/false (default false) 
+                    save data specifically for this logged-in user
+    thisPageIdOnly : true/false (default true) 
+                    save data specifically for this widget on this page. 
+                    Set to false to save data 
+                    for this widget on all pages 
+                    of the same type
+}</span> 
+    <span class="functionarg">data: {
+the data to save, in JSON format
+    }</span> 
+   <span class="functionarg">callback: function(result)
+{
+    result is the result from MongoDB call, or an error message if it couldn't reach Mongo.
+}</span> 
+
+</span>
+<span class="functionreturns"><B>Returns:</b> Null (use callback instead)</span>
+<br>
+<span class="functioninlibrary"><b>In Library:</b> /c5libs/locallib.js</span><br>
+<span class="functionDescription">
+    If your widget needs some data persistence (say you are saving comments, annotations, or other user entry stuff), then this function (along with getC5Data() ) is your jam.
+</span>
+</p>
+
+<p class="functionDef">
+<span class="functionname">getC5data({options}, callback)</span>
+<br>
+<span class="functionargs"><B>Parameters:</b>
+    <span class="functionarg">options: {
+    thisUserOnly : true/false (default false)
+                    get data specifically for this logged-in user
+    thisPageIdOnly : true/false (default true)
+                    get data specifically for this widget on this page. 
+                    Set to false to get data 
+                    for this widget on all pages 
+                    of the same type
+}</span> 
+
+   <span class="functionarg">callback: function(result)
+{
+    result is the result from MongoDB call, which includes the data.
+}</span> 
+</span>
+<span class="functionreturns"><b>Returns:</b> Null (use callback instead)</span>
+<br>
+<span class="functioninlibrary"><B>In Library:</b> /c5libs/locallib.js</span><br>
+<span class="functionDescription">
+    If your widget needs some data persistence (say you are saving comments, annotations, or other user entry stuff), then this function (along with saveC5Data() ) is your jam.
+</span>
+</p>
+
+
+<p class="functionDef">
+<span class="functionname">elasticsearchInsert({data}, callback)</span>
+<br>
+<span class="functionargs"><B>Parameters:</b>
+    <span class="functionarg">data : {
+Data to insert, in JSON format.
+Will have pageid, pagetype, pageurl, widgetid properties automatically added.
+}</span> 
+
+   <span class="functionarg">callback(results, error, status){
+    results: result from insert to elasticsearch:
+    error: true if there was an error
+    status: status message
+}</span> 
+</span>
+<span class="functionreturns"><b>Returns:</b> null (use callback)</span>
+<br>
+<span class="functioninlibrary"><B>In Library:</b> /c5libs/locallib.js</span><br>
+<span class="functionDescription">C5 uses elasticSearch to empower robust search possibilities. Use this function to add any data to the elasticSearch index. With elasticSearchRequest() you have the ability to query this data any way you want.
+</span>
+</p>
+
+<p class="functionDef">
+<span class="functionname">elasticSearchRequest({query}, callback</span>
+<br>
+<span class="functionargs"><B>Parameters:</b>
+    <span class="functionarg">query{
+        any valid elasticSearch query.
+    }</span> 
+
+   <span class="functionarg">callback(results, error, status){
+    results: result from insert to elasticsearch:
+    error: true if there was an error
+    status: status message
+}</span> 
+</span>
+<span class="functionreturns"><b>Returns: null (use callback)</b></span>
+<br>
+<span class="functioninlibrary"><B>In Library:</b> /c5libs/locallib.js</span><br>
+<span class="functionDescription">This function lets you send any valid query request to elasticSearch, and pass the results directly from Elastic back to the callback function.<BR>
+    OK, elasticSearch can do a LOT, and it's therefore a bit complicated. Check out <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search.html">This Documentation</a> to learn more. Also check out the ElasticSearch example widgets in the library.
+</span>
+</p>
+
+
+
+<p class="functionDef">
+<span class="functionname">$(jQuerySelector).JSONView(data, {options})</span>
+<br>
+<span class="functionargs"><B>Parameters:</b>
+    <span class="functionarg">jQuerySelector: a jQuery Selector for an element in your html panel</span> 
+
+   <span class="functionarg">data: JSON data</span> 
+   <span class="functionarg">options: {
+collapsed - Collapse all nodes when rendering first time, default is false.
+nl2br - Convert new line to &lt;br&gt; in String, default is false.
+recursive_collapser - Collapse nodes recursively, default is false.
+escape - Escape HTML in key, default is true.
+strict - In strict mode, invalid JSON value type will throw a error, default is false.    
+   }</span> 
+</span>
+<span class="functionreturns"><b>Returns: null</b></span>
+<br>
+<span class="functioninlibrary"><B>In Library:</b> /c5libs/jquery.jsonview.min.js</span><br>
+<span class="functionDescription">This is a super handy function from JSONView. It creates a nice collapsable interactive view of the JSON data you pass to it. Comes in very handy as you're developing and debugging a widget that accesses other widgets, or webservices.<BR>
+    Code by Wei Zhu, on GitHub here: <a href="https://github.com/yesmeck/jquery-jsonview">https://github.com/yesmeck/jquery-jsonview</a>
+</span>
+</p>
+
+
+
+
+</template>

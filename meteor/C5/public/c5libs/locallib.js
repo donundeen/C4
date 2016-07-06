@@ -232,12 +232,21 @@ function removeWaitingGif(){
 }
 
 
-function elasticsearchInsert(pagetype, pageid, data, callback){
+function elasticsearchInsert(data, callback){
     var url = "/elasticsearch_proxy";
-    var doc = {type : pagetype,
-                id : pageid,
-                data: data
-                }
+    var doc = data;
+    var pageurl = "/";
+    if(pageType() != ""){
+        pageurl += pageType();
+    }
+    if(pageId() != ""){
+        pageurl += "/" + pageId();
+    }
+    doc.pagetype = pageType();
+    doc.pageid = pageId();
+    doc.widgetid = widgetId();
+    doc.pageurl = pageurl;
+
     console.log("inserting doc");
     console.log(doc);
     $.ajax({
@@ -265,8 +274,6 @@ function elasticsearchInsert(pagetype, pageid, data, callback){
 
 function elasticsearchRequest(_query, callback){
     var url = "/elasticsearch_proxy?query="+encodeURIComponent(JSON.stringify(_query));
-
-    var data =  {query : _query};
 
     console.log("sending data");
     console.log(data);
