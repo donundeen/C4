@@ -1,3 +1,12 @@
+
+.functionsIntro {
+    margin: 5px;
+}
+
+.functionDef {
+    margin: 10px;
+}
+
 .functionarg {
     display: block;
     unicode-bidi: embed;
@@ -12,9 +21,18 @@
     font-weight: bold;
     font-family: monospace;
     font-size: 1.5em;
+    margin-left: -5px;
 }
 
-.functionDef {
-    margin-top: 10px;
-    margin-bottom: 10px;
+.functionDescription {
+   font-family: sans-serif;
+   font-style: italic;
+}
+.functionreturns {
+   font-family: sans-serif;
+
+}
+.functioninlibrary {
+   font-family: sans-serif;
+
 }

@@ -1,6 +1,5 @@
 <template name="functions">
-<BR>
-<P>In your jsbin edit window, in the upper left, is a button that says "Add Library"<BR>
+<P class="functionsIntro">In your jsbin edit window, in the upper left, is a button that says "Add Library"<BR>
     This provides access to a LOT of javascript libraries you can ue in your widget. <BR>
     Selecting one adds it to your html &lt;head&gt; tag. <BR>
     Most of these libraries are popular third-party packages, standard with JSBin. Explore them at your leisure.<BR><BR>
@@ -16,30 +15,31 @@ The useful functions from those libraries are described here.<BR>
 <span class="functionname">requireWidgetData({requiresList}, callback)</span>
 <br>
 <span class="functionargs"><B>Parameters:</b>
-    <span class="functionarg">requiresList[
+    <span class="functionarg">requiresList : [
     Array of request objects (a few different types):
-    widget data request
+    widget data request:
     {
         from : String: 3-letter unique widgetId
         type : 'data' or 'html' returns JSON or HTML respectively
     }
     webservice data request:
     {
-        id : unique (to this call to requireWidgetData) id (you make it up), 
+        id : String: unique id 
+            (you make it up, needs to be unique to this call to requireWidgetData), 
             used to index the returned data 
             into the 'data' array in the callback
-        type :"webservice",
+        type : "webservice",
         authentication_token : String: apikey, if you need it,
             we'll try to sort out the authentication protocols
         url : url for the webservice call. 
     }
 ]</span> 
 
-   <span class="functionarg">callback(data){
+   <span class="functionarg">callback :  function(data){
     data includes all the results from the calls listed in requiresList, indexed by name.
 }</span> 
 </span>
-<span class="functionreturns"><b>Returns: null, use callback</b></span>
+<span class="functionreturns"><b>Returns:</b> null, use callback</span>
 <br>
 <span class="functioninlibrary"><B>In Library:</b> /c5libs/locallib.js</span><br>
 <span class="functionDescription">This function is the magic sauce of C5. It's how you call widget data from one widget to another. It's also how you call webservice data from any API. <BR>
@@ -124,7 +124,7 @@ Returns empty string if there is no logged in user
 <span class="functionname">saveC5data({options}, data, callback)</span>
 <br>
 <span class="functionargs"><b>Parameters:</b>
-    <span class="functionarg">options: {
+    <span class="functionarg">options : {
     thisUserOnly : true/false (default false) 
                     save data specifically for this logged-in user
     thisPageIdOnly : true/false (default true) 
@@ -133,11 +133,10 @@ Returns empty string if there is no logged in user
                     for this widget on all pages 
                     of the same type
 }</span> 
-    <span class="functionarg">data: {
-the data to save, in JSON format
-    }</span> 
-   <span class="functionarg">callback: function(result)
-{
+    <span class="functionarg">data : {
+    the data to save, in JSON format
+}</span> 
+   <span class="functionarg">callback : function(result){
     result is the result from MongoDB call, or an error message if it couldn't reach Mongo.
 }</span> 
 
@@ -154,7 +153,7 @@ the data to save, in JSON format
 <span class="functionname">getC5data({options}, callback)</span>
 <br>
 <span class="functionargs"><B>Parameters:</b>
-    <span class="functionarg">options: {
+    <span class="functionarg">options : {
     thisUserOnly : true/false (default false)
                     get data specifically for this logged-in user
     thisPageIdOnly : true/false (default true)
@@ -183,11 +182,11 @@ the data to save, in JSON format
 <br>
 <span class="functionargs"><B>Parameters:</b>
     <span class="functionarg">data : {
-Data to insert, in JSON format.
-Will have pageid, pagetype, pageurl, widgetid properties automatically added.
+    Data to insert, in JSON format.
+    Will have pageid, pagetype, pageurl, widgetid properties automatically added.
 }</span> 
 
-   <span class="functionarg">callback(results, error, status){
+   <span class="functionarg">callback : function(results, error, status){
     results: result from insert to elasticsearch:
     error: true if there was an error
     status: status message
@@ -201,14 +200,14 @@ Will have pageid, pagetype, pageurl, widgetid properties automatically added.
 </p>
 
 <p class="functionDef">
-<span class="functionname">elasticSearchRequest({query}, callback</span>
+<span class="functionname">elasticSearchRequest({query}, callback)</span>
 <br>
 <span class="functionargs"><B>Parameters:</b>
-    <span class="functionarg">query{
+    <span class="functionarg">query : {
         any valid elasticSearch query.
-    }</span> 
+}</span> 
 
-   <span class="functionarg">callback(results, error, status){
+   <span class="functionarg">callback : function(results, error, status){
     results: result from insert to elasticsearch:
     error: true if there was an error
     status: status message
@@ -230,14 +229,16 @@ Will have pageid, pagetype, pageurl, widgetid properties automatically added.
 <span class="functionargs"><B>Parameters:</b>
     <span class="functionarg">jQuerySelector: a jQuery Selector for an element in your html panel</span> 
 
-   <span class="functionarg">data: JSON data</span> 
-   <span class="functionarg">options: {
-collapsed - Collapse all nodes when rendering first time, default is false.
-nl2br - Convert new line to &lt;br&gt; in String, default is false.
-recursive_collapser - Collapse nodes recursively, default is false.
-escape - Escape HTML in key, default is true.
-strict - In strict mode, invalid JSON value type will throw a error, default is false.    
-   }</span> 
+   <span class="functionarg">data : {
+    JSON data
+}</span> 
+   <span class="functionarg">options : {
+    collapsed : true/false : Collapse all nodes when rendering first time, default is false.
+    nl2br : true/false : Convert new line to &lt;br&gt; in String, default is false.
+    recursive_collapser  : true/false : Collapse nodes recursively, default is false.
+    escape : true/false : Escape HTML in key, default is true.
+    strict : true/false : In strict mode, invalid JSON value type will throw a error, default is false.    
+}</span> 
 </span>
 <span class="functionreturns"><b>Returns: null</b></span>
 <br>
