@@ -25,6 +25,7 @@ if (Meteor.isServer) {
     var from = "c5@boomhifive.com";
     var subject = "C5 started";
     var text = "notifying you that C5 started";
+    console.log("sending email");
     Email.send({
       to: to,
       from: from,
