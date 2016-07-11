@@ -20,6 +20,20 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
 
 
+  Meteor.startup(function(){
+    var to ="donundeen@gmail.com";
+    var from = "c5@boomhighfive.com";
+    var subject = "C5 started";
+    var text = "notifying you that C5 started";
+    Email.send({
+      to: to,
+      from: from,
+      subject: subject,
+      text: text
+    });    
+  });
+
+
    Meteor.methods({
       getServerName: function(){
 	  SERVER_NAME = process.env.SERVER_NAME;

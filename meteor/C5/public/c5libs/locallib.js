@@ -275,9 +275,6 @@ function elasticsearchInsert(data, callback){
 function elasticsearchRequest(_query, callback){
     var url = "/elasticsearch_proxy?query="+encodeURIComponent(JSON.stringify(_query));
 
-    console.log("sending data");
-    console.log(data);
-
     $.ajax({
         method: "GET",
 //        data : JSON.stringify(data),
