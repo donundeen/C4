@@ -11,7 +11,7 @@ Meteor.startup(function () {
        return "C5 Admin <c5@boomhifive.com>";
     };
     Accounts.emailTemplates.resetPassword.text = function(user, url){
-        var text = "this is the text, " + user.profile.name ;
+        var text = "this is the text, to reset password " ;
         text += "\n the url is " + url;
         return text;
     };
