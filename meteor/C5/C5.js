@@ -22,7 +22,7 @@ if (Meteor.isServer) {
 
   Meteor.startup(function(){
     var to ="donundeen@gmail.com";
-    var from = "c5@boomhighfive.com";
+    var from = "c5@boomhifive.com";
     var subject = "C5 started";
     var text = "notifying you that C5 started";
     Email.send({
