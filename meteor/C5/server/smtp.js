@@ -10,7 +10,7 @@ Meteor.startup(function () {
        // Overrides value set in Accounts.emailTemplates.from when resetting passwords
        return "C5 Admin <c5@boomhifive.com>";
     };
-    Accounts..emailTemplates.resetPassword.text = function(user, url){
+    Accounts.emailTemplates.resetPassword.text = function(user, url){
         var text = "this is the text, " + user.profile.name ;
         text += "\n the url is " + url;
         return text;
