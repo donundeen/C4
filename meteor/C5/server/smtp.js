@@ -11,11 +11,10 @@ Meteor.startup(function () {
        return "C5 Admin <c5@boomhifive.com>";
     };
     Accounts.emailTemplates.resetPassword.text = function(user, url){
-        var text = "this is the text, to reset password " ;
-        text += "\n the url is " + url;
+        var text = "Heard you need to reset your password. No biggie, it happens." ;
+        text += "\n Just open this url to reset your password: " + url;
         return text;
     };
-
 
     process.env.MAIL_URL = 'smtp://c5@boomhifive.com:Un1c0rn5@smtp.sendgrid.net:587';
 });
