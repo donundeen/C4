@@ -37,18 +37,18 @@ if (Meteor.isServer) {
 
    Meteor.methods({
       getServerName: function(){
-	  SERVER_NAME = process.env.SERVER_NAME;
-	  if(typeof(SERVER_NAME)==="undefined"){
-	      SERVER_NAME = "localhost";
-	  }
+    SERVER_NAME = process.env.SERVER_NAME;
+    if(typeof(SERVER_NAME)==="undefined"){
+        SERVER_NAME = "localhost";
+    }
           return SERVER_NAME;
       }, 
        getServerIP :  function(){
-	   SERVER_IP = process.env.SERVER_IP;
-	   if(typeof(SERVER_IP)==="undefined"){
-	       SERVER_IP = "localhost";
-	   }
-	   return SERVER_IP;
+     SERVER_IP = process.env.SERVER_IP;
+     if(typeof(SERVER_IP)==="undefined"){
+         SERVER_IP = "localhost";
+     }
+     return SERVER_IP;
        }
    });
 }

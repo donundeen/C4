@@ -3,7 +3,14 @@
 
 
 <template name="widget">
-  <div class="widgetContainer container-item visibility_{{visibility}}"  style="{{usableWidgetStyle}}" id="widgetContainer_{{url}}" data-userid="user_{{currentUser._id}}" data-username="user_{{currentUser.username}}">
+<div class="grid-stack-item"
+  data-widget-id="{{url}}" 
+  data-gs-auto-position="true" 
+  data-gs-width="{{width_in_cells}}" 
+  data-gs-height="{{height_in_cells}}">
+  <div class="grid-stack-item-content">
+
+<div class="widgetContainer container-item visibility_{{visibility}}"  style="{{usableWidgetStyle}}" id="widgetContainer_{{url}}" data-userid="user_{{currentUser._id}}" data-username="user_{{currentUser.username}}" data-url="{{url}}">
 
     <!-- widget header, the menu -->
     <!-- display-mode header -->
@@ -251,9 +258,13 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
     <!-- end of menu header -->
 
     <div class="widgetBody" >
-      <a class="jsbin jsbin-embed jsbin-embed-dyn" id="jsbin_{{url}}" href="/jsbin/{{url}}/latest/edit?output&height={{jsbinHeight}}&pagetype={{pagetype}}&pageid={{pageid}}">JS Bin....{{url}}:</a>
+      <a class="jsbin jsbin-embed jsbin-embed-dyn" id="jsbin_{{url}}" href="/jsbin/{{url}}/latest/edit?output&pagetype={{pagetype}}&pageid={{pageid}}">JS Bin....{{url}}:</a>
 
       <script src="/jsbin/js/embed.js"></script>
     </div>
   </div>
+
+
+  </div>
+</div>
 </template>

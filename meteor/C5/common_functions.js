@@ -150,6 +150,19 @@ if (Meteor.isClient) {
       doc.cacheConfig.ttl = 60;
     }
 
+    if(typeof doc.width_in_cells == "undefined"){
+      doc.width_in_cells = 12;
+    }
+    if(typeof doc.height_in_cells == "undefined"){
+      doc.height_in_cells = 5;
+    }
+    if(doc.width_in_cells == 0){
+      doc.width_in_cells = 1;
+    }
+    if(doc.height_in_cells == 0){
+      doc.height_in_cells = 1;
+    }
+
 
     return doc;
   }

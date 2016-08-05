@@ -3,25 +3,32 @@ if (Meteor.isClient) {
 
 /////// FUNCTION DEFS
   var dix = 0;
+
   function setDisplayModeOn(widgetData, iframeElement, widgetElement, menu, bin, jsbin, widgetid){
 
     console.log("setting display mode on");
+
+
+
+    var grid = $(".grid-stack").data("gridstack");
+    var griditem = $(widgetElement).parent().parent();
+
+    grid.resize(griditem, widgetData.width_in_cells, widgetData.height_in_cells);
+
+
     dix++;
     var di = dix;
     var newbintop = 0;
     $(menu).hide();
-
-    if(!widgetData.displayUsableWidth || widgetData.displayUsableWidth.trim() == ""){
-      widgetData.displayUsableWidth = "50%";
-    }
 
     $(".editmodeonly", widgetElement).hide();
     $(".displaymodeonly", widgetElement).show();
     iframeElement.oldbintop = $(bin).css("top");
     $(bin).css("top", newbintop);
     $(widgetElement).attr("style", widgetData.usableWidgetStyle);
-    $(widgetElement).width(widgetData.displayUsableWidth);
-    $(widgetElement).height(widgetData.displayUsableHeight);
+
+
+
     $(widgetElement).css("border-radius", "10px");
     $(".widgetDisplayHeader", widgetElement).hide();  
 
@@ -34,16 +41,33 @@ if (Meteor.isClient) {
     $(".lock", widgetElement).show();
     $(".unlock", widgetElement).hide();
     $(widgetElement).data("mode", "display");
+    $(iframeElement).css("border-radius", "10px");
 
-    console.log("setting display mode");
+    var initialH = $(griditem).height();
+    var finalh = initialH;
+    var initialW = $(griditem).width();
+    var finalw = initialW;
+    $(widgetElement).width(finalw - 35);
+    $(widgetElement).height(finalh - 15);
 
     $(iframeElement).css("max-height", "");
     $(iframeElement).css("max-width", "");
-    $(iframeElement).width($(widgetElement).width());
-    $(iframeElement).height($(widgetElement).height() - 10);
-    $(iframeElement).css("border-radius", "10px");
-    $(iframeElement).css("max-height", $(widgetElement).height() - 10 );
+    $(iframeElement).css("min-height", "");
+    $(iframeElement).css("min-width", "");
 
+    $(iframeElement).width(finalw - 35);
+    $(iframeElement).css("max-width", finalw - 35 );
+    $(iframeElement).height(finalh - 25);
+    $(iframeElement).css("max-height", finalh - 25 );
+    $(iframeElement).css("min-height", finalh - 25 );
+
+
+    console.log("DDDDDDDDDDDDDDDDDD" + $(widgetElement).data("url"));
+    console.log($(griditem).height());
+    console.log($(widgetElement).height());
+    console.log($(iframeElement).height());
+
+/*
     (function(wn, wd, ifr){
       $(wn).resize(function(){
         console.log("display mode resizing");
@@ -51,15 +75,19 @@ if (Meteor.isClient) {
         $(ifr).height($(wd).height() - 10);
       });
     })(window, widgetElement, iframeElement);
-
-    console.log($(widgetElement).width() + ", " + $(widgetElement).height());
-    console.log($(iframeElement).width() + ", " + $(iframeElement).height());
+*/
 
   }
 
 
   function setEditModeOn(widgetData, iframeElement, widgetElement, menu, bin, jsbin){
 
+
+    console.log("setting edit mode");
+
+
+    var grid = $(".grid-stack").data("gridstack");
+    var griditem = $(widgetElement).parent().parent();
     if(jsbin){
       jsbin.panels.show("html");
       jsbin.panels.show("javascript");
@@ -70,22 +98,36 @@ if (Meteor.isClient) {
 
     var newbintop = 0;
 
+    grid.resize(griditem, 12, 6);
+
     // put it in EDIT MODE
     $(menu).show();
     $(".editmodeonly", widgetElement).show();
     $(".displaymodeonly", widgetElement).hide();
     $(bin).css("top", iframeElement.oldbintop);
-    $(widgetElement).width($(window).width());
-    $(widgetElement).height($(window).height());
     $(widgetElement).css("border-radius", "10px");
-
-    console.log("setting edit mode");
-
-    $(iframeElement).css("max-height", "");
-    $(iframeElement).width($(widgetElement).width());
-    $(iframeElement).height($(widgetElement).height() - 80);
     $(iframeElement).css("border-radius", "10px");
 
+
+    var initialH = $(griditem).height();
+    var finalh = initialH;
+    var initialW = $(griditem).width();
+    var finalw = initialW;
+    $(widgetElement).width(finalw - 25);
+    $(widgetElement).height(finalh - 15);
+
+    $(iframeElement).css("max-height", "");
+    $(iframeElement).css("max-width", "");
+    $(iframeElement).css("min-height", "");
+    $(iframeElement).css("min-width", "");
+
+    $(iframeElement).width(finalw - 25);
+    $(iframeElement).css("max-width", finalw - 25 );
+    $(iframeElement).height(finalh - 25);
+    $(iframeElement).css("max-height", finalh - 25 );
+    $(iframeElement).css("min-height", finalh - 25 );
+
+/*
     (function(wn, wd, ifr){
       $(wn).resize(function(){
         console.log("edit mode resizing");
@@ -94,7 +136,7 @@ if (Meteor.isClient) {
         $(ifr).height($(wd).height());
       });
     })(window, widgetElement, iframeElement);
-
+*/
 
   }
 /////// END FUNCTION DEFS
@@ -104,6 +146,118 @@ if (Meteor.isClient) {
 /////// WIDGET ONRENDERED
   // In the client code, below everything else
   Template.widget.onRendered(function(){
+
+    // setting up resizable grid stuff
+    var options = {
+      width: 12,
+      cellHeight: 60,
+      alwaysShowResizeHandle: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+      resizable: {
+          handles: 'e, se, s, sw, w'
+      }
+    };
+    $('.grid-stack').gridstack(options);
+  //  var grid = $('.grid-stack').data('gridstack');
+//    var cellheight = grid.cellHeight();
+
+    console.log($('.grid-stack').data("inited"));
+    if(!$('.grid-stack').data("inited")){
+      console.log("initting grid");
+      $(window).resize(function(evt){
+        console.log("resizing");
+        console.log(evt);
+        if(evt.target == window){
+          var grid = $(".grid-stack");
+          $(".grid-stack-item").each(function(index){
+            var element = this;
+            var initialH = $(element).height();
+            var finalh = initialH;
+            var initialW = $(element).width();
+            var finalw = initialW;
+
+            var widgetElement = $(".widgetContainer",element);
+            var iframeElement = $(".jsbin-embed", element);
+
+
+            $(widgetElement).width(finalw - 25);
+            $(widgetElement).height(finalh - 15);
+
+            $(iframeElement).css("max-height", "");
+            $(iframeElement).css("max-width", "");
+            $(iframeElement).css("min-height", "");
+            $(iframeElement).css("min-width", "");
+
+            $(iframeElement).width(finalw - 35);
+            $(iframeElement).css("max-width", finalw - 35 );
+            $(iframeElement).height(finalh - 25);
+            $(iframeElement).css("max-height", finalh - 25 );
+
+            var cellw = $(grid).data("gridstack").cell_width();
+            var cellh = $(grid).data("gridstack").cell_height();
+            var cells_wide = Math.round(finalw / cellw);
+            var cells_high = Math.round(finalh / cellh);
+          });
+        }
+      });
+
+
+      $('.grid-stack').on('resizestop', function(event, items) {
+        var grid = this;
+        var element = event.target;
+        $(element).css("background-color", "red");
+        var widgetElement = $(".widgetContainer",element);
+        var iframeElement = $(".jsbin-embed", element);
+
+
+        // need to wait just a bit for the size to quantize to the grid...
+        setTimeout(function(){
+          var initialH = $(element).height();
+          var finalh = initialH;
+          var initialW = $(element).width();
+          var finalw = initialW;
+
+
+          var widgetID = $(widgetElement).data("url");
+          console.log(widgetID);
+
+          var widget = Widgets.findOne({url : widgetID}); //.map(setWidgetDefaults);
+
+          console.log(widget);
+
+          $(widgetElement).width(finalw - 35);
+          $(widgetElement).height(finalh - 15);
+
+          $(iframeElement).css("max-height", "");
+          $(iframeElement).css("max-width", "");
+          $(iframeElement).css("min-height", "");
+          $(iframeElement).css("min-width", "");
+
+          $(iframeElement).width(finalw - 35);
+          $(iframeElement).css("max-width", finalw - 35 );
+          $(iframeElement).height(finalh - 25);
+          $(iframeElement).css("max-height", finalh - 25 );
+
+          var cellw = $(grid).data("gridstack").cell_width();
+          var cellh = $(grid).data("gridstack").cell_height();
+          var cells_wide = Math.round(finalw / cellw);
+          var cells_high = Math.round(finalh / cellh);
+          widget.width_in_cells= cells_wide;
+          widget.height_in_cells = cells_high;
+//          console.log(widget);
+
+        //  console.log("updating " + widget._id);
+          Widgets.update(widget._id, widget);
+          console.log("updated");
+
+        }, 150);
+
+      });
+
+      $('.grid-stack').data("inited", true);
+    }
+    // end resizable grid setup
+
+
 
     (function(widget){
       var thisid = widget.data._id;
@@ -521,6 +675,7 @@ if (Meteor.isClient) {
 
 ////// HELPERS
 
+  widgetIncrement = 0;
   Template.widget.helpers({
     otherwidgets: function () {
         // Otherwise, return all of the tasks
@@ -560,6 +715,17 @@ if (Meteor.isClient) {
       }else{
         return false;
       }
+    },
+
+    widgetIncrement : function(){
+      var ret = widgetIncrement;
+      if(typeof this.widgetIncrement =="undefined"){
+        this.widgetIncrement = widgetIncrement;
+        widgetIncrement++;
+      }else{
+        ret = this.widgetIncrement;
+      }
+      return ret;
     },
 
     userXtras : function(){
