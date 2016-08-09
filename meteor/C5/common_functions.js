@@ -93,6 +93,25 @@ if (Meteor.isClient) {
                     visibility: "private",
                     rand: Math.random() };
         Widgets.insert(newWidget);
+
+        var grid = $(".grid-stack").data('gridstack');
+        var widgetElement = $("#widgetContainer_"+results.data.url);
+
+        console.log("added ");
+        console.log(widgetElement);
+        /*
+        var griditem = $(widgetElement).parent().parent();       
+        $(griditem).data("gs-width", "12");
+        $(griditem).data("gs-height", "5");
+        $(griditem).data("gs-auto-position", "true");
+        grid.makeWidget(griditem);  
+        grid.resize(griditem, 12, 5);
+
+        var next = $(".grid-stack-item").get(0)  ;
+        console.log("moving next" + $(next).data("widget-id"));
+        console.log(next);
+        grid.move(next, 0, 6);
+        */
       });
       giphy_modal("copy", "New Widget Copied From Template");
 
@@ -161,6 +180,18 @@ if (Meteor.isClient) {
     }
     if(doc.height_in_cells == 0){
       doc.height_in_cells = 1;
+    }
+    if(typeof doc.width_in_px == "undefined"){
+      doc.width_in_px = 640;
+    }
+    if(typeof doc.height_in_px == "undefined"){
+      doc.height_in_px = 320;
+    }
+    if(doc.width_in_px == 0){
+      doc.width_in_px = 640;
+    }
+    if(doc.height_in_px == 0){
+      doc.height_in_px = 320;
     }
 
 

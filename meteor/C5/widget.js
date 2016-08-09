@@ -1,4 +1,4 @@
-
+ 
 if (Meteor.isClient) {
 
 /////// FUNCTION DEFS
@@ -15,6 +15,8 @@ if (Meteor.isClient) {
 
     grid.resize(griditem, widgetData.width_in_cells, widgetData.height_in_cells);
 
+
+    // get the size of the navbar, subtract from height of iframe
 
     dix++;
     var di = dix;
@@ -147,37 +149,98 @@ if (Meteor.isClient) {
   // In the client code, below everything else
   Template.widget.onRendered(function(){
 
+    console.log("in onrendered");
+    var context = Template.currentData();
+
+    console.log(context);
+
+    console.log(this);
+
+    var firstNode = this.firstNode;
+    var firstNodeId = $(firstNode).data("widget-id");
+    var lastNode = this.lastNode;
+    var lastNodeId = $(lastNode).data("widget-id");
+    console.log(firstNodeId);
+    console.log(lastNodeId);
+
+
+
     // setting up resizable grid stuff
-    var options = {
-      width: 12,
-      cellHeight: 60,
-      alwaysShowResizeHandle: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
-      resizable: {
-          handles: 'e, se, s, sw, w'
-      }
-    };
-    $('.grid-stack').gridstack(options);
-  //  var grid = $('.grid-stack').data('gridstack');
-//    var cellheight = grid.cellHeight();
+    if(!$('.grid-stack').data("inited")){
+      console.log("initting grid, widget " + this.data._id);
+
+      var options = {
+        width: 12,
+    //    auto: false,
+        cellHeight: 60,
+        cellWidth: 60,
+        alwaysShowResizeHandle: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+        resizable: {
+            handles: 'e, se, s, sw, w'
+        }
+      };
+      $('.grid-stack').gridstack(options);
+    }
+    var grid = $(".grid-stack").data('gridstack');
+
+    var widgetElement = $("#widgetContainer_"+this._id);
+    var griditem = $(widgetElement).parent().parent();
+
+    // find out if the widget has been added to the grid.
+
+    var gridnodes = grid.grid.nodes;
+
+
+    console.log("number of grid items " + gridnodes.length);
+    console.log("number of widgets " + $(".grid-stack-item").size());
+
+
+   // grid.makeWidget(griditem);  
+
+/*
+    if(gridnodes.length != $(".grid-stack-item").size()){
+//      grid.batchUpdate();
+      console.log("adding itemt to grid");
+      var next = $(".grid-stack-item").get(1);
+      grid.makeWidget(griditem);  
+      $(next).data("gs-y","6");
+      $(next).data("foo","bat");
+      grid.move(next, 0, 6);
+      grid.update(next);
+//      grid.commit();
+//      grid._updateElement(next,function(){console.log("item updated");});
+    }
+*/
+    console.log("2 number of grid items " +  grid.grid.nodes.length);
+    console.log("2 number of widgets " + $(".grid-stack-item").size());
+    console.log($(".grid-stack-item").get(1));
+    console.log($(".grid-stack-item").get(0));
+    console.log($(".grid-stack-item").get(2));
+
+    console.log(grid);
+
 
     console.log($('.grid-stack').data("inited"));
     if(!$('.grid-stack').data("inited")){
       console.log("initting grid");
       $(window).resize(function(evt){
-        console.log("resizing");
-        console.log(evt);
         if(evt.target == window){
-          var grid = $(".grid-stack");
+          console.log("resizing");
+          console.log(evt);
+          var grid = $(".grid-stack").data("gridstack");
           $(".grid-stack-item").each(function(index){
             var element = this;
             var initialH = $(element).height();
             var finalh = initialH;
             var initialW = $(element).width();
             var finalw = initialW;
+            var cellw = grid.cellWidth();
+            var cellh = grid.cellHeight();
+            var cells_wide = $(element).data("gs-width");
+            var cells_high = $(element).data('gs-height');
 
             var widgetElement = $(".widgetContainer",element);
             var iframeElement = $(".jsbin-embed", element);
-
 
             $(widgetElement).width(finalw - 25);
             $(widgetElement).height(finalh - 15);
@@ -192,10 +255,6 @@ if (Meteor.isClient) {
             $(iframeElement).height(finalh - 25);
             $(iframeElement).css("max-height", finalh - 25 );
 
-            var cellw = $(grid).data("gridstack").cell_width();
-            var cellh = $(grid).data("gridstack").cell_height();
-            var cells_wide = Math.round(finalw / cellw);
-            var cells_high = Math.round(finalh / cellh);
           });
         }
       });
@@ -204,21 +263,28 @@ if (Meteor.isClient) {
       $('.grid-stack').on('resizestop', function(event, items) {
         var grid = this;
         var element = event.target;
-        $(element).css("background-color", "red");
+        console.log("resizestop");
         var widgetElement = $(".widgetContainer",element);
         var iframeElement = $(".jsbin-embed", element);
 
 
         // need to wait just a bit for the size to quantize to the grid...
         setTimeout(function(){
+
+          console.log("updating size");
+          console.log(element);
+
+          console.log($(element));
+
           var initialH = $(element).height();
           var finalh = initialH;
           var initialW = $(element).width();
           var finalw = initialW;
 
 
+          console.log("setting to  "  + finalw);
+
           var widgetID = $(widgetElement).data("url");
-          console.log(widgetID);
 
           var widget = Widgets.findOne({url : widgetID}); //.map(setWidgetDefaults);
 
@@ -237,19 +303,29 @@ if (Meteor.isClient) {
           $(iframeElement).height(finalh - 25);
           $(iframeElement).css("max-height", finalh - 25 );
 
-          var cellw = $(grid).data("gridstack").cell_width();
-          var cellh = $(grid).data("gridstack").cell_height();
-          var cells_wide = Math.round(finalw / cellw);
-          var cells_high = Math.round(finalh / cellh);
+          var cellw = $(grid).data("gridstack").opts.cellWidth;
+          var cellh = $(grid).data("gridstack").opts.cellHeight;
+          var cells_wide = $(element).data("gs-width");
+          var cells_high = $(element).data('gs-height');
+
+          console.log($(grid).data("gridstack"));
+
+          console.log("finalw " + finalw);
+          console.log("finalh " + finalh);
+          console.log("cellw " + cellw);
+          console.log("cellh " + cellh);
+
           widget.width_in_cells= cells_wide;
           widget.height_in_cells = cells_high;
-//          console.log(widget);
+          widget.width_in_px = finalw;
+          widget.height_in_px = finalh;
+          console.log(widget);
 
         //  console.log("updating " + widget._id);
           Widgets.update(widget._id, widget);
           console.log("updated");
 
-        }, 150);
+        }, 350);
 
       });
 
@@ -373,6 +449,14 @@ if (Meteor.isClient) {
     },
 
     "click .delete": function () {
+
+      var grid = $(".grid-stack").data("gridstack");
+
+      var widgetElement = $("#widgetContainer_"+this._id);
+      var griditem = $(widgetElement).parent().parent();
+
+      grid.removeWidget(griditem, true);
+
       if(this.isTemplate){
         this.pagetype = "template";
         Widgets.update(this._id, this);
@@ -736,6 +820,12 @@ if (Meteor.isClient) {
       return getUserXtras().godmode;
 
     }    
+  });
+
+
+
+  Template.allWidgetsLoaded.onRendered(function(){
+    console.log("aaaaaall widgets loaded");
   });
   //////// END HELPERS
 }
