@@ -19,7 +19,6 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
 
-
   Meteor.startup(function(){
     var to ="donundeen@gmail.com";
     var from = "c5@boomhifive.com";
@@ -182,24 +181,28 @@ if (Meteor.isClient) {
                 ]
               };
 
-        return Widgets.find(find, {sort: {sort_order : 1, createdAt: -1}}).map(setWidgetDefaults); 
+        var results = Widgets.find(find, {sort: {sort_order : 1, createdAt: -1}}).map(setWidgetDefaults); 
+        return results;
     },
     widgetTemplates: function () {
       // Otherwise, return all of the tasks
-      return Widgets.find({isTemplate : true}, {sort: {createdAt: -1}}).map(setWidgetDefaults);
+      var results = Widgets.find({isTemplate : true}, {sort: {createdAt: -1}}).map(setWidgetDefaults);
+      return results;
     },
     libraryWidgets: function () {
       // Otherwise, return all of the tasks
       var find = {inLibrary: true};
       find["createdBy.userid"] = Meteor.userId();
-      return Widgets.find(find, {sort: {createdAt: -1}}).map(setWidgetDefaults);
+      var results = Widgets.find(find, {sort: {createdAt: -1}}).map(setWidgetDefaults);
+      return results;
     },    
     thisPageWidgets: function () {
       // Otherwise, return all of the tasks
       var find = {this_page_only: true,
                 pagetype : pageinfo().pagetype,
                 pageid : pageinfo().pageid};
-      return Widgets.find(find, {sort: {sort_order : 1, createdAt: -1}}).map(setWidgetDefaults);
+      var results = Widgets.find(find, {sort: {sort_order : 1, createdAt: -1}}).map(setWidgetDefaults);
+      return results;
     },
 
     userXtras : function(){
@@ -208,7 +211,6 @@ if (Meteor.isClient) {
 
     godmode : function(){
       return getUserXtras().godmode;
-
     }
 
   });
@@ -219,6 +221,7 @@ if (Meteor.isClient) {
   Template.body.onRendered(function(){
     //$(".tooltip-right").tooltip({placement: "right"});
   //  $("[title]").tooltip({placement: "auto"});
+    console.log("555555555555C5 rendered");
   });
 ////// END ONRENDERED
 
