@@ -81,6 +81,11 @@ if (Meteor.isClient) {
     $(widgetElement).css("border-radius", "10px");
     $(iframeElement).css("border-radius", "10px");
 
+    // ".navbar-collapse"
+    var height_adjust = $(".navbar-collapse", widgetElement).height() - 20;
+    // adjust for height of menu
+    console.log(height_adjust);
+
 
     var initialH = $(griditem).height();
     var finalh = initialH;
@@ -96,7 +101,7 @@ if (Meteor.isClient) {
 
     $(iframeElement).width(finalw - 25);
     $(iframeElement).css("max-width", finalw - 25 );
-    $(iframeElement).height(finalh - 25);
+    $(iframeElement).height(finalh - 25 - height_adjust);
     $(iframeElement).css("max-height", finalh - 25 );
     $(iframeElement).css("min-height", finalh - 25 );
 
