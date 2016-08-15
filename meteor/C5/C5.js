@@ -252,12 +252,8 @@ if (Meteor.isClient) {
     },
 
     "click .godmode_check" : function(e, t){
-      console.log("clicked");
-      console.log(e.target.checked);
 //      console.log(t); 
-console.log("updating  " + Meteor.userId() + " to " + e.target.checked);
       UserXtras.update({_id : Meteor.userId() }, {$set : {godmode : e.target.checked}});
-
     },
 
     'click .copy_from_template' : function(){

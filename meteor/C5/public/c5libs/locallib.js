@@ -136,9 +136,7 @@ function widgetData(widgetName, callback){
         }
         var newObj = false;
         try{
-            console.log("going to parse data");
             var newObj = JSON.parse(datastring);
-            console.log("got data, calling callback");
         }catch(e){
             console.log("error parsing data");
             console.log(datastring);
@@ -246,9 +244,6 @@ function elasticsearchInsert(data, callback){
     doc.pageid = pageId();
     doc.widgetid = widgetId();
     doc.pageurl = pageurl;
-
-    console.log("inserting doc");
-    console.log(doc);
     $.ajax({
         method : "POST",
         data : JSON.stringify(doc),
@@ -256,7 +251,7 @@ function elasticsearchInsert(data, callback){
         contentType: "application/json; charset=utf-8",        
         url : url,
         success : function(result){
-            console.log("got result for elasticsearch call to " + url);
+//            console.log("got result for elasticsearch call to " + url);
             callback(result, false, false);
         },
         error : function (xhr, status, error) {
@@ -282,7 +277,7 @@ function elasticsearchRequest(_query, callback){
         contentType: "application/json; charset=utf-8",        
         url : url,
         success : function(result){
-            console.log("got result for elasticsearchRequest call to " + url);
+//            console.log("got result for elasticsearchRequest call to " + url);
             callback(result, false, false);
         },
         error : function (xhr, status, error) {
@@ -380,7 +375,6 @@ function requireWidgetData(requiresList, callback){
         callback(resultsSet);
     }
     $.each(requiresList, function(index, item){
-//        console.log(item);
         if(item.type == "data"){
             widgetData(item.from, function(response){
                 if(!resultsSet[item.from]){

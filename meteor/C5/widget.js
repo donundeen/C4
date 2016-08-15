@@ -4,17 +4,11 @@ if (Meteor.isClient) {
 /////// FUNCTION DEFS
   var dix = 0;
 
-  function setDisplayModeOn(widgetData, iframeElement, widgetElement, menu, bin, jsbin, widgetid){
-
-    console.log("setting display mode on");
-
-
+  function setDisplayModeOn(widgetData, iframeElement, widgetElement, menu, bin, jsbin, widgetid, isnew){
 
     var grid = $(".grid-stack").data("gridstack");
     var griditem = $(widgetElement).parent().parent();
-
-    grid.resize(griditem, widgetData.width_in_cells, widgetData.height_in_cells);
-
+    var result = grid.resize(griditem, widgetData.width_in_cells, widgetData.height_in_cells);
 
     // get the size of the navbar, subtract from height of iframe
 
@@ -28,8 +22,6 @@ if (Meteor.isClient) {
     iframeElement.oldbintop = $(bin).css("top");
     $(bin).css("top", newbintop);
     $(widgetElement).attr("style", widgetData.usableWidgetStyle);
-
-
 
     $(widgetElement).css("border-radius", "10px");
     $(".widgetDisplayHeader", widgetElement).hide();  
@@ -63,31 +55,10 @@ if (Meteor.isClient) {
     $(iframeElement).css("max-height", finalh - 25 );
     $(iframeElement).css("min-height", finalh - 25 );
 
-
-    console.log("DDDDDDDDDDDDDDDDDD" + $(widgetElement).data("url"));
-    console.log($(griditem).height());
-    console.log($(widgetElement).height());
-    console.log($(iframeElement).height());
-
-/*
-    (function(wn, wd, ifr){
-      $(wn).resize(function(){
-        console.log("display mode resizing");
-        $(ifr).width($(wd).width());
-        $(ifr).height($(wd).height() - 10);
-      });
-    })(window, widgetElement, iframeElement);
-*/
-
   }
 
 
   function setEditModeOn(widgetData, iframeElement, widgetElement, menu, bin, jsbin){
-
-
-    console.log("setting edit mode");
-
-
     var grid = $(".grid-stack").data("gridstack");
     var griditem = $(widgetElement).parent().parent();
     if(jsbin){
@@ -129,17 +100,6 @@ if (Meteor.isClient) {
     $(iframeElement).css("max-height", finalh - 25 );
     $(iframeElement).css("min-height", finalh - 25 );
 
-/*
-    (function(wn, wd, ifr){
-      $(wn).resize(function(){
-        console.log("edit mode resizing");
-
-        $(ifr).width($(wd).width());
-        $(ifr).height($(wd).height());
-      });
-    })(window, widgetElement, iframeElement);
-*/
-
   }
 /////// END FUNCTION DEFS
 
@@ -149,26 +109,18 @@ if (Meteor.isClient) {
   // In the client code, below everything else
   Template.widget.onRendered(function(){
 
-    console.log("in onrendered");
+    var thisisnew = false;
+
+    if(justaddedid == this.data._id){
+      thisisnew = true; // this node was just added.
+    }
     var context = Template.currentData();
-
-    console.log(context);
-
-    console.log(this);
-
     var firstNode = this.firstNode;
     var firstNodeId = $(firstNode).data("widget-id");
     var lastNode = this.lastNode;
     var lastNodeId = $(lastNode).data("widget-id");
-    console.log(firstNodeId);
-    console.log(lastNodeId);
-
-
-
     // setting up resizable grid stuff
     if(!$('.grid-stack').data("inited")){
-      console.log("initting grid, widget " + this.data._id);
-
       var options = {
         width: 12,
     //    auto: false,
@@ -182,51 +134,20 @@ if (Meteor.isClient) {
       $('.grid-stack').gridstack(options);
     }
     var grid = $(".grid-stack").data('gridstack');
-
-    var widgetElement = $("#widgetContainer_"+this._id);
+    var widgetElement = $("#widgetContainer_"+this.data._id);
     var griditem = $(widgetElement).parent().parent();
 
     // find out if the widget has been added to the grid.
 
-    var gridnodes = grid.grid.nodes;
-
-
-    console.log("number of grid items " + gridnodes.length);
-    console.log("number of widgets " + $(".grid-stack-item").size());
-
-
-   // grid.makeWidget(griditem);  
-
-/*
-    if(gridnodes.length != $(".grid-stack-item").size()){
-//      grid.batchUpdate();
-      console.log("adding itemt to grid");
-      var next = $(".grid-stack-item").get(1);
+    if(thisisnew){
       grid.makeWidget(griditem);  
-      $(next).data("gs-y","6");
-      $(next).data("foo","bat");
-      grid.move(next, 0, 6);
-      grid.update(next);
-//      grid.commit();
-//      grid._updateElement(next,function(){console.log("item updated");});
+      grid.move(griditem, 0,0);
+      var node = grid.grid.getNodeDataByDOMEl(griditem);
+    //  grid.grid._fixCollisions(griditem);
     }
-*/
-    console.log("2 number of grid items " +  grid.grid.nodes.length);
-    console.log("2 number of widgets " + $(".grid-stack-item").size());
-    console.log($(".grid-stack-item").get(1));
-    console.log($(".grid-stack-item").get(0));
-    console.log($(".grid-stack-item").get(2));
-
-    console.log(grid);
-
-
-    console.log($('.grid-stack').data("inited"));
     if(!$('.grid-stack').data("inited")){
-      console.log("initting grid");
       $(window).resize(function(evt){
         if(evt.target == window){
-          console.log("resizing");
-          console.log(evt);
           var grid = $(".grid-stack").data("gridstack");
           $(".grid-stack-item").each(function(index){
             var element = this;
@@ -260,36 +181,38 @@ if (Meteor.isClient) {
       });
 
 
+
+      $('.grid-stack').on('dragstop', function(event, ui){
+        // save new order when items are moved.        
+        var grid = $(this).data('gridstack');
+        var nodes = grid.grid.nodes;
+        for(var i = 0; i < nodes.length; i++){
+          var node = nodes[i];
+          var id = $(node.el).data('widgetId');
+          // get widget code, update sort-order
+          if(typeof id != "undefined"){
+            var widget = Widgets.findOne({url : id}); //.map(setWidgetDefaults);
+            widget.sort_order = i;
+            Widgets.update(widget._id, widget);
+          }else{
+//            console.log(node);
+          }
+        }
+      });
+
       $('.grid-stack').on('resizestop', function(event, items) {
         var grid = this;
         var element = event.target;
-        console.log("resizestop");
         var widgetElement = $(".widgetContainer",element);
         var iframeElement = $(".jsbin-embed", element);
-
-
         // need to wait just a bit for the size to quantize to the grid...
         setTimeout(function(){
-
-          console.log("updating size");
-          console.log(element);
-
-          console.log($(element));
-
           var initialH = $(element).height();
           var finalh = initialH;
           var initialW = $(element).width();
           var finalw = initialW;
-
-
-          console.log("setting to  "  + finalw);
-
           var widgetID = $(widgetElement).data("url");
-
           var widget = Widgets.findOne({url : widgetID}); //.map(setWidgetDefaults);
-
-          console.log(widget);
-
           $(widgetElement).width(finalw - 35);
           $(widgetElement).height(finalh - 15);
 
@@ -308,23 +231,11 @@ if (Meteor.isClient) {
           var cells_wide = $(element).data("gs-width");
           var cells_high = $(element).data('gs-height');
 
-          console.log($(grid).data("gridstack"));
-
-          console.log("finalw " + finalw);
-          console.log("finalh " + finalh);
-          console.log("cellw " + cellw);
-          console.log("cellh " + cellh);
-
           widget.width_in_cells= cells_wide;
           widget.height_in_cells = cells_high;
           widget.width_in_px = finalw;
           widget.height_in_px = finalh;
-          console.log(widget);
-
-        //  console.log("updating " + widget._id);
           Widgets.update(widget._id, widget);
-          console.log("updated");
-
         }, 350);
 
       });
@@ -335,7 +246,7 @@ if (Meteor.isClient) {
 
 
 
-    (function(widget){
+    (function(widget, isnew){
       var thisid = widget.data._id;
       var element = document.getElementById('jsbin_'+thisid);
       var thiselement = document.getElementById('widgetContainer_'+thisid);
@@ -355,17 +266,36 @@ if (Meteor.isClient) {
             var thiselement = document.getElementById('widgetContainer_'+thisid);
             if(jsbin && jsbin.panels){
               jsbin.panels.saveOnExit = true;
-            }            
-            setDisplayModeOn(widget.data, this, widgetElement, menu, bin, jsbin, thisid);
+            }     
+            setDisplayModeOn(widget.data, this, widgetElement, menu, bin, jsbin, thisid, isnew);
           }else{
             console.log("no element found for jsbin_"+thisid);
           }
         });
       }
       // this part here happens when the JSBIN stuff is loaded.
-      (function(this_id){
+      (function(this_id, isnew){
+        if(isnew){
+          var widgetElement = document.getElementById('widgetContainer_'+this_id);
+          var editors = jsbin = menu = bin = null;
+          var theElement = document.getElementById('jsbin_'+this_id);
+          if(theElement){
+            editors = theElement.contentWindow.editors;
+            jsbin = theElement.contentWindow.jsbin;
+            menu = theElement.contentWindow.document.getElementById("control");
+            bin = theElement.contentWindow.document.getElementById("bin");
+            if(jsbin && jsbin.panels){
+              jsbin.panels.saveOnExit = true;
+            }
+            setDisplayModeOn(widget.data, this, widgetElement, menu, bin, jsbin, this_id, isnew);
+          }else{
+            console.log("no element found for jsbin_"+this_id);
+          }          
+        }
+
+
         document.addEventListener("DOMNodeInserted", function(evt, item){
-          (function(_evt, _this_id){
+          (function(_evt, _this_id, isnew){
             if($(_evt.target)[0].tagName == "IFRAME" && $(_evt.target)[0].id.replace("jsbin_","") == _this_id){
               $((_evt.target)).load(function(){
                 var widgetElement = document.getElementById('widgetContainer_'+_this_id);
@@ -373,25 +303,22 @@ if (Meteor.isClient) {
                 var theElement = document.getElementById('jsbin_'+_this_id);
                 if(theElement){
                   editors = theElement.contentWindow.editors;
-                  console.log(editors.live.el);
                   jsbin = theElement.contentWindow.jsbin;
-                  console.log(jsbin);
                   menu = theElement.contentWindow.document.getElementById("control");
                   bin = theElement.contentWindow.document.getElementById("bin");
-                  console.log(bin);
+                  if(jsbin && jsbin.panels){
+                    jsbin.panels.saveOnExit = true;
+                  }
+                  setDisplayModeOn(widget.data, this, widgetElement, menu, bin, jsbin, _this_id, isnew);
                 }else{
                   console.log("no element found for jsbin_"+_this_id);
                 }
-                if(jsbin && jsbin.panels){
-                  jsbin.panels.saveOnExit = true;
-                }
-                setDisplayModeOn(widget.data, this, widgetElement, menu, bin, jsbin, _this_id);
               });
             }
-          })(evt, this_id);
+          })(evt, this_id, isnew);
         });
-      })(thisid);
-    })(this);
+      })(thisid, isnew);
+    })(this, thisisnew);
  }); 
 /////////// END WIDGET ONRENDERED
 
@@ -607,7 +534,7 @@ if (Meteor.isClient) {
       var jsbin = iframeElement.contentWindow.jsbin;
       var menu = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("control");
       var bin = document.getElementById('jsbin_'+this._id).contentWindow.document.getElementById("bin");
-      setDisplayModeOn(this, iframeElement, widgetElement, menu, bin, jsbin, this._id);
+      setDisplayModeOn(this, iframeElement, widgetElement, menu, bin, jsbin, this._id, false);
 
       return false;
     },
@@ -615,13 +542,11 @@ if (Meteor.isClient) {
 
     // setting visibility on widgets (public or private)
     "click .setpublic" : function(){
-      console.log("setpublic")
       this.visibility = "public";
       Widgets.update(this._id, this);
       return false;
     },
     "click .setprivate" : function(){
-      console.log("setprivate")
       this.visibility = "private";
       Widgets.update(this._id, this);
       return false;
@@ -783,9 +708,7 @@ if (Meteor.isClient) {
     },
 
     commentsCount : function(id){
-      console.log("in commentsCount " + id);
       var value = "";
-      console.log("value is " + value);
       return value;
     },
 

@@ -144,10 +144,6 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
         </li>
         <li class="widgetstylesettings"><a href="#myConfigModal" data-toggle="modal" data-target="#config_modal_{{_id}}">Style Settings</a></li>
         <li class="widgetcachesettings"><a href="#myCacheModal" data-toggle="modal" data-target="#cache_modal_{{_id}}">Caching</a></li>
-        <li class="widgetorder"><a href="#" class="nonclickable"><i class="zmdi zmdi-triangle-up order_up"></i>Order: {{sort_order}}<i class="zmdi zmdi-triangle-down order_down"></i></a></li>
-
-
-
       </ul> 
 
       <ul class="nav navbar-nav navbar-right">
@@ -215,10 +211,6 @@ isWidget{{/if}}" data-pack="default" data-tags="" alt="save as a reusable templa
           <h4 class="modal-title">Widget Style Config</h4>
         </div>
         <div class="modal-body">
-          <B>Display Mode Width (include px or %):</b> {{> editableText collection="widgets" field="displayWidth"   acceptEmpty=true  placeholder="enter valid css for width"}}
-          <BR>
-          <B>Display Mode Height (include px or %):</b> {{> editableText collection="widgets" field="displayHeight"  acceptEmpty=true  placeholder="enter valid css for height"}}
-          <HR>
           <B>Raw CSS (for stye attribute):</b> {{> editableText textarea=true acceptEmpty=true collection="widgets" field="widgetStyle" placeholder="enter valid css for 'style' attribute"}}
         </div>
         <div class="modal-footer">

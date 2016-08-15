@@ -1,4 +1,4 @@
-pageinfo = setWidgetDefaults = giphy_modal = getUserXtras = null;
+justaddedid = pageinfo = setWidgetDefaults = giphy_modal = getUserXtras = null;
 
 if (Meteor.isClient) {
 
@@ -92,7 +92,8 @@ if (Meteor.isClient) {
                     createdAt: new Date(),
                     visibility: "private",
                     rand: Math.random() };
-        Widgets.insert(newWidget);
+        justaddedid = Widgets.insert(newWidget);
+        console.log("setting justaddedid " + justaddedid);
 
         var grid = $(".grid-stack").data('gridstack');
         var widgetElement = $("#widgetContainer_"+results.data.url);

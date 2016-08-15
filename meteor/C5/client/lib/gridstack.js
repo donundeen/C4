@@ -1422,7 +1422,6 @@
         this._updateElement(el, function(el, node) {
             width = (width !== null && typeof width != 'undefined') ? width : node.width;
             height = (height !== null && typeof height != 'undefined') ? height : node.height;
-
             this.grid.moveNode(node, node.x, node.y, width, height);
         });
     };
