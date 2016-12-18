@@ -18,3 +18,5 @@ jsbin_proxy/node_modules/
 scripts/env_config.sh
 
 .DS_Store
+
+node_modules

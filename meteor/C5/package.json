@@ -1,0 +1,25 @@
+{
+  "name": "c5",
+  "version": "1.0.0",
+  "description": "c5 is great",
+  "main": "C5.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/donundeen/C5.git"
+  },
+  "author": "Don Undeen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/donundeen/C5/issues"
+  },
+  "homepage": "https://github.com/donundeen/C5#readme",
+  "dependencies": {
+    "babel-runtime": "^6.20.0",
+    "bcrypt": "^1.0.1",
+    "jquery": "^3.1.1",
+    "lodash": "^4.17.2"
+  }
+}
