@@ -15,7 +15,7 @@
     <!-- widget header, the menu -->
     <!-- display-mode header -->
     <div class="widgetMouseOverTarget displaymodeonly">
-      &nbsp;&nbsp; <span class="displayModeHeader widgetname-display-mode"><B>{{name}}</b>  ({{url}}) </span>
+      &nbsp;&nbsp; <span class="displayModeHeader widgetname-display-mode"><B>{{name}}</b>  ({{url}}) [{{sort_order}}] </span>
         &nbsp;<i  data-toggle="modal"  data-target="#comment_modal_{{url}}" data-tooltip="Comment on this widget" class="zmdi zmdi-comment opencomments widgetcomments">{{numComments pageTypeAndUrl}}/{{numComments pageUrlAndUrl}}</i>
         &nbsp;<i data-tooltip="view widget info" class="zmdi zmdi-info openinfo widgetinfo"></i>
         {{#if currentUser}}

@@ -249,6 +249,9 @@ if (Meteor.isClient) {
     var griditem = $(widgetElement).parent().parent();
 
     if (!thisisnew && grid){
+      console.log("widget Rendered");
+      console.log(this.data._id);
+      console.log(this.data.sort_order);
       grid.addWidget(this.$('.grid-stack-item'));
     }else{
       console.log("no grid?");

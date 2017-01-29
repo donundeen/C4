@@ -212,7 +212,7 @@ if (Meteor.isClient) {
               };
 
 //        var results = Widgets.find(find, {sort: {sort_order : -1, createdAt: -1}}).map(setWidgetDefaults); 
-        var results = Widgets.find(find, {sort: {sort_order : -1}}).map(setWidgetDefaults); 
+        var results = Widgets.find(find, {sort: {sort_order : 1}}).map(setWidgetDefaults); 
         return results;
     },
     widgetTemplates: function () {
