@@ -182,7 +182,7 @@ if (Meteor.isClient) {
               };
 
 //        var results = Widgets.find(find, {sort: {sort_order : -1, createdAt: -1}}).map(setWidgetDefaults); 
-        var results = Widgets.find(find, {sort: {sort_order : -1}}).map(setWidgetDefaults); 
+        var results = Widgets.find(find, {sort: {sort_order : 1}}).map(setWidgetDefaults); 
         return results;
     },
     thisPageWidgets: function () {
@@ -190,7 +190,7 @@ if (Meteor.isClient) {
       var find = {this_page_only: true,
                 pagetype : pageinfo().pagetype,
                 pageid : pageinfo().pageid};
-      var results = Widgets.find(find, {sort: {sort_order : -1, createdAt: -1}}).map(setWidgetDefaults);
+      var results = Widgets.find(find, {sort: {sort_order : 1, createdAt: -1}}).map(setWidgetDefaults);
       return results;
     }
 
