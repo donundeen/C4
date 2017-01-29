@@ -5,7 +5,6 @@ if (Meteor.isClient) {
   var dix = 0;
 
   function setDisplayModeOn(widgetData, iframeElement, widgetElement, menu, bin, jsbin, widgetid, isnew){
-
     var grid = $(".grid-stack").data("gridstack");
     var griditem = $(widgetElement).parent().parent();
     var result = grid.resize(griditem, widgetData.width_in_cells, widgetData.height_in_cells);
@@ -84,7 +83,6 @@ if (Meteor.isClient) {
     // ".navbar-collapse"
     var height_adjust = $(".navbar-collapse", widgetElement).height() - 20;
     // adjust for height of menu
-    console.log(height_adjust);
 
 
     var initialH = $(griditem).height();
@@ -110,115 +108,40 @@ if (Meteor.isClient) {
 
 
 
-/////// WIDGET ONRENDERED
-  // In the client code, below everything else
-  Template.widget.onRendered(function(){
-
-    var thisisnew = false;
-
-    if(justaddedid == this.data._id){
-      thisisnew = true; // this node was just added.
+  Template.gridwidgets.onRendered(function(){
+      // set whatever gridStack options you want
+    var options = {
+      width: 12,
+      auto: false,
+      cellHeight: 60,
+      cellWidth: 60,
+      alwaysShowResizeHandle: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+      resizable: {
+          handles: 'e, se, s, sw, w'
+      }
     }
-    var context = Template.currentData();
-    var firstNode = this.firstNode;
-    var firstNodeId = $(firstNode).data("widget-id");
-    var lastNode = this.lastNode;
-    var lastNodeId = $(lastNode).data("widget-id");
-    // setting up resizable grid stuff
-    if(!$('.grid-stack').data("inited")){
-      var options = {
-        width: 12,
-    //    auto: false,
-        cellHeight: 60,
-        cellWidth: 60,
-        alwaysShowResizeHandle: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
-        resizable: {
-            handles: 'e, se, s, sw, w'
-        }
-      };
-      $('.grid-stack').gridstack(options);
-    }
-    var grid = $(".grid-stack").data('gridstack');
-    var widgetElement = $("#widgetContainer_"+this.data._id);
-    var griditem = $(widgetElement).parent().parent();
+    var $gridstack = this.$('.grid-stack');
+    // initialise gridstack
+    $gridstack.gridstack(options);
 
-    // find out if the widget has been added to the grid.
-
-    if(thisisnew){
-      grid.makeWidget(griditem);  
-      grid.move(griditem, 0,0);
-      var node = grid.grid.getNodeDataByDOMEl(griditem);
-    //  grid.grid._fixCollisions(griditem);
-    }
-    if(!$('.grid-stack').data("inited")){
-      $(window).resize(function(evt){
-        if(evt.target == window){
-          var grid = $(".grid-stack").data("gridstack");
-          $(".grid-stack-item").each(function(index){
-            var element = this;
-            var initialH = $(element).height();
-            var finalh = initialH;
-            var initialW = $(element).width();
-            var finalw = initialW;
-            var cellw = grid.cellWidth();
-            var cellh = grid.cellHeight();
-            var cells_wide = $(element).data("gs-width");
-            var cells_high = $(element).data('gs-height');
-
-            var widgetElement = $(".widgetContainer",element);
-            var iframeElement = $(".jsbin-embed", element);
-
-            $(widgetElement).width(finalw - 25);
-            $(widgetElement).height(finalh - 15);
-
-            $(iframeElement).css("max-height", "");
-            $(iframeElement).css("max-width", "");
-            $(iframeElement).css("min-height", "");
-            $(iframeElement).css("min-width", "");
-
-            $(iframeElement).width(finalw - 35);
-            $(iframeElement).css("max-width", finalw - 35 );
-            $(iframeElement).height(finalh - 25);
-            $(iframeElement).css("max-height", finalh - 25 );
-
-          });
-        }
-      });
-
-
-
-      $('.grid-stack').on('dragstop', function(event, ui){
-        // save new order when items are moved.        
-        var grid = $(this).data('gridstack');
-        var nodes = grid.grid.nodes;
-        for(var i = 0; i < nodes.length; i++){
-          var node = nodes[i];
-          var id = $(node.el).data('widgetId');
-          // get widget code, update sort-order
-          if(typeof id != "undefined"){
-            var widget = Widgets.findOne({url : id}); //.map(setWidgetDefaults);
-            widget.sort_order = i;
-            Widgets.update(widget._id, widget);
-          }else{
-//            console.log(node);
-          }
-        }
-      });
-
-      $('.grid-stack').on('resizestop', function(event, items) {
-        var grid = this;
-        var element = event.target;
-        var widgetElement = $(".widgetContainer",element);
-        var iframeElement = $(".jsbin-embed", element);
-        // need to wait just a bit for the size to quantize to the grid...
-        setTimeout(function(){
+    $(window).resize(function(evt){
+      if(evt.target == window){
+        var grid = $(".grid-stack").data("gridstack");
+        $(".grid-stack-item").each(function(index){
+          var element = this;
           var initialH = $(element).height();
           var finalh = initialH;
           var initialW = $(element).width();
           var finalw = initialW;
-          var widgetID = $(widgetElement).data("url");
-          var widget = Widgets.findOne({url : widgetID}); //.map(setWidgetDefaults);
-          $(widgetElement).width(finalw - 35);
+          var cellw = grid.cellWidth();
+          var cellh = grid.cellHeight();
+          var cells_wide = $(element).data("gs-width");
+          var cells_high = $(element).data('gs-height');
+
+          var widgetElement = $(".widgetContainer",element);
+          var iframeElement = $(".jsbin-embed", element);
+
+          $(widgetElement).width(finalw - 25);
           $(widgetElement).height(finalh - 15);
 
           $(iframeElement).css("max-height", "");
@@ -231,21 +154,115 @@ if (Meteor.isClient) {
           $(iframeElement).height(finalh - 25);
           $(iframeElement).css("max-height", finalh - 25 );
 
-          var cellw = $(grid).data("gridstack").opts.cellWidth;
-          var cellh = $(grid).data("gridstack").opts.cellHeight;
-          var cells_wide = $(element).data("gs-width");
-          var cells_high = $(element).data('gs-height');
+        });
+      }
+    });
 
-          widget.width_in_cells= cells_wide;
-          widget.height_in_cells = cells_high;
-          widget.width_in_px = finalw;
-          widget.height_in_px = finalh;
-          Widgets.update(widget._id, widget);
-        }, 350);
 
-      });
 
-      $('.grid-stack').data("inited", true);
+    $('.grid-stack').on('dragstop', function(event, ui){
+      // for some reason the moved grid-item doesn't have access to the widgetId data attribute, so get it here and hang onto it.
+      var target_url = $(event.target).data("widget-id");
+      // save new order when items are moved.        
+      var grid = $(this).data('gridstack');
+      var nodes = grid.grid.nodes;
+      for(var i = 0; i < nodes.length; i++){
+        var node = nodes[i];
+        var id = $(node.el).data('widgetId');
+        // get widget code, update sort-order
+        if(typeof id == "undefined"){
+          id = target_url;
+        }
+        if(typeof id != "undefined"){
+          (function(_id){
+            var widget = Widgets.findOne({url : _id}); //.map(setWidgetDefaults);
+            widget.sort_order = i;
+            Widgets.update(widget._id, widget, {}, function (arg1, arg2){
+            });
+          })(id);
+        }else{
+//            console.log(node);
+        }
+      }
+    });
+
+    $('.grid-stack').on('resizestop', function(event, items) {
+      var grid = this;
+      var element = event.target;
+      var widgetElement = $(".widgetContainer",element);
+      var iframeElement = $(".jsbin-embed", element);
+      // need to wait just a bit for the size to quantize to the grid...
+      setTimeout(function(){
+        var initialH = $(element).height();
+        var finalh = initialH;
+        var initialW = $(element).width();
+        var finalw = initialW;
+        var widgetID = $(widgetElement).data("url");
+        var widget = Widgets.findOne({url : widgetID}); //.map(setWidgetDefaults);
+        $(widgetElement).width(finalw - 35);
+        $(widgetElement).height(finalh - 15);
+
+        $(iframeElement).css("max-height", "");
+        $(iframeElement).css("max-width", "");
+        $(iframeElement).css("min-height", "");
+        $(iframeElement).css("min-width", "");
+
+        $(iframeElement).width(finalw - 35);
+        $(iframeElement).css("max-width", finalw - 35 );
+        $(iframeElement).height(finalh - 25);
+        $(iframeElement).css("max-height", finalh - 25 );
+
+        var cellw = $(grid).data("gridstack").opts.cellWidth;
+        var cellh = $(grid).data("gridstack").opts.cellHeight;
+        var cells_wide = $(element).data("gs-width");
+        var cells_high = $(element).data('gs-height');
+
+        widget.width_in_cells= cells_wide;
+        widget.height_in_cells = cells_high;
+        widget.width_in_px = finalw;
+        widget.height_in_px = finalh;
+        Widgets.update(widget._id, widget);
+      }, 350);
+
+    });
+
+    $('.grid-stack').data("inited", true);
+
+  });
+
+/////// WIDGET ONRENDERED
+  // In the client code, below everything else
+  Template.widget.onRendered(function(){
+    var thisisnew = false;
+
+    if(justaddedid == this.data._id){
+      thisisnew = true; // this node was just added.
+    }
+    var context = Template.currentData();
+    var firstNode = this.firstNode;
+    var firstNodeId = $(firstNode).data("widget-id");
+    var lastNode = this.lastNode;
+    var lastNodeId = $(lastNode).data("widget-id");
+
+    var grid = $(".grid-stack").data('gridstack');
+    var widgetElement = $("#widgetContainer_"+this.data._id);
+    var griditem = $(widgetElement).parent().parent();
+
+    if (!thisisnew && grid){
+      grid.addWidget(this.$('.grid-stack-item'));
+    }else{
+      console.log("no grid?");
+    }
+    // find out if the widget has been added to the grid.
+
+    if(thisisnew){
+      grid.makeWidget(griditem);  
+      grid.move(griditem, 0,0);
+      var node = grid.grid.getNodeDataByDOMEl(griditem);
+    //  grid.grid._fixCollisions(griditem);
+    }
+    if(!$('.grid-stack').data("inited")){
+
     }
     // end resizable grid setup
 

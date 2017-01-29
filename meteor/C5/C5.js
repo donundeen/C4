@@ -165,6 +165,36 @@ if (Meteor.isClient) {
   Template.registerHelper("SERVER_IP",function(){
       return SERVER_IP;
   });
+  Template.gridwidgets.helpers({
+    widgets: function () {
+        // Otherwise, return all of the tasks
+        var find = {
+                this_page_only: {$in : [false, null]},
+                pagetype : pageinfo().pagetype,
+                $or : [  
+                  {visibility : "public"}, 
+                  { $and : [
+                    {visibility : "private"} , 
+                    {"createdBy.userid" : Meteor.userId() }
+                  ]},
+                  {visibility : null} 
+                ]
+              };
+
+//        var results = Widgets.find(find, {sort: {sort_order : -1, createdAt: -1}}).map(setWidgetDefaults); 
+        var results = Widgets.find(find, {sort: {sort_order : -1}}).map(setWidgetDefaults); 
+        return results;
+    },
+    thisPageWidgets: function () {
+      // Otherwise, return all of the tasks
+      var find = {this_page_only: true,
+                pagetype : pageinfo().pagetype,
+                pageid : pageinfo().pageid};
+      var results = Widgets.find(find, {sort: {sort_order : -1, createdAt: -1}}).map(setWidgetDefaults);
+      return results;
+    }
+
+  });
   Template.body.helpers({
     widgets: function () {
         // Otherwise, return all of the tasks
@@ -181,19 +211,20 @@ if (Meteor.isClient) {
                 ]
               };
 
-        var results = Widgets.find(find, {sort: {sort_order : 1, createdAt: -1}}).map(setWidgetDefaults); 
+//        var results = Widgets.find(find, {sort: {sort_order : -1, createdAt: -1}}).map(setWidgetDefaults); 
+        var results = Widgets.find(find, {sort: {sort_order : -1}}).map(setWidgetDefaults); 
         return results;
     },
     widgetTemplates: function () {
       // Otherwise, return all of the tasks
-      var results = Widgets.find({isTemplate : true}, {sort: {createdAt: -1}}).map(setWidgetDefaults);
+      var results = Widgets.find({isTemplate : true}, {sort: {sort_order : -1, createdAt: -1}}).map(setWidgetDefaults);
       return results;
     },
     libraryWidgets: function () {
       // Otherwise, return all of the tasks
       var find = {inLibrary: true};
       find["createdBy.userid"] = Meteor.userId();
-      var results = Widgets.find(find, {sort: {createdAt: -1}}).map(setWidgetDefaults);
+      var results = Widgets.find(find, {sort: {sort_order : -1, createdAt: -1}}).map(setWidgetDefaults);
       return results;
     },    
     thisPageWidgets: function () {
@@ -201,7 +232,7 @@ if (Meteor.isClient) {
       var find = {this_page_only: true,
                 pagetype : pageinfo().pagetype,
                 pageid : pageinfo().pageid};
-      var results = Widgets.find(find, {sort: {sort_order : 1, createdAt: -1}}).map(setWidgetDefaults);
+      var results = Widgets.find(find, {sort: {sort_order : -1, createdAt: -1}}).map(setWidgetDefaults);
       return results;
     },
 

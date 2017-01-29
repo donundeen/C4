@@ -122,17 +122,13 @@
         </div>
     </div>     
 
+      {{>gridwidgets}}
 
-      {{>allWidgetsLoaded}}
 
-    <div class="grid-stack">
-      {{#each widgets}}
-        {{> widget }}
-      {{/each}}
-      {{#each thisPageWidgets}}
-        {{> widget }}
-      {{/each}}
-    </div>
+
+      {{> allWidgetsLoaded}}
+
+
 
 
   </div>

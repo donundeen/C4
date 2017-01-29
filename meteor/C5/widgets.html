@@ -1,0 +1,11 @@
+<template name="gridwidgets">
+
+<div class="grid-stack">
+      {{#each widgets}}
+        {{> widget }}
+      {{/each}}
+      {{#each thisPageWidgets}}
+        {{> widget }}
+      {{/each}}
+    </div>
+</template>
