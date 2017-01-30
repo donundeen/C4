@@ -20,6 +20,7 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
 
   Meteor.startup(function(){
+    /*
     var to ="donundeen@gmail.com";
     var from = "c5@boomhifive.com";
     var subject = "C5 started";
@@ -30,7 +31,8 @@ if (Meteor.isServer) {
       from: from,
       subject: subject,
       text: text
-    });    
+    });
+    */    
   });
 
 
