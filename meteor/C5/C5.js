@@ -185,6 +185,8 @@ if (Meteor.isClient) {
 
 //        var results = Widgets.find(find, {sort: {sort_order : -1, createdAt: -1}}).map(setWidgetDefaults); 
         var results = Widgets.find(find, {sort: {sort_order : 1}}).map(setWidgetDefaults); 
+        console.log(results);
+        
         return results;
     },
     thisPageWidgets: function () {
@@ -215,6 +217,7 @@ if (Meteor.isClient) {
 
 //        var results = Widgets.find(find, {sort: {sort_order : -1, createdAt: -1}}).map(setWidgetDefaults); 
         var results = Widgets.find(find, {sort: {sort_order : 1}}).map(setWidgetDefaults); 
+        console.log(results);
         return results;
     },
     widgetTemplates: function () {
