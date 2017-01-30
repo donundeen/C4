@@ -230,6 +230,15 @@ if (Meteor.isClient) {
 
   });
 
+
+
+ Template.widget.onCreated(function(){
+    var sortorder = this.data.sort_order;
+    var id = this.data._id;
+    console.log("created");
+    console.log(id + " , " + sortorder);
+ });
+
 /////// WIDGET ONRENDERED
   // In the client code, below everything else
   Template.widget.onRendered(function(){
@@ -238,6 +247,9 @@ if (Meteor.isClient) {
     if(justaddedid == this.data._id){
       thisisnew = true; // this node was just added.
     }
+
+    var sortorder = this.data.sort_order;
+
     var context = Template.currentData();
     var firstNode = this.firstNode;
     var firstNodeId = $(firstNode).data("widget-id");
