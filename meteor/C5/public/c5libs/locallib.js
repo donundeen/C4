@@ -202,13 +202,14 @@ function webserviceData(url, callback, item){
     if(item.authentication_token){
         data.headers = JSON.stringify({'Authorization':'Token token=' + item.authentication_token});
     }
+    console.log("headers are");
+    console.log(headers);
     $.ajax({
         url: theurl,
         dataType: 'json',
         data: data,
         headers: headers,
         success : function(result){
-//            console.log("got result for call to " + theurl);
             callback(result);
         },
         error : function (xhr, status, error) {
