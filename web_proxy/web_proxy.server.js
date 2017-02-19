@@ -74,6 +74,7 @@ function startServer(){
 function parseRequestThroughPost(request, response){
     var qs = require('querystring');
     if (request.method == 'POST') {
+        console.log("method is post");
         var body = '';
         request.on('data', function (data) {
             body += data;
@@ -90,6 +91,7 @@ function parseRequestThroughPost(request, response){
             parseRequest(request, response, POST);
         });
     }else{
+        console.log("method not post");
         parseRequest(request, response);
     }
 }
