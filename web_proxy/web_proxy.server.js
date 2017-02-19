@@ -116,13 +116,14 @@ function parseRequest(req, res, data){
 
     var headers = {};
     if(data.headers){
-	   headers = data.headers;
+	   headers = JSON.parse(data.headers);
     }
     
     var path = parsed.path;
     
     console.log("url is "+ url);
-    
+    console.log(headers);
+
     if(url == ""){
     	res.writeHead(200, {'Content-Type': 'application/json'});
 	   res.end(JSON.stringify({}));

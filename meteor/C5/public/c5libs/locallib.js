@@ -204,7 +204,7 @@ console.log(item);
     if(item.authentication_token){
         headers['Authorization'] = 'Token token=' + item.authentication_token;
     }
-    data.headers = headers;
+    data.headers = JSON.stringify(headers);
     data.url = url;
 
     console.log("headers are");
