@@ -64,7 +64,7 @@ function startServer(){
     
     var http = require('http');
     http.createServer(function (req, res) {
-	   parseRequest(req, res);
+	   parseRequestThroughPost(req, res);
 	
     }).listen(port);
     console.log('Server running at port ' + port);
