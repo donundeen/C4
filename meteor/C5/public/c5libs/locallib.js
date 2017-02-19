@@ -193,6 +193,8 @@ function webserviceData(url, callback, item){
         url += "?";
     }
 
+console.log("item is ");
+console.log(item);
     var theurl = "/web_proxy/?url="+encodeURI(url);
     var data = {};
     var headers = {};
