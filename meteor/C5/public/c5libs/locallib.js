@@ -200,15 +200,18 @@ function webserviceData(url, callback, item){
         headers = item.headers;
     }
     if(item.authentication_token){
-        data.headers = JSON.stringify({'Authorization':'Token token=' + item.authentication_token});
+        headers['Authorization'] = 'Token token=' + item.authentication_token;
     }
+    data.headers = headers;
+    data.url = url;
+
     console.log("headers are");
     console.log(headers);
     $.ajax({
+        method: "POST",
         url: theurl,
         dataType: 'json',
         data: data,
-        headers: headers,
         success : function(result){
             callback(result);
         },

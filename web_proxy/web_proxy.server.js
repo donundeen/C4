@@ -64,7 +64,7 @@ function startServer(){
     
     var http = require('http');
     http.createServer(function (req, res) {
-	parseRequest(req, res);
+	   parseRequest(req, res);
 	
     }).listen(port);
     console.log('Server running at port ' + port);
@@ -83,15 +83,19 @@ function parseRequest(req, res){
     
     var parsed = urlparser.parse(req.url, true)
     var query = urlparser.parse(req.url, true).query;
+    var url = req.url.replace("/web_proxy/?url=","");
     
+    console.log(" in parseRequest");
+    console.log(parsed.query);
+
     var headers = {};
     if(parsed.query.headers){
 	   headers = JSON.parse(parsed.query.headers);
+       url = url.replace(/\&headers=[^&]*/,"");
     }
     
     var path = parsed.path;
     
-    var url = req.url.replace("/web_proxy/?url=","");
 
     console.log("url is "+ url);
     
