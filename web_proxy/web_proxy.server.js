@@ -71,8 +71,31 @@ function startServer(){
 }
 
 
+function parseRequestThroughPost(request, response){
+    var qs = require('querystring');
+    if (request.method == 'POST') {
+        var body = '';
+        request.on('data', function (data) {
+            body += data;
+            // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
+            if (body.length > 1e6) { 
+                // FLOOD ATTACK OR FAULTY CLIENT, NUKE REQUEST
+                request.connection.destroy();
+            }
+        });
+        request.on('end', function () {
 
-function parseRequest(req, res){
+            var POST = qs.parse(body);
+            // use POST
+            parseRequest(request, response, POST);
+        });
+    }else{
+        parseRequest(request, response);
+    }
+}
+
+
+function parseRequest(req, res, data){
     var rand = Math.random() * 100;
     /*
       if(req.headers["access-control-request-headers"]){
@@ -80,23 +103,22 @@ function parseRequest(req, res){
       }
       res.setHeader("Access-Control-Allow-Origin", "*");        
     */
-    
+    console.log(data);
+
     var parsed = urlparser.parse(req.url, true)
     var query = urlparser.parse(req.url, true).query;
     var url = req.url.replace("/web_proxy/?url=","");
     
     console.log(" in parseRequest");
-    console.log(parsed.query);
+    console.log(parsed);
 
     var headers = {};
-    if(parsed.query.headers){
-	   headers = JSON.parse(parsed.query.headers);
-       url = url.replace(/\&headers=[^&]*/,"");
+    if(data.headers){
+	   headers = data.headers;
     }
     
     var path = parsed.path;
     
-
     console.log("url is "+ url);
     
     if(url == ""){
