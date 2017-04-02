@@ -2,10 +2,10 @@
   "env": "development",
   "timezone": "UTC",
   "url": {
-    "host": "208.43.234.91",
+    "host": "c5.boomhifive.com",
     "prefix": "/jsbin/",
     "ssl": false,
-    "static": "http://208.43.234.91/jbstatic",
+    "static": "http://c5.boomhifive.com/jbstatic",
     "runner": false
   },
   "max-request-size": "1MB",
